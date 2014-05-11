@@ -69,8 +69,13 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
-		System.out.println("用户 " + ((Member)session.getAttribute("currentUser")).getUsername() + " 退出");
-		session.invalidate();
+		Member m = (Member)session.getAttribute("currentUser");
+		
+		// 防止用户自行访问 /logout
+		if (null != m) {
+			System.out.println("用户 " + ((Member)session.getAttribute("currentUser")).getUsername() + " 退出");
+			session.invalidate();
+		}
 		
 		return "redirect:/";
 	}
