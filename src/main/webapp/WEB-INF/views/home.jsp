@@ -18,6 +18,10 @@
 			.fix-align {
 				margin-top: 16px;
 			}
+			
+			.error-msg {
+				color: red;
+			}
 		</style>	
 	</head>
 	<body id="body">
@@ -140,6 +144,7 @@
 										<span class="pull-right"><a href="#">注册</a></span><span><a href="#">帮助</a></span>
 									</div>
 									
+									<div id="error-msg" class="hidden"></div>
 								</form>
 							</div>
 							<div class="modal-footer">
@@ -205,6 +210,10 @@
    						// 验证成功，刷新页面
    						if (data.result == true) {
    							location.reload(true);
+   						} else { // 验证失败，显示错误信息
+   							var msg = $("#error-msg");
+   							msg.html(data.message);
+   							msg.removeClass("hidden").addClass("error-msg");
    						}
    					}
    				});
