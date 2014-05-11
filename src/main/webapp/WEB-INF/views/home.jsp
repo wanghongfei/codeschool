@@ -37,6 +37,7 @@
 	
 	
 				<!-- 未登陆 -->
+				<!-- 
 				<div>
 					<div class="collapse navbar-collapse navbar-ex1-collapse">
 						<ul class="nav navbar-nav navbar-right">
@@ -45,48 +46,38 @@
 							<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
 						</ul>
 					</div>
-				</div>
-				<%-- <h:panelGroup layout="block" rendered="#{!loginBean.loggedIn}">
+				</div> -->
+				
+				<c:if test="${currentUser == null }">
+					<div>
+						<div class="collapse navbar-collapse navbar-ex1-collapse">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="#about" class="nav-link">关于</a></li>
+								<li><a href="#sign-in" id="register-btn">登陆</a></li>
+								<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
+							</ul>
+						</div>
+					</div>
+				</c:if>
+				
+				<!-- 已登陆 -->
+				<c:if test="${currentUser != null }">
 					<div class="collapse navbar-collapse navbar-ex1-collapse">
 						<ul class="nav navbar-nav navbar-right">
-							<ui:remove>
-								<li><a href="#benefits" class="nav-link">Benefits</a></li>
-								<li><a href="#tour" class="nav-link">Tour</a></li>
-							</ui:remove>
-							<li><a href="#about" class="nav-link">关于</a></li>
-							<li><a href="#sign-in" id="register-btn">登陆</a></li>
+							<li>
+								<a href="#about" class="nav-link">
+									<span id="user-info">
+										${currentUser.username}, 积分: ${currentUser.point}
+									</span>
+								</a>
+							</li>
+							<li>
+ 								<a href="<c:url value='/logout' />" class="nav-link">退出登陆</a>
+							</li>
 							<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
 						</ul>
 					</div>
-				</h:panelGroup>
-				
-				<!-- 已登陆 -->
-				<h:panelGroup layout="block" rendered="#{loginBean.loggedIn}" styleClass="collapse navbar-collapse navbar-ex1-collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="#about" class="nav-link">
-								<h:outputText id="user-info" value="#{loginBean.getCurrentUser().getUsername()}, 积分: #{loginBean.getCurrentUser().getPoint()}" />
-							</a>
-						</li>
-						<li>
-							<h:form styleClass="fix-align">
-								<h:commandLink action="#{loginBean.logout()}" value="退出登陆" styleClass="nav-link" />
-							</h:form>
-							<!-- <h:link value="退出登陆" outcome="#{loginBean.logout()}" styleClass="nav-link" /> -->	
-						</li>
-						<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
-						
-						<!-- <li>
-							<img src="user-avatar.avatar" alt="" />
-						</li>
-						<li>
-							<h:form id="form" enctype="multipart/form-data" prependId="false">
-								<h:inputFile value="#{loginBean.avatar}" />
-								<h:commandButton value="upload" action="#{loginBean.uploadAvatar()}" />
-							</h:form>
-						</li> -->
-					</ul>
-				</h:panelGroup> --%>
+				</c:if>
 				<!-- /.navbar-collapse -->
 			</div>
 		</nav>
@@ -127,46 +118,41 @@
 		</div>
 		
 		<!--登陆对话框-->
-<%-- 		<h:panelGroup layout="block" rendered="#{!loginBean.loggedIn}">
-			<div id="loginModal" class="modal fade">
-				<h:panelGroup layout="block" id="login-modal" styleClass="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h1 class="text-center">用户登陆</h1>
-						</div>
-						<div class="modal-body">
-							<h:form id="login-form" styleClass="form col-md-12 center-block">
-								<div class="form-group">
-									<h:outputLabel value="用户名:" >
-										<h:inputText value="#{loginBean.username}" id="form-username" styleClass="form-control input-lg" />
-									</h:outputLabel>
-								</div>
-								<div class="form-group">
-									
-									<h:inputSecret value="#{loginBean.password}" styleClass="form-control input-lg" placeholder="密码" />
-								</div>
-								<div class="form-group">
-									
-									<h:commandButton id="submit-form" value="登陆" action="#{loginBean.login()}" styleClass="btn btn-primary btn-lg btn-block" >
-										<f:ajax execute="@form" render="error-msg" />
-									</h:commandButton>
-									<span class="pull-right"><a href="#">注册</a></span><span><a href="#">帮助</a></span>
-								</div>
-								
-								<h:message for="login-form" id="error-msg" />
-							</h:form>
-						</div>
-						<div class="modal-footer">
-							<div class="col-md-12">
-								<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+		<c:if test="${currentUser == null }">
+			<div>
+				<div id="loginModal" class="modal fade">
+					<div id="login-modal" class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h1 class="text-center">用户登陆</h1>
 							</div>
+							<div class="modal-body">
+								<form action="<c:url value='/login' />" id="login-form" class="form col-md-12 center-block">
+									<div class="form-group">
+										<input type="text" name="username" id="form-username" placeholder="用户名" class="form-control input-lg" />
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" id="form-password" placeholder="密码" class="form-control input-lg" />
+									</div>
+									<div class="form-group">
+										<input type="submit" value="登陆" class="btn btn-primary btn-lg btn-block" />	
+										<span class="pull-right"><a href="#">注册</a></span><span><a href="#">帮助</a></span>
+									</div>
+									
+								</form>
+							</div>
+							<div class="modal-footer">
+								<div class="col-md-12">
+									<button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+								</div>
+							</div>
+							
 						</div>
-						
 					</div>
-				</h:panelGroup>
+				</div>
 			</div>
-		</h:panelGroup> --%>
+		</c:if>
 		
 		
 
@@ -180,10 +166,10 @@
 		
 		
 		<!-- <ui:insert name="javascript" />-->
-		<script src="/spring-mvc/resources/js/jquery-1.9.1.js"></script>
-		<script src="/spring-mvc/resources/js/bootstrap.min.js"></script>
+		<script src="<c:url value='/resources/js/jquery-1.9.1.js' />"></script>
+		<script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
 		<!-- AdminLTE App -->
-        <script src="/spring-mvc/resources/js/AdminLTE/app.js" type="text/javascript"></script>
+		<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
 
 		<script type="text/javascript">
 		//<![CDATA[
@@ -199,6 +185,30 @@
    			$("#register-btn").click(function(e) {
    				$('#loginModal').modal('toggle');
 			});
+   			
+   			// ajax提交表单
+   			$("#login-form").submit(function(e) {
+   				e.preventDefault();
+   				
+   				var json = {
+   					username: $("#form-username").val(),
+   					password: $("#form-password").val()
+   				};
+   				
+   				$.ajax({
+   					url: $("#login-form").attr("action"),
+   					type: "POST",
+   					dataType: 'json',
+   					contentType: 'application/json',
+   					data: JSON.stringify(json),
+   					success: function(data) {
+   						// 验证成功，刷新页面
+   						if (data.result == true) {
+   							location.reload(true);
+   						}
+   					}
+   				});
+   			});
    		//]]>
 	    </script>
 
