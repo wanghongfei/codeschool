@@ -26,6 +26,13 @@
 			  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 			  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 			<![endif]-->	
+			
+		<style>
+			.error-msg{
+				color: red;
+			}
+		</style>
+			
 	</head>
 	<body id="body" class="skin-blue">
 		<!-- header logo: style can be found in header.less -->
@@ -106,24 +113,23 @@
 		        <section class="content">
 		        	<h1>添加课程</h1>
 		        	
-		        	<%-- <h:form id="form">
+		        	<form id="form" action="<c:url value='/backstage/course/save' />">
 		        		<div>
 			        		<label for="course-name">课程名称:</label>
-			        		<h:inputText id="course-name" value="#{courseBean.newCourse.courseName}" />
+			        		<input type="text" name="courseName" id="course-name" />
 			        	</div>
 			        	
 			        	<div>
 			        		<label for="course-description">课程介绍：</label>
-			        		<h:inputTextarea value="#{courseBean.newCourse.courseDescription}" rows="10" cols="30" />
+			        		<textarea name="courseDescription" id="course-description" rows="10" cols="30" ></textarea>
 			        	</div>
 			        	
 			        	<div>
-			        		<h:commandButton action="#{courseBean.saveCourse()}" value="保存" >
-			        			<f:ajax execute="@form" render="form persist-msg" />
-			        		</h:commandButton>
+			        		<input type="submit" value="保存" />
 			        	</div>
-			        	<h:message for="form" id="persist-msg" />
-		        	</h:form> --%>
+			        	
+			        	<div id="error-msg"></div>
+		        	</form>
 		        	
 					
 				</section><!-- /.content -->
@@ -132,14 +138,40 @@
 		
 		
 		
-		<!-- <ui:insert name="javascript" />-->
 		<script src="<c:url value='/resources/js/jquery-1.9.1.js' />"></script>
 		<script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
 		<!-- AdminLTE App -->
 		<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
 
 		<script type="text/javascript">
-
+			$("#form").submit(function(e) {
+				e.preventDefault();
+				
+				var json = {
+					courseName: $("input[name='courseName']").val(),
+					courseDescription: $("textarea[name='courseDescription']").val()
+				};
+				
+				$.ajax({
+   					url: $("#form").attr("action"),
+   					type: "POST",
+   					dataType: 'json',
+   					contentType: 'application/json',
+   					data: JSON.stringify(json),
+   					success: function(data) {
+   						var msg = $("#error-msg");
+   						
+   						msg.html(data.message);
+   						msg.removeClass("hidden").addClass("error-msg");
+   						
+   						// 清空表单
+   						if (true == data.result) {
+   							$("input[name='courseName']").val("");
+   							$("textarea[name='courseDescription']").val("");
+   						}
+   					}
+   				});
+			});
 	    </script>
 
 	</body>
