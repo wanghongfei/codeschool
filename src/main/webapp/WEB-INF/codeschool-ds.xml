@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is an unmanaged datasource. It should be used for proofs of concept 
+	or testing only. It uses H2, an in memory database that ships with JBoss 
+	AS. -->
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+	<datasource jndi-name="java:jboss/datasources/codeschool"
+		enabled="true" use-java-context="true" pool-name="codeschooldb">
+		<connection-url>jdbc:postgresql://localhost:5432/codeschool-noneseam</connection-url>
+		<driver-class>org.postgresql.Driver</driver-class>
+		<driver>postgresql</driver>
+		<security>
+			<user-name>postgres</user-name>
+			<password>111111</password>
+		</security>
+	</datasource>
+</datasources>
+ 
