@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fh.codeschool.model.Course;
 import cn.fh.codeschool.model.CourseChapter;
+import cn.fh.codeschool.model.CourseSection;
 
 @Repository
 @Transactional
@@ -31,6 +32,28 @@ public class ChapterService {
 		chapter.setCourse(c);
 		em.persist(chapter);
 		
+	}
+	
+
+	/**
+	 * 查询指定课程的所有章节, Eager 加载
+	 * @param courseId 课程实体id
+	 * @return
+	 */
+	public List<CourseChapter> chapterListEager(Integer courseId) {
+		Course c = courseService.findCourse(courseId);
+		List<CourseChapter> chapters = em.createNamedQuery("CourseChapter.findCourseChapters", CourseChapter.class)
+				.setParameter("course", c)
+				.getResultList(); 
+		
+		// 触发eager加载
+		for (CourseChapter cc : chapters) {
+			for (CourseSection cs : cc.getCourseSections()) {
+				cs.getId();
+			}
+		}
+		
+		return chapters;
 	}
 	
 	/**

@@ -54,7 +54,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand nav-link scroll-link" href="#top">编程乐园</a>
+					<a class="navbar-brand nav-link scroll-link" href="<c:url value='/' />">编程乐园</a>
 				</div>
 				<!-- /.navbar-header -->
 	
@@ -95,29 +95,35 @@
 				<div class="margin-elem"></div>
 		
 				<div class="row">
-					<table class="table table-bordered table-hover">
-						<thead>
-							<tr>
-								<th class="centralize-text" colspan="2">章节名</th>
-							</tr>
-						</thead>
+					<c:forEach items="${ chapterList }" var="_c">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="centralize-text" colspan="2">${ _c.chapterName }</th>
+								</tr>
+							</thead>
 						
-						<tbody>
-							<!-- 遍历小节  -->
-							<tr>									
-								<td class="table-section">
-									<a href="#">
-										小节名	
-									</a>
-								</td>
-								<td>
-									<a href="#">
-										小节内容	
-									</a>
-								</td>									
-							</tr>
-						</tbody>
-					</table>
+							<tbody>
+								<!-- 遍历小节  -->
+								<c:forEach items="${ _c.courseSections }" var="_s">
+									<tr>									
+										<td class="table-section">
+											<a href="#">
+												${ _s.sectionName }
+											</a>
+										</td>
+										<td>
+											<a href="#">
+												${ _s.courseContent }
+											</a>
+										</td>									
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</c:forEach>
+					
+					
 				</div>
 			</div>	
 		</div>
