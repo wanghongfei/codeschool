@@ -6,12 +6,12 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.inject.Named;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,7 +30,7 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 */
 	private String resultMessage;
 	
-	private static final Logger log = Logger.getLogger(HtmlValidator.class);
+	private static final Logger logger = LoggerFactory.getLogger(HtmlValidator.class);
 	
 	/**
 	 * 根据规则验证用户代码是否合格。
@@ -39,10 +39,10 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 */
 	//public boolean validate(ValidationRule rule) {
 	public boolean validate(List<ValidationRule> rules) {
-		log.info("进入validate()方法");
+		logger.info("进入validate()方法");
 		if (rules.size() == 0) {
 			resultMessage = "未定义验证规则，默认为验证失败";
-			log.info(resultMessage);
+			logger.info(resultMessage);
 			return false;
 		}
 
@@ -53,7 +53,7 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 			// 如果最上层标签不是html，则报错
 			if (false == "html".equals(root.getTagName().toLowerCase())) {
 				this.resultMessage = "缺少html标签";
-				log.info(this.resultMessage);
+				logger.info(this.resultMessage);
 
 				return false;
 			}
@@ -63,11 +63,11 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 				// 验证是否包含某一标签
 				if (rule.getRuleType().equals(RuleType.CONTAIN.toString())) {
 					String shouldIncludedTag = rule.getTagName();
-					log.info("验证是否包含 " + shouldIncludedTag + " 标签");
+					logger.info("验证是否包含 {} 标签", shouldIncludedTag);
 					
 					if (false == containsTag(root.getChildNodes(), shouldIncludedTag, null)) {
 						this.resultMessage = "缺少<" + shouldIncludedTag + ">标签";
-						log.info(this.resultMessage);
+						logger.info(this.resultMessage);
 						
 						return false;
 					}
@@ -79,11 +79,10 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 					String attrName = rule.getAttrName();
 					String attrValue = rule.getAttrValue();
 					
-					log.info("验证 : tagName: " + tagName + ", attrName:" + attrName + ",attrValue:" + attrValue);
 					
 					if (false == containsTag(root.getChildNodes(), tagName, new SimpleEntry<String, String>(attrName, attrValue))) {
 						this.resultMessage = "缺少<" + tagName + ">标签或属性值不正确";
-						log.info(this.resultMessage);
+						logger.info(this.resultMessage);
 						
 						return false;
 					}
@@ -92,7 +91,7 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 
 			
 		} catch (IOException ex) {
-			log.error("IO错误，读取html String失败");
+			logger.error("IO错误，读取html String失败");
 			ex.printStackTrace();
 		} catch (SAXException ex) {
 			// 文档不正确
@@ -114,7 +113,6 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 * @return
 	 */
 	private boolean containsTag(NodeList nodes, String tagName, Entry<String, String> attr) {
-		log.info("进入 containsTag()方法");;
 		boolean result = false;
 
 		for (int ix = 0 ; ix < nodes.getLength() ; ++ix) {
@@ -122,7 +120,6 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 			
 			if (node instanceof Element) {
 				Element elem = (Element)node;
-				log.info("用户标签：" + elem.getTagName() + ", 目标标签:" + tagName);
 				
 				// 判断当前标签是否是要找的标签
 				if (tagName.toLowerCase().equals(elem.getTagName().toLowerCase())) {
@@ -142,14 +139,13 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 
 				// 当前标签不是要找的标签，继续遍历子节点
 				} else if(elem.hasChildNodes()) {
-					log.info("遍历子节点");
 					result = containsTag(elem.getChildNodes(), tagName, attr);
 				}
 				
 			}
 		}
 		
-		log.info("containsTag()返回" + result);
+		logger.info("containsTag()返回 {}", result);
 		//FacesContext.getCurrentInstance().addMessage("form", new FacesMessage(this.resultMessage));
 		return result;
 	}
@@ -177,7 +173,6 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 		return code;
 	}
 	public void setCode(String htmlCode) {
-		log.info("传入用户代码:" + htmlCode);
 		this.code = htmlCode;
 	}
 	public String getResultMessage() {

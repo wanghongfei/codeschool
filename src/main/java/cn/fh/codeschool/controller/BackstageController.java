@@ -55,8 +55,6 @@ public class BackstageController {
 	 */
 	@RequestMapping(value = "/backstage/course/save", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public @ResponseBody String saveCourse(@RequestBody Course course) {
-		System.out.println("得到课程： " + course.getCourseName());
-		
 		JsonObject json = null;
 		if (false == validateCourse(course)) {
 			json = Json.createObjectBuilder()

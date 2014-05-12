@@ -30,10 +30,10 @@ public class HomeController {
 
 		// 已经登陆
 		if (null != m) {
-			System.out.println("用户 " + m.getUsername() + " 已经登陆");
+			logger.info("用户 {} 已经登陆", m.getUsername());
 			model.addAttribute("currentUser", m);
 		} else {
-			System.out.println("未登陆");
+			logger.info("未登陆");
 		}
 		
 		return "home";

@@ -60,7 +60,7 @@ public class CourseService {
 		} catch (NonUniqueResultException ex) {
 			logger.error("有重名的课程!");
 		} catch (NoResultException ex) {
-			logger.error("没有找到名为 " + name + " 的课程");
+			logger.error("没有找到名为 {} 的课程", name);
 		}
 		
 		return c;

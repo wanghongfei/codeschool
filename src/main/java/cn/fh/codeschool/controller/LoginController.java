@@ -30,13 +30,12 @@ public class LoginController {
 	 * 接收用户登陆表单提交的ajax请求，返回验证结果
 	 * @param user
 	 * @param req
-	 * @return
+	 * @return JSON字符串。格式：{result: XXX, message: XXX}
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public @ResponseBody String login(@RequestBody User user,
 			HttpServletRequest req) {
-		System.out.println("用户名 : " + user.getUsername());
-		logger.info("收到用户名 {0}", user.getUsername());
+		logger.info("用户 {} 请求登陆", user.getUsername());
 		
 		JsonObject json = null;
 		Member m = accountService.findMember(user.getUsername(), user.getPassword());
@@ -73,7 +72,7 @@ public class LoginController {
 		
 		// 防止用户自行访问 /logout
 		if (null != m) {
-			System.out.println("用户 " + ((Member)session.getAttribute("currentUser")).getUsername() + " 退出");
+			logger.info("用户 {} 退出登陆", ((Member)session.getAttribute("currentUser")).getUsername());
 			session.invalidate();
 		}
 		

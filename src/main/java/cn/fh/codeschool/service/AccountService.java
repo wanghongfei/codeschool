@@ -47,7 +47,7 @@ public class AccountService {
 			return null;
 		}
 		
-		logger.info("用户 " + username + " 验证成功");
+		logger.info("用户 {} 验证成功", username);
 		return m;
 	}
 
