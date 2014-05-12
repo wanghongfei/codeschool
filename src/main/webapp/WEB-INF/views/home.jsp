@@ -41,17 +41,6 @@
 	
 	
 				<!-- 未登陆 -->
-				<!-- 
-				<div>
-					<div class="collapse navbar-collapse navbar-ex1-collapse">
-						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#about" class="nav-link">关于</a></li>
-							<li><a href="#sign-in" id="register-btn">登陆</a></li>
-							<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
-						</ul>
-					</div>
-				</div> -->
-				
 				<c:if test="${currentUser == null }">
 					<div>
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -103,17 +92,18 @@
 		<div class="container" id="choose-course">
 			<h3 id="benefits" class="subhead">选择一门课程</h3>
 		<div class="row">
-			<div class="col-md-4 col-sm-6 benefit">
-				<a href="#" >
-					<div class="benefit-ball">
-						<span class="glyphicon glyphicon-search"></span>
-					</div>
-				</a>
+			<c:forEach items="${ courseList }" var="_c">
+				<div class="col-md-4 col-sm-6 benefit">
+					<a href="<c:url value='/courses/list'><c:param name='courseId' value='${ _c.id }' /></c:url>" >
+						<div class="benefit-ball">
+							<span class="glyphicon glyphicon-search"></span>
+						</div>
+					</a>
 				
-				<h3>C++</h3>
-				<p>C++</p>
-
-			</div>
+					<h3>${ _c.courseName }</h3>
+					<p>${ _c.courseDescription }</p>
+				</div>
+			</c:forEach>
 
 		</div>
 		<!-- /.row -->
