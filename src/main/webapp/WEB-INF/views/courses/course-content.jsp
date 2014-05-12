@@ -256,17 +256,17 @@
 			    </li>
 			
 			    <!-- 小节 -->			    
-		    	<li>
-		    		<i class="fa fa-envelope bg-blue my-timeline-icon"></i>
-			        <div class="timeline-item">
-			            <div class="timeline-body">
-			            	<!-- 点击小节点后用ajax更新教程区内容 -->
-							第一节
-			            </div>
-			        </div>
-				        
-			        
-		    	</li>
+			    <c:forEach items="${ section.courseChapter.courseSections }" var="_s">
+			    	<li>
+			    		<i class="fa fa-envelope bg-blue my-timeline-icon"></i>
+				        <div class="timeline-item">
+				            <div class="timeline-body">
+			    	        	<!-- 点击小节点后用ajax更新教程区内容 -->
+			    	        	${ _s.sectionName }
+				            </div>
+				        </div>
+		    		</li>
+			    </c:forEach>
 			    			
 			</ul>
 		</div>

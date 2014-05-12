@@ -27,6 +27,31 @@ public class SectionService {
 	private ChapterService chapterService;
 	
 	/**
+	 * 通过ID查找section，并触发eager加载
+	 * @param id
+	 * @return
+	 */
+	public CourseSection findSectionEager(Integer id) {
+		CourseSection cs = em.find(CourseSection.class, id);
+		
+		// eager 加载章节
+		for (CourseSection c : cs.getCourseChapter().getCourseSections()) {
+			c.getId();
+		}
+		
+		return cs;
+	}
+	
+	/**
+	 * 通过id查找section
+	 * @param id
+	 * @return
+	 */
+	public CourseSection findSection(Integer id) {
+		return em.find(CourseSection.class, id);
+	}
+	
+	/**
 	 * 持久化 CourseSection entity. 需传入章节实体id, 和本节的验证规则
 	 * @param section
 	 * @param chapterId
