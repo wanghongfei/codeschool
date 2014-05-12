@@ -26,6 +26,12 @@
 			  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 			  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 			<![endif]-->	
+			
+		<style>
+			.error-msg {
+				color: red;
+			}
+		</style>
 	</head>
 	<body id="body" class="skin-blue">
 		<!-- header logo: style can be found in header.less -->
@@ -105,98 +111,67 @@
 				<!-- Main content -->
 		        <section class="content">
 		        	<h1>添加小节</h1>
-		
-		
-		        	<%-- <h:form id="form">
-			       		<!-- 选择课程 -->
-			       		<div>        		
+		        	
+		        	<form id="form" action="<c:url value='/backstage/section/save' />" >
+		        		<div>
 			        		<label for="select-course">选择课程:</label>
-			        		<h:selectOneMenu id="select-course" value="#{courseBean.selectedCourseId}">
-			        			<f:selectItem itemLabel="请选择" noSelectionOption="true"/>
-			        			<!-- fetch all courses -->
-			        			<f:selectItems value="#{courseBean.getCourses(true)}"
-									var="_course"
-									itemLabel="#{_course.courseName}"
-									itemValue="#{_course.id}" />
-			        			
-			        			<f:ajax event="change" render="select-chapter" execute="@this" />
-			        			
-			        		</h:selectOneMenu>
-			        	</div>
-		
-		         		<!-- 选择章节 -->
-		         		
-			        	<div>
+			        		<select id="select-course">
+			        			<option value="-1">请选择</option>
+		        				<c:forEach items="${ courseList }" var="_c">
+		        					<option value="${ _c.id }"><c:out value="${ _c.courseName }"  /></option>	
+		        				</c:forEach>
+		       	 			</select>
+		        		</div>
+		        		
+		        		<div>
 			        		<label for="select-chapter">choose chapter:</label>
-			        		<h:selectOneMenu id="select-chapter" value="#{courseBean.selectedChapterId}">
-			        			<f:selectItem itemLabel="请选择" noSelectionOption="true"/>
-			        			<f:selectItems value="#{courseBean.getChapters(true)}" var="_chapter" itemLabel="#{_chapter.chapterName}" itemValue="#{_chapter.id}" />
-			        		</h:selectOneMenu>
-			        	</div>
-		
-			        	
-			        	
-			        	<!-- 小节名称 -->
+			        		<select id="select-chapter">
+			        			<option value="-1" selected="selected">请选择</option>
+			        		</select>
+		        		</div>
+		        		
+		        		<!-- 小节名称 -->
 			        	<div>
 			        		<label for="section-name">section name：</label>
-			        		<h:inputText id="section-name" value="#{courseBean.newCourseSection.sectionName}" />
+			        		<input type="text" name="sectionName" id="section-name" />
 			        		
 			        	</div>
 			        	
 			        	<!-- 小节内容 -->  	
 			        	<div>
 			        		<label for="section-content">小节内容：</label>
-			        		<h:inputTextarea id="section-content" value="#{courseBean.newCourseSection.courseContent}" rows="10" cols="30" />		
+			        		<textarea name="sectionContent" id="section-content" ></textarea>
 			        	</div>
 			        	
 			        	<!-- 创建验证规则 -->
-			        	<!-- 选择规则类型 -->
-			        	<div>
-			        		<label for="rule-type">规则类型：</label>
-			        		<h:selectOneMenu id="rule-type" value="#{courseBean.newRule.ruleType}" >
-			        			<f:selectItem itemLabel="请选择验证类型" noSelectionOption="true"/>
-			        			<f:selectItems value="#{ruleTypeBean.getRuleItems()}" />
-			        			
-			        			<f:ajax event="change" execute="this" render="rule-content" />
-			        		</h:selectOneMenu>
+			        	<div id="rule-type">
+			        		<label for="select-type">选择规则类型</label>
+			        		<select id="select-type">
+			        			<option selected="selected">请选择</option>
+			        			<c:forEach items="${ ruleTypeList }" var="_r">
+			        				<option value="${ _r }">${ _r }</option>
+			        			</c:forEach>
+			        		</select>
 			        	</div>
 			        	
-			        	<!-- 规则内容，根据上面选择的不同而不同 -->
-			        	<h:panelGroup id="rule-content" layout="block">
-			        		<!-- 如果是包含规则 -->
-			 				<ui:fragment rendered="#{courseBean.newRule.ruleType == 'CONTAIN'}">
-			 					<label for="tag-name1">标签名</label>
-			 					<h:inputText id="tag-name1" value="#{courseBean.newRule.tagName}" />
-			 				</ui:fragment>
-			 				
-			 				<!-- 即要包含标签，又要指定属性 -->
-			 				<ui:fragment rendered="#{courseBean.newRule.ruleType == 'ATTRIBUTE'}">
-			 					<label for="tag-name">标签名</label>
-			 					<h:inputText id="tag-name" value="#{courseBean.newRule.tagName}" />
-			 					
-			 					<label for="attr-name">属性名</label>
-			 					<h:inputText id="attr-name" value="#{courseBean.newRule.attrName}" />
-			 					
-			 					<label for="attr-value">属性值</label>
-			 					<h:inputText id="attr-value" value="#{courseBean.newRule.attrValue}" />
-			 				</ui:fragment>
-			        		
-			        	</h:panelGroup>
-			        	
-			        	<div>
-			        		<!-- persist the CourseSection entity -->
-			        		<h:commandButton action="#{courseBean.saveSection()}" value="save" >
-			        			<f:ajax execute="form" render="form" />
-			        		</h:commandButton>
+ 			        	<div id="rule-contain" class="hidden">
+			        		<label for="input-tag">要包含的标签</label>
+			        		<input type="text" name="tagName" id="tag-name" />
 			        	</div>
-						
-						
-						<!-- <s:div id="cid">
-							<input type="hidden"  name="cid" value="#{conversation.id}"/>
-						</s:div> -->
-			        	
-			        	<h:message for="form" id="persist-msg" />
-		        	</h:form> --%>
+
+						<div id="rule-attr" class="hidden">
+			        		<label for="attr-name">属性</label>
+			        		<input type="text" name="attrName" id="attr-name" />
+			        		<label for="attr-value">属性值</label>
+			        		<input type="text" name="attrValue" id="attr-value" />
+			        	</div>
+					
+						<div>
+		        			<input type="submit" value="保存" />
+		        		</div>
+		        		<div id="error-msg" class="hidden"></div>
+		        	</form>
+		
 					
 				</section><!-- /.content -->
 			</aside>
@@ -211,7 +186,86 @@
 		<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
 
 		<script type="text/javascript">
-
+			// 为选择验证类型绑定事件
+			// 根据不同的类型显示不同的元素
+			$("#select-type").change(function() {
+				var type = $("#select-type option:selected").val();
+				// 只显示标签输入框
+				if (type == "CONTAIN") {
+					$("#rule-contain").removeClass("hidden");
+					$("#rule-attr").addClass("hidden");
+				
+				// 显示标签输入框和属性输入框
+				} else if (type == "ATTRIBUTE") {
+					$("#rule-attr").removeClass("hidden");
+					$("#rule-contain").removeClass("hidden");
+				}
+			});
+		
+			// 为 select 绑定事件
+			$("#select-course").change(function() {
+				var json = {
+					courseId: $("#select-course option:selected").val()
+				};
+				
+				$.ajax({
+					url: "<c:url value='/backstage/section/fetchChapter' />",
+					type: "POST",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(json),
+					success: function(data) {
+						console.log(data);
+						
+						// 清空章节下章列表原有内容
+						$("#select-chapter").empty();
+						
+						// 添加新 option
+						for (var ix = 0 ; ix < data.length ; ++ix) {
+							var chapter = data[ix];
+							var $newOption = $("<option value='" + chapter.id + "'>" + chapter.chapterName + "</option>");
+							$("#select-chapter").append($newOption);
+						}
+					}
+				});
+			});
+			
+			$("#form").submit(function(e) {
+				e.preventDefault();
+				
+				var json = {
+					courseId: $("#select-course option:selected").val(),
+					chapterId: $("#select-chapter option:selected").val(),
+					sectionName: $("#section-name").val(),
+					sectionContent: $("#section-content").val(),
+					
+					// 验证规则内容
+					ruleType: $("#select-type option:selected").val(),
+					tagName: $("#tag-name").val(),
+					attrName: $("#attr-name").val(),
+					attrValue: $("#attr-value").val()
+				};
+				
+				$.ajax({
+					url: $("#form").attr("action"),
+					type: "POST",
+					dataType: "json",
+					contentType: "application/json",
+					data: JSON.stringify(json),
+					success: function(data) {
+						var msg = $("#error-msg");
+   						
+   						msg.html(data.message);
+   						msg.removeClass("hidden").addClass("error-msg");
+   						
+   						// 清空表单
+   						if (true == data.result) {
+   							$("#section-name").val("");
+   							$("#section-content").val("");
+   						}
+					}
+				});
+			});
 	    </script>
 
 	</body>

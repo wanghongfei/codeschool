@@ -105,28 +105,27 @@
 				<!-- Main content -->
 		        <section class="content">
 		        	<h1>添加章节</h1>
-		        	<%-- <h:form id="form">
-		        		<div>   		
-			        		<label for="select-course">选择课程:</label>
-			        		<h:selectOneMenu value="#{courseBean.selectedCourseId}" id="select-course">
-			        			<f:selectItems value="#{courseBean.getCourses(true)}" var="_course" itemLabel="#{_course.courseName}" itemValue="#{_course.id}" />
-			        		</h:selectOneMenu>
-			        	</div>
-			        	
-			        	<div>
+		        	<form id="form" action="<c:url value='/backstage/chapter/save' />">
+		        		<div>
+		       		 		<select id="select-course">
+		        				<c:forEach items="${ courseList }" var="_c">
+		        					<option value="${ _c.id }"><c:out value="${ _c.courseName }"  /></option>	
+		        				</c:forEach>
+		       	 			</select>
+		        		</div>
+		        		
+		        		<div>
 			        		<label for="chapter-name">章节名称：</label>
-			        		<h:inputText value="#{courseBean.newCourseChapter.chapterName}" />      		
+			        		<input type="text" name="chapterName" id="chapter-name" />
 			        	</div>
 			        	
 			        	<div>
-			        		<h:commandButton action="#{courseBean.saveChapter()}" value="保存" >
-			        			<f:ajax execute="form" render="form" />
-			        		</h:commandButton>    		
+			        		<input type="submit" value="保存" />
 			        	</div>
 			        	
-			        	
-			        	<h:message for="form" id="persist-msg" />
-		        	</h:form> --%>
+			        	<div id="error-msg" class="hidden"></div>
+		        	</form>
+		        	
 				
 				</section><!-- /.content -->
 			</aside>
@@ -141,7 +140,38 @@
 		<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
 
 		<script type="text/javascript">
-
+			$(document).ready(function() {
+				$("#form").submit(function(e) {
+					e.preventDefault();
+					
+					var json = {
+						courseId: $("#select-course option:selected").val(),
+						chapterName: $("#chapter-name").val()
+					};
+					
+					var url = $(this).attr("action");
+					console.log("url : " + url);
+					
+					$.ajax({
+	   					url: $("#form").attr("action"),
+	   					type: "POST",
+	   					dataType: 'json',
+	   					contentType: 'application/json',
+	   					data: JSON.stringify(json),
+	   					success: function(data) {
+	   						var msg = $("#error-msg");
+	   						
+	   						msg.html(data.message);
+	   						msg.removeClass("hidden").addClass("error-msg");
+	   						
+	   						// 清空表单
+	   						if (true == data.result) {
+	   							$("#chapter-name").val("");
+	   						}
+	   					}
+	   				});
+				});
+			});
 	    </script>
 
 	</body>
