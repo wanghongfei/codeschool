@@ -39,16 +39,6 @@ public class HomeController {
 	 */
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest req, Model model) {
-		Member m = (Member)req.getSession().getAttribute("currentUser");
-
-		// 已经登陆
-		if (null != m) {
-			logger.info("用户 {} 已经登陆", m.getUsername());
-			model.addAttribute("currentUser", m);
-		} else {
-			logger.info("未登陆");
-		}
-		
 		// 把课程放入model中
 		List<Course> courses = courseService.courseList();
 		model.addAttribute("courseList", courses);

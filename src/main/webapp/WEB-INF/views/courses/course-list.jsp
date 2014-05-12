@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page session="true"%>
 
 <!DOCTYPE html>
 <html>
@@ -60,15 +60,36 @@
 	
 	
 				<!-- 未登陆 -->
-				<div>
+				<c:if test="${currentUser == null }">
+					<div>
+						<div class="collapse navbar-collapse navbar-ex1-collapse">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="#about" class="nav-link">关于</a></li>
+								<li><a href="#sign-in" id="register-btn">登陆</a></li>
+								<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
+							</ul>
+						</div>
+					</div>
+				</c:if>
+				
+				<!-- 已登陆 -->
+				<c:if test="${currentUser != null }">
 					<div class="collapse navbar-collapse navbar-ex1-collapse">
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#about" class="nav-link">关于</a></li>
-							<li><a href="#sign-in" id="register-btn">登陆</a></li>
+							<li>
+								<a href="#about" class="nav-link">
+									<span id="user-info">
+										${currentUser.username}, 积分: ${currentUser.point}
+									</span>
+								</a>
+							</li>
+							<li>
+ 								<a href="<c:url value='/logout' />" class="nav-link">退出登陆</a>
+							</li>
 							<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
 						</ul>
 					</div>
-				</div>
+				</c:if>
 			</div>
 		</nav>
 		<!--  顶部导航 ends -->

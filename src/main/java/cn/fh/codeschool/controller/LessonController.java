@@ -2,6 +2,8 @@ package cn.fh.codeschool.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.fh.codeschool.model.CourseChapter;
-import cn.fh.codeschool.model.CourseSection;
+import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.service.ChapterService;
 
 /**
@@ -36,9 +38,8 @@ public class LessonController {
 	 * @return
 	 */
 	@RequestMapping(value = "/courses/list")
-	public String showCourseList(@RequestParam Integer courseId, Model model) {
+	public String showCourseList(@RequestParam Integer courseId, Model model, HttpServletRequest req) {
 		List<CourseChapter> chapters = chapterService.chapterListEager(courseId);
-		
 		model.addAttribute("chapterList", chapters);
 		
 		return "/courses/course-list";
