@@ -14,15 +14,8 @@
 		<!-- Theme style -->
 		<link href='<c:url value="/resources/css/AdminLTE.css" />' rel="stylesheet" />
         
-        <style>
-			.fix-align {
-				margin-top: 16px;
-			}
-			
-			.error-msg {
-				color: red;
-			}
-		</style>	
+        	
+		<link href='<c:url value="/resources/css/login.css" />' rel="stylesheet" />
 	</head>
 	<body id="body">
 
@@ -166,6 +159,8 @@
 		<!-- AdminLTE App -->
 		<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
 
+
+		<script src="<c:url value='/resources/js/login.js' />"></script>
 		<script type="text/javascript">
 		//<![CDATA[
 			// 滚动效果
@@ -181,33 +176,6 @@
    				$('#loginModal').modal('toggle');
 			});
    			
-   			// ajax提交表单
-   			$("#login-form").submit(function(e) {
-   				e.preventDefault();
-   				
-   				var json = {
-   					username: $("#form-username").val(),
-   					password: $("#form-password").val()
-   				};
-   				
-   				$.ajax({
-   					url: $("#login-form").attr("action"),
-   					type: "POST",
-   					dataType: 'json',
-   					contentType: 'application/json',
-   					data: JSON.stringify(json),
-   					success: function(data) {
-   						// 验证成功，刷新页面
-   						if (data.result == true) {
-   							location.reload(true);
-   						} else { // 验证失败，显示错误信息
-   							var msg = $("#error-msg");
-   							msg.html(data.message);
-   							msg.removeClass("hidden").addClass("error-msg");
-   						}
-   					}
-   				});
-   			});
    		//]]>
 	    </script>
 
