@@ -27,6 +27,16 @@ public class AccountService {
 		//em.persist(m);
 	}
 	
+	public void updateRank(Member m) {
+		Long rank = em.createQuery("select count(m.id) from Member m where m.point>:point", Long.class)
+			.setParameter("point", m.getPoint())
+			.getSingleResult();
+		
+		m.setRank(rank + 1);
+		
+		logger.info("用户排名:{}", m.getRank());
+	}
+	
 	
 	/**
 	 * 从数据库中查找用户，并判断用户名密码是否正确
