@@ -46,7 +46,7 @@ public class MemberRole implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "role_id", unique = false, nullable = false, insertable = false, updatable = false)
 	@NotNull
 	public Role getRole() {
