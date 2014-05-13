@@ -51,6 +51,10 @@ public class LessonController {
 	@RequestMapping(value = "/courses/start")
 	public String startCourse(@RequestParam Integer sectionId, Model model) {
 		CourseSection cs = sectionService.findSectionEager(sectionId);
+		
+		String trimmedCode = cs.getInitialCode().replace("\n", "\\n");
+		cs.setInitialCode(trimmedCode);
+
 		model.addAttribute("section", cs);
 
 		return "/courses/course-content";
@@ -97,6 +101,7 @@ public class LessonController {
 		Member m = (Member)session.getAttribute("currentUser");
 		
 		CourseSection cs = sectionService.findSection(sectionId);
+		logger.info("得到section : {}", cs.getSectionName());
 		boolean result = validationService.process(cs, m, code);
 		
 		// 得到反馈信息

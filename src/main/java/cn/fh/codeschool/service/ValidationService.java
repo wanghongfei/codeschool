@@ -24,6 +24,9 @@ public class ValidationService {
 	@Autowired
 	private AccountService accountService;
 	
+	@Autowired
+	private SectionService sectionService;
+	
 	private String message;
 	
 	
@@ -52,8 +55,11 @@ public class ValidationService {
 				// 将当前课程标记已经通过
 				m.getFinishedSections().add(cs);
 				log.info("用户 {} 通过的课程数量:{}", m.getUsername(), m.getFinishedSections().size());
-				// 分数加1
+				// 用户分数加1
 				m.increasePoint();
+				// 完成人数加1
+				cs.increaseFinishedAmount();
+				sectionService.updateSection(cs);
 				log.info("用户 {} 分数 + 1, 当前分数：{}", m.getUsername(), m.getPoint());
 				// 更新数据库
 				accountService.saveMember(m);

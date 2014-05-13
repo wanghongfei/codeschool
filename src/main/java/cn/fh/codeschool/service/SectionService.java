@@ -27,6 +27,15 @@ public class SectionService {
 	private ChapterService chapterService;
 	
 	/**
+	 * 与数据库同步
+	 * @param cs
+	 */
+	@Transactional(readOnly = false)
+	public void updateSection(CourseSection cs) {
+		em.merge(cs);
+	}
+	
+	/**
 	 * 通过ID查找section，并触发eager加载
 	 * @param id
 	 * @return

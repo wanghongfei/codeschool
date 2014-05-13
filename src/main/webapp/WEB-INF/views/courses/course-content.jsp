@@ -253,8 +253,9 @@
 			    		<i class="fa fa-envelope bg-blue my-timeline-icon"></i>
 				        <div class="timeline-item">
 				            <div class="timeline-body">
-			    	        	<!-- 点击小节点后用ajax更新教程区内容 -->
-			    	        	<a class="change-section-link" href="<c:url value='/courses/start/changeSection'><c:param name='sectionId' value='${ _s.id }' /></c:url>" >
+			    	        	<%-- 点击小节点后用ajax更新教程区内容 --%>
+			    	        	<%-- 使用 html5 的 data-* 保存小节id --%>
+			    	        	<a class="change-section-link" data-id="${ _s.id }" href="<c:url value='/courses/start/changeSection'><c:param name='sectionId' value='${ _s.id }' /></c:url>" >
 				    	        	${ _s.sectionName }
 			    	        	</a>
 				            </div>
@@ -345,6 +346,7 @@
 		    	$msg.empty();
 				$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");	    	
 		    	
+				console.log("当前section id : " + currentSectionId);
 		    	var json = {
 		    		code: editor.getValue(),
 		    		sectionId: currentSectionId
@@ -379,6 +381,8 @@
 			$(".change-section-link").click(function(e) {
 				e.preventDefault();
 				
+				currentSectionId = $(this).attr("data-id");
+				
 				$.ajax({
    					url: $(this).attr("href"),
    					type: "GET",
@@ -386,7 +390,7 @@
    					success: function(data) {
    						$("#section-name").html(data.name);
    						$("#section-content").html(data.content);
-   						console.log(data.initialCode);
+   						//currentSectionId = data.id;
    						editor.setValue(data.initialCode.replace(/\\n/g, "\n"));
    					}
    				});

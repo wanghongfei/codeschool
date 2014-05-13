@@ -3,7 +3,6 @@ package cn.fh.codeschool.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -50,6 +50,14 @@ public class CourseSection implements java.io.Serializable {
 	//private Set<ValidationRule> rules = new HashSet<ValidationRule>();
 
 	public CourseSection() {
+	}
+	
+	/**
+	 * 完成人数 +1
+	 */
+	@Transient
+	public void increaseFinishedAmount() {
+		this.finishedMemberAmount++;
 	}
 
 	public CourseSection(int id, CourseChapter courseChapter) {
@@ -99,7 +107,7 @@ public class CourseSection implements java.io.Serializable {
 
 	@Column(name = "finished_member_amount")
 	public Integer getFinishedMemberAmount() {
-		return this.finishedMemberAmount;
+		return this.finishedMemberAmount == null ? 0 : this.finishedMemberAmount;
 	}
 
 	public void setFinishedMemberAmount(Integer finishedMemberAmount) {
