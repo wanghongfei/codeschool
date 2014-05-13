@@ -50,7 +50,7 @@ public class Member implements java.io.Serializable {
 	private Integer coursesFinishedAmount;
 	private Integer point;
 	private Integer maxConsecution;
-	private Integer rank;
+	private Long rank;
 	
 	private byte[] avatar;
 	
@@ -73,7 +73,7 @@ public class Member implements java.io.Serializable {
 			Date birthday, Integer gender, String qqNumber,
 			String emailAddress, String phoneNumber, String bio,
 			String occupation, Integer coursesFinishedAmount, Integer point,
-			Integer maxConsecution, Integer rank, Set<MemberRole> memberRoles,
+			Integer maxConsecution, Long rank, Set<MemberRole> memberRoles,
 			Set<MemberAcquiredBadges> memberAcquiredBadgeses) {
 		this.id = id;
 		this.username = username;
@@ -255,11 +255,11 @@ public class Member implements java.io.Serializable {
 	}
 
 	@Column(name = "rank")
-	public Integer getRank() {
+	public Long getRank() {
 		return this.rank;
 	}
 
-	public void setRank(Integer rank) {
+	public void setRank(Long rank) {
 		this.rank = rank;
 	}
 
