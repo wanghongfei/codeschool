@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cn.fh.codeschool.model.Member;
-import cn.fh.codeschool.model.MemberRole;
+import cn.fh.codeschool.model.Role;
 
 public class SecureFilter implements Filter {
 
@@ -71,9 +71,9 @@ public class SecureFilter implements Filter {
 	 * @return
 	 */
 	private boolean validateUser(Member m) {
-		for (MemberRole r : m.getMemberRoles()) {
-			if (r.getRole().getRoleName().equals("admin")) {
-				return true;
+		for (Role r : m.getRoles()) {
+				if (r.getRoleName().equals("admin")) {
+					return true;
 			}
 		}
 		

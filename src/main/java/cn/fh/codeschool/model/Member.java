@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -56,7 +57,7 @@ public class Member implements java.io.Serializable {
 	
 	private byte[] avatar;
 	
-	private Set<MemberRole> memberRoles = new HashSet<MemberRole>(0);
+	private Set<Role> roles = new HashSet<Role>(0);
 	private Set<MemberAcquiredBadges> memberAcquiredBadgeses = new HashSet<MemberAcquiredBadges>(0);
 	
 	//private Set<CourseSection> finishedSections = new HashSet<CourseSection>(0);
@@ -72,7 +73,7 @@ public class Member implements java.io.Serializable {
 			Date birthday, Integer gender, String qqNumber,
 			String emailAddress, String phoneNumber, String bio,
 			String occupation, Integer coursesFinishedAmount, Integer point,
-			Integer maxConsecution, Long rank, Set<MemberRole> memberRoles,
+			Integer maxConsecution, Long rank, Set<Role> memberRoles,
 			Set<MemberAcquiredBadges> memberAcquiredBadgeses) {
 		this.id = id;
 		this.username = username;
@@ -89,7 +90,7 @@ public class Member implements java.io.Serializable {
 		this.point = point;
 		this.maxConsecution = maxConsecution;
 		this.rank = rank;
-		this.memberRoles = memberRoles;
+		this.roles = memberRoles;
 		this.memberAcquiredBadgeses = memberAcquiredBadgeses;
 	}
 	
@@ -275,13 +276,22 @@ public class Member implements java.io.Serializable {
 		this.rank = rank;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "member")
+/*	@OneToMany(fetch = FetchType.EAGER, mappedBy = "member")
 	public Set<MemberRole> getMemberRoles() {
 		return this.memberRoles;
+	}*/
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "member_role",
+			joinColumns = @JoinColumn(name = "member_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id")
+		)
+	public Set<Role> getRoles() {
+		return this.roles;
 	}
 
-	public void setMemberRoles(Set<MemberRole> memberRoles) {
-		this.memberRoles = memberRoles;
+	public void setRoles(Set<Role> memberRoles) {
+		this.roles = memberRoles;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")

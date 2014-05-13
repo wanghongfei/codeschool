@@ -6,11 +6,10 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -30,7 +29,8 @@ public class Role implements java.io.Serializable {
 	private int id;
 	private String roleName;
 	private String memo;
-	private Set<MemberRole> memberRoles = new HashSet<MemberRole>(0);
+	//private Set<MemberRole> memberRoles = new HashSet<MemberRole>(0);
+	private Set<Member> members = new HashSet<Member>(0);
 
 	public Role() {
 	}
@@ -39,11 +39,11 @@ public class Role implements java.io.Serializable {
 		this.id = id;
 	}
 	public Role(int id, String roleName, String memo,
-			Set<MemberRole> memberRoles) {
+			Set<Member> memberRoles) {
 		this.id = id;
 		this.roleName = roleName;
 		this.memo = memo;
-		this.memberRoles = memberRoles;
+		this.members = memberRoles;
 	}
 
 	@Id
@@ -76,13 +76,17 @@ public class Role implements java.io.Serializable {
 		this.memo = memo;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
+/*	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
 	public Set<MemberRole> getMemberRoles() {
 		return this.memberRoles;
-	}
+	}*/
 
-	public void setMemberRoles(Set<MemberRole> memberRoles) {
-		this.memberRoles = memberRoles;
+	@ManyToMany(mappedBy = "roles")
+	public Set<Member> getMembers() {
+		return this.members;
+	}
+	public void setMembers(Set<Member> memberRoles) {
+		this.members = memberRoles;
 	}
 
 }
