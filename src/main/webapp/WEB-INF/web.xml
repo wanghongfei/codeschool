@@ -10,6 +10,18 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	<!-- 安全 -->
+	<filter>
+		<filter-name>Secure Filter</filter-name>
+		<filter-class>cn.fh.codeschool.servlet.SecureFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Secure Filter</filter-name> <!-- mandatory -->
+	  	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- spring -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -23,4 +35,5 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
 </web-app>
