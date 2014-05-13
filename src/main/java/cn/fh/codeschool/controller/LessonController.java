@@ -57,6 +57,23 @@ public class LessonController {
 	}
 	
 	/**
+	 * 用户在学习页面切换小节
+	 * @return
+	 */
+	@RequestMapping(value = "/courses/start/changeSection", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	public @ResponseBody String changeSection(@RequestParam Integer sectionId) {
+		CourseSection cs = sectionService.findSection(sectionId);
+		
+		JsonObject json = Json.createObjectBuilder()
+				.add("sectionId", cs.getId())
+				.add("name", cs.getSectionName())
+				.add("content", cs.getCourseContent())
+				.build();
+		
+		return json.toString();
+	}
+	
+	/**
 	 * 验证处理用户代码
 	 * @param reqMap
 	 * @param session
@@ -66,7 +83,14 @@ public class LessonController {
 	public @ResponseBody String validateCode(@RequestBody Map<String, Object> reqMap, HttpSession session) {
 		// 取出参数
 		String code = (String)reqMap.get("code");
-		Integer sectionId = Integer.valueOf((String)reqMap.get("sectionId"));
+		Object id = reqMap.get("sectionId");
+		
+		Integer sectionId = null;
+		if (id instanceof Integer) {
+			sectionId = (Integer)id;
+		} else {
+			sectionId = Integer.valueOf((String)id);
+		}
 		
 		// 取出session中的Member
 		Member m = (Member)session.getAttribute("currentUser");

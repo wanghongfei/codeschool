@@ -147,7 +147,7 @@
 							<li>
 								<a href="#about" class="nav-link">
 									<span id="user-info">
-										${currentUser.username}, 积分: ${currentUser.point}
+										${currentUser.username}, 积分: <span id="user-point">${currentUser.point}</span>
 									</span>
 								</a>
 							</li>
@@ -177,13 +177,13 @@
 					<div id="course-section" class="box box-primary">
 		                <div class="box-header" data-toggle="tooltip" title="Header tooltip">
 		                	<!-- 小节标题 -->
-		                    <h3 class="box-title text-white">
+		                    <h3 id="section-name" class="box-title text-white">
 		                    	${ section.sectionName }
 		                    </h3>
 		                </div>
 		                <div class="box-body">
 		                    <!-- 小节内容 -->
-		                    <p>
+		                    <p id="section-content">
 		                    	${ section.courseContent }
 		                    </p>
 		                </div>
@@ -256,7 +256,9 @@
 				        <div class="timeline-item">
 				            <div class="timeline-body">
 			    	        	<!-- 点击小节点后用ajax更新教程区内容 -->
-			    	        	${ _s.sectionName }
+			    	        	<a class="change-section-link" href="<c:url value='/courses/start/changeSection'><c:param name='sectionId' value='${ _s.id }' /></c:url>" >
+				    	        	${ _s.sectionName }
+			    	        	</a>
 				            </div>
 				        </div>
 		    		</li>
@@ -320,6 +322,7 @@
 		<script type="text/javascript">
 		//<![CDATA[
 			var editor = null;
+			var currentSectionId = "${section.id}";
 			    
 			// 为注册按钮绑定事件
    			$("#register-btn, #login-btn").click(function(e) {
@@ -346,7 +349,7 @@
 		    	
 		    	var json = {
 		    		code: editor.getValue(),
-		    		sectionId: "${section.id}"
+		    		sectionId: currentSectionId
 		    	};
 		    	
 		    	$.ajax({
@@ -360,6 +363,9 @@
    						$msg.empty();
    						$msg.html(data.message);
    						
+   						// 更新页面用户信息
+   						$("#user-point").html(data.point);
+   						
    						console.log(data);
    					}
    				});
@@ -370,6 +376,23 @@
 				$("#result-preview").contents().find("html").html(editor.getValue());
 				setTimeout(updatePreview, 1000);
 			}
+			
+			// 切换小节
+			$(".change-section-link").click(function(e) {
+				e.preventDefault();
+				
+				$.ajax({
+   					url: $(this).attr("href"),
+   					type: "GET",
+   					dataType: 'json',
+   					success: function(data) {
+   						console.log(data);
+   						currentSectionId = data.sectionId;
+   						$("#section-name").html(data.name);
+   						$("#section-content").html(data.content);
+   					}
+   				});
+			});
 
 
 			$(document).ready(function() {
