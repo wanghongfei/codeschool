@@ -159,12 +159,12 @@ public class BackstageController {
 	 */
 	@RequestMapping(value  ="/backstage/section/save", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public @ResponseBody String saveSection(@RequestBody Map<String, Object> reqMap) {
-		logger.info("收到json:{}", reqMap.toString());
 		
 		// 取出课程参数
 		Integer chapterId = Integer.valueOf((String)reqMap.get("chapterId"));
 		String sectionName = (String)reqMap.get("sectionName");
 		String sectionContent = (String)reqMap.get("sectionContent");
+		String code = (String)reqMap.get("initialCode");
 		
 		// 取出验证参数
 		RuleType type = RuleType.valueOf((String)reqMap.get("ruleType"));
@@ -176,11 +176,9 @@ public class BackstageController {
 		valRule.setRuleType(type.toString());
 		// 需要包含规则
 		if (type == RuleType.CONTAIN) {
-			logger.info("需要包含规则");
 			valRule.setTagName(tagName);
 		// 需要属性	
 		} else if (type == RuleType.ATTRIBUTE) {
-			logger.info("需要属性规则");
 			valRule.setTagName(tagName);
 			valRule.setAttrName(attrName);
 			valRule.setAttrValue(attrValue);
@@ -189,12 +187,11 @@ public class BackstageController {
 		}
 		
 		// 持久化
-		logger.info("开始保存Section");
 		CourseSection section = new CourseSection();
 		section.setSectionName(sectionName);
 		section.setCourseContent(sectionContent);
+		section.setInitialCode(code);
 		sectionService.saveSection(section, valRule, chapterId);
-		logger.info("Section保存完毕");
 		
 		JsonObject json = Json.createObjectBuilder()
 				.add("result", true)

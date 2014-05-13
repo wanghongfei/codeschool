@@ -58,6 +58,10 @@ public class LoginController {
 		// 将 member 对象放到session中
 		req.getSession().setAttribute("currentUser", m);
 		
+		
+		// test
+		accountService.updateRank(m);
+		
 		return json.toString();
 	}
 	
