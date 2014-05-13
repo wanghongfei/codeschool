@@ -275,7 +275,7 @@ public class Member implements java.io.Serializable {
 		this.rank = rank;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "member")
 	public Set<MemberRole> getMemberRoles() {
 		return this.memberRoles;
 	}
