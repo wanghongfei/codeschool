@@ -111,8 +111,8 @@
 							<!-- <span class="glyphicon glyphicon-home"></span> -->
 							<span class="glyphicon glyphicon-search"></span>
 						</div>
-						<h3>课程名</h3>
-						<p>说明</p>
+						<h3>${ course.courseName }</h3>
+						<p>${ course.courseDescription }</p>
 					</div>
 				</div>
 				<div class="margin-elem"></div>

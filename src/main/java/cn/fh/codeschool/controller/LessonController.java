@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.fh.codeschool.model.Course;
 import cn.fh.codeschool.model.CourseChapter;
 import cn.fh.codeschool.model.CourseSection;
 import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.service.ChapterService;
+import cn.fh.codeschool.service.CourseService;
 import cn.fh.codeschool.service.SectionService;
 import cn.fh.codeschool.service.ValidationService;
 
@@ -34,6 +36,9 @@ import cn.fh.codeschool.service.ValidationService;
 @Controller
 public class LessonController {
 	private static final Logger logger = LoggerFactory.getLogger(LessonController.class);
+	
+	@Autowired
+	private CourseService courseService;
 	
 	@Autowired
 	private ChapterService chapterService;
@@ -54,6 +59,7 @@ public class LessonController {
 		
 		String trimmedCode = cs.getInitialCode().replace("\n", "\\n");
 		cs.setInitialCode(trimmedCode);
+		
 
 		model.addAttribute("section", cs);
 
@@ -125,6 +131,9 @@ public class LessonController {
 	public String showCourseList(@RequestParam Integer courseId, Model model, HttpServletRequest req) {
 		List<CourseChapter> chapters = chapterService.chapterListEager(courseId);
 		model.addAttribute("chapterList", chapters);
+		
+		Course c = courseService.findCourse(courseId);
+		model.addAttribute("course", c);
 		
 		return "/courses/course-list";
 	}
