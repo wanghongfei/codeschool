@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.fh.codeschool.model.Member;
+import cn.fh.codeschool.model.Role;
 import cn.fh.codeschool.model.User;
 import cn.fh.codeschool.service.AccountService;
 
@@ -37,6 +38,8 @@ public class RegisterController {
 		m.setPassword(user.getPassword());
 		
 		// 在这里注册的都是普通用户..
+		Role userRole = aService.fetchUserRole();
+		m.getRoles().add(userRole);
 		
 		aService.saveMember(m);
 
