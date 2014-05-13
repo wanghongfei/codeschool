@@ -36,6 +36,8 @@ public class RegisterController {
 		m.setUsername(user.getUsername());
 		m.setPassword(user.getPassword());
 		
+		// 在这里注册的都是普通用户..
+		
 		aService.saveMember(m);
 
 		return "/register";

@@ -11,8 +11,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fh.codeschool.model.Member;
+import cn.fh.codeschool.model.Role;
 
 @Repository
+@Transactional(readOnly = true)
 public class AccountService {
 	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 	
@@ -24,9 +26,30 @@ public class AccountService {
 	@Transactional(readOnly = false)
 	public void saveMember(Member m) {
 		em.merge(m);
-		//em.persist(m);
 	}
 	
+	/**
+	 * 返回普通用户的 role
+	 * @return
+	 */
+	public Role fetchUserRole() {
+		return em.createQuery("select r from Role r where r.roleName='user'", Role.class)
+				.getSingleResult();
+	}
+	
+	/**
+	 * 返回所有可用的 role
+	 * @return
+	 */
+	public List<Role> roleList() {
+		return em.createNamedQuery("Role.fecthAllRoles", Role.class)
+				.getResultList();
+	}
+	
+	/**
+	 * 查询数据库得到当前比用户分高的用户数量
+	 * @param m
+	 */
 	public void updateRank(Member m) {
 		Long rank = em.createQuery("select count(m.id) from Member m where m.point>:point", Long.class)
 			.setParameter("point", m.getPoint())
@@ -44,7 +67,6 @@ public class AccountService {
 	 * @param pwd
 	 * @return 验证通过返回 Member 实体，否则返回null.错误信息保存在 message 成员变量中
 	 */
-	@Transactional(readOnly = true)
 	public Member findMember(String username, String pwd) {
 		List<Member> ms = em.createNamedQuery("Member.findMember", Member.class)
 				.setParameter("username", username)
