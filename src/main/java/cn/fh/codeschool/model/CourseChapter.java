@@ -4,6 +4,7 @@ package cn.fh.codeschool.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -73,7 +74,7 @@ public class CourseChapter implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "course_id", unique = false, nullable = false)
 	@NotNull
 	public Course getCourse() {
@@ -121,7 +122,7 @@ public class CourseChapter implements java.io.Serializable {
 		this.allBadgeses = allBadgeses;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "courseChapter")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "courseChapter", cascade = CascadeType.REMOVE)
 	public List<CourseSection> getCourseSections() {
 		return this.courseSections;
 	}

@@ -4,6 +4,7 @@ package cn.fh.codeschool.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -34,13 +36,14 @@ import javax.validation.constraints.Size;
 @Table(name = "course_section", schema = "public")
 public class CourseSection implements java.io.Serializable {
 
-	private int id;
+	private Integer id;
 	private CourseChapter courseChapter;
 	private String courseContent;
 	private Integer finishedMemberAmount;
 	private String sectionName;
 	
 	private String initialCode; // 初始代码
+	
 	
 	/**
 	 * 验证规则即小节通过的条件
@@ -64,7 +67,7 @@ public class CourseSection implements java.io.Serializable {
 		this.id = id;
 		this.courseChapter = courseChapter;
 	}
-	public CourseSection(int id, CourseChapter courseChapter,
+	public CourseSection(Integer id, CourseChapter courseChapter,
 			String courseContent, Integer finishedMemberAmount,
 			String sectionName) {
 		this.id = id;
@@ -75,17 +78,16 @@ public class CourseSection implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "chapter_id", unique = false, nullable = false)
 	@NotNull
 	public CourseChapter getCourseChapter() {
@@ -124,7 +126,7 @@ public class CourseSection implements java.io.Serializable {
 		this.sectionName = sectionName;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JoinTable(name = "section_rule",
 			joinColumns = @JoinColumn(name = "section_id"),
 			inverseJoinColumns = @JoinColumn(name = "rule_id"))
@@ -148,6 +150,7 @@ public class CourseSection implements java.io.Serializable {
 	public void setInitialCode(String initialCode) {
 		this.initialCode = initialCode;
 	}
+
 
 
 }

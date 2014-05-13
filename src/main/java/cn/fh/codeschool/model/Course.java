@@ -4,6 +4,7 @@ package cn.fh.codeschool.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -118,7 +119,7 @@ public class Course implements java.io.Serializable {
 		this.courseCategory = courseCategory;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.REMOVE)
 	public List<CourseChapter> getCourseChapters() {
 		System.out.println("获取章节：" + this.courseChapters);
 		
