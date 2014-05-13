@@ -52,15 +52,14 @@ public class Member implements java.io.Serializable {
 	private Integer maxConsecution;
 	private Long rank;
 	
+	private String finishedSectionIds; // 保存用户通过的小节的id,以 ';'分隔
+	
 	private byte[] avatar;
 	
 	private Set<MemberRole> memberRoles = new HashSet<MemberRole>(0);
 	private Set<MemberAcquiredBadges> memberAcquiredBadgeses = new HashSet<MemberAcquiredBadges>(0);
 	
-	/**
-	 * 用户已经完成的小节
-	 */
-	private Set<CourseSection> finishedSections = new HashSet<CourseSection>(0);
+	//private Set<CourseSection> finishedSections = new HashSet<CourseSection>(0);
 
 	public Member() {
 	}
@@ -95,6 +94,20 @@ public class Member implements java.io.Serializable {
 	}
 	
 	/**
+	 * 添加一个sectionId
+	 * @param id
+	 */
+	@Transient
+	public void addSectionId(Integer id) {
+		if (null == this.finishedSectionIds) {
+			this.finishedSectionIds = "";
+		}
+
+		this.finishedSectionIds += id.toString() + ';';
+		System.out.println("已经完成的课程id:" + this.finishedSectionIds);
+	}
+	
+	/**
 	 * 增加1点分值
 	 */
 	@Transient
@@ -102,22 +115,21 @@ public class Member implements java.io.Serializable {
 		this.setPoint(this.getPoint() + 1);
 	}
 
-	@OneToMany(fetch = FetchType.EAGER)
+/*	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "member_section",
 		joinColumns = @JoinColumn(name = "member_id"),
 		inverseJoinColumns = @JoinColumn(name = "section_id")
 			)
 	public Set<CourseSection> getFinishedSections() {
 		return finishedSections;
-	}
+	}*/
 
-	public void setFinishedSections(Set<CourseSection> finishedSections) {
+/*	public void setFinishedSections(Set<CourseSection> finishedSections) {
 		this.finishedSections = finishedSections;
-	}
+	}*/
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id", unique = true, nullable = false)
 	public int getId() {
 		return this.id;
 	}
@@ -289,6 +301,15 @@ public class Member implements java.io.Serializable {
 
 	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
+	}
+
+	@Column(name = "finished_section_ids", columnDefinition="TEXT")
+	public String getFinishedSectionIds() {
+		return finishedSectionIds;
+	}
+
+	public void setFinishedSectionIds(String finishedSectionIds) {
+		this.finishedSectionIds = finishedSectionIds;
 	}
 
 }

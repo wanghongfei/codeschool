@@ -53,14 +53,17 @@ public class ValidationService {
 		if (true == result ) {
 			if (false == isCurrentSectionHasFinished(cs, m)) {
 				// 将当前课程标记已经通过
-				m.getFinishedSections().add(cs);
-				log.info("用户 {} 通过的课程数量:{}", m.getUsername(), m.getFinishedSections().size());
+				m.addSectionId(cs.getId());
+				log.info("用户 {} 通过的课程数量:{}", m.getUsername(), m.getFinishedSectionIds().split(";").length);
+
 				// 用户分数加1
 				m.increasePoint();
+
 				// 完成人数加1
 				cs.increaseFinishedAmount();
 				sectionService.updateSection(cs);
 				log.info("用户 {} 分数 + 1, 当前分数：{}", m.getUsername(), m.getPoint());
+				
 				// 更新数据库
 				accountService.saveMember(m);
 			} else {
@@ -78,14 +81,22 @@ public class ValidationService {
 	 * @return
 	 */
 	private boolean isCurrentSectionHasFinished(CourseSection cs, Member m) {
-		Set<CourseSection> sections = m.getFinishedSections();
+		if (null == m.getFinishedSectionIds()) {
+			return false;
+		}
 		
-		for( CourseSection c : sections) {
+		String[] ids = m.getFinishedSectionIds().split(";");
+		for (String strId : ids) {
+			if (strId.equals(cs.getId().toString()))
+				return true;
+		}
+		
+/*		for( CourseSection c : sections) {
 			if (c.getId() == cs.getId()) {
 				return true;
 			}
 		}
-		
+*/		
 		
 		return false;
 	}
