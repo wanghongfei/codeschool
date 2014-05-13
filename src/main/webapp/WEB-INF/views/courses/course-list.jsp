@@ -131,12 +131,12 @@
 								<c:forEach items="${ _c.courseSections }" var="_s">
 									<tr>									
 										<td class="table-section">
-											<a href="#">
+											<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _s.id }' /></c:url>">
 												${ _s.sectionName }
 											</a>
 										</td>
 										<td>
-											<a href="#">
+											<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _s.id }' /></c:url>">
 												${ _s.courseContent }
 											</a>
 										</td>									

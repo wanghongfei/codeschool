@@ -114,7 +114,7 @@ public class CourseSection implements java.io.Serializable {
 		this.sectionName = sectionName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "section_rule",
 			joinColumns = @JoinColumn(name = "section_id"),
 			inverseJoinColumns = @JoinColumn(name = "rule_id"))

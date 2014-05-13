@@ -21,6 +21,12 @@ public class AccountService {
 	
 	private String message;
 	
+	@Transactional(readOnly = false)
+	public void saveMember(Member m) {
+		em.merge(m);
+		//em.persist(m);
+	}
+	
 	
 	/**
 	 * 从数据库中查找用户，并判断用户名密码是否正确
@@ -28,7 +34,7 @@ public class AccountService {
 	 * @param pwd
 	 * @return 验证通过返回 Member 实体，否则返回null.错误信息保存在 message 成员变量中
 	 */
-	@Transactional
+	@Transactional(readOnly = true)
 	public Member findMember(String username, String pwd) {
 		List<Member> ms = em.createNamedQuery("Member.findMember", Member.class)
 				.setParameter("username", username)

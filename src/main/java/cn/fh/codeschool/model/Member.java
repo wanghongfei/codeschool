@@ -102,7 +102,7 @@ public class Member implements java.io.Serializable {
 		this.setPoint(this.getPoint() + 1);
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "member_section",
 		joinColumns = @JoinColumn(name = "member_id"),
 		inverseJoinColumns = @JoinColumn(name = "section_id")

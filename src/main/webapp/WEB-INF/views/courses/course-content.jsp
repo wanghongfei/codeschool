@@ -178,13 +178,13 @@
 		                <div class="box-header" data-toggle="tooltip" title="Header tooltip">
 		                	<!-- 小节标题 -->
 		                    <h3 class="box-title text-white">
-		                    	你好
+		                    	${ section.sectionName }
 		                    </h3>
 		                </div>
 		                <div class="box-body">
 		                    <!-- 小节内容 -->
 		                    <p>
-		                        content
+		                    	${ section.courseContent }
 		                    </p>
 		                </div>
 		            </div>
@@ -201,26 +201,20 @@
 	
 					</pre>
 					
-					<form id="form">
-						<!-- 隐藏的输入框用来保存用户代码，并与后台bean绑定 -->		
-						<input type="text" class="html-code hidden" />	
-						
-						<!-- 用户登陆才能显示此按钮 -->		
-						<input type="submit" class="btn btn-primary submit-btn float-left" />	
-						<%-- <h:commandButton value="提交代码" action="#{validationBean.process()}" styleClass="btn btn-primary submit-btn float-left" >
-							<f:ajax render="error-msg :user-info" execute="@form" onevent="ajaxProgressBar" />
-						</h:commandButton> --%>
+					<!-- 隐藏的输入框用来保存用户代码，并与后台bean绑定 -->		
+					<input type="text" class="html-code hidden" />	
+					
+					<!-- 用户登陆才能显示此按钮 -->		
+					<!-- <input type="submit" class="btn btn-primary submit-btn float-left" /> -->	
 	
 						
 						
+					<button class="btn btn-primary" style="float: left" id="submit-code">提交</button>
+					<button class="btn btn-primary" style="float: right">重置</button>
+					
+					<div id="msg" class="float-left error-msg">
+					</div>
 						
-						<button class="btn btn-primary" style="float: right">重置</button>
-						
-						<div id="msg" class="float-left error-msg">
-							<span id="err-msg">错误信息</span>
-						</div>
-						
-					</form>
 				</div>
 			
 			</div><!-- row ends -->
@@ -251,7 +245,7 @@
 			    <!-- 章节名 -->
 			    <li class="time-label">
 			        <span class="bg-red">
-			        	第一章
+			        	${ section.courseChapter.chapterName }
 			        </span>
 			    </li>
 			
@@ -338,20 +332,39 @@
 					cursor: 'move'
 				}
 			);
+		    
+		    // 提交代码发送ajax请求
+		    $("#submit-code").click(function(e) {
+		    	e.preventDefault();
+		    	
+   				var $msg = $("#msg");
 
-		    // ajax回调函数
-		    // 在发送请求期间显示 loading 图片
-			function ajaxProgressBar(event) {			
-				if (event.status == "begin") {
-					// 先清除旧消息
-					var msgElem = document.getElementById("form:error-msg");
-					$(msgElem).html("");
-					
-					$("#msg").append($("<img id='ajax-loading' src='/spring-mvc/resources/img/ajax-loader.gif' width='30px' height='30px' />"));
-				} else if (event.status == "complete") {
-					$("#ajax-loading").remove();
-				}
-			}
+		    	//显示动态图片
+		    	var gifUrl = '<c:url value="/resources/img/ajax-loader.gif" />';
+		    	$msg.empty();
+				$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");	    	
+		    	
+		    	var json = {
+		    		code: editor.getValue(),
+		    		sectionId: "${section.id}"
+		    	};
+		    	
+		    	$.ajax({
+   					url: "<c:url value='/courses/start/submit-code' />",
+   					type: "POST",
+   					dataType: 'json',
+   					contentType: 'application/json',
+   					data: JSON.stringify(json),
+   					success: function(data) {
+   						// 清空信息并显示服务器返回数据	
+   						$msg.empty();
+   						$msg.html(data.message);
+   						
+   						console.log(data);
+   					}
+   				});
+		    });
+
 
 			function updatePreview() {
 				$("#result-preview").contents().find("html").html(editor.getValue());
@@ -365,10 +378,6 @@
 			    editor.setTheme("ace/theme/chrome");
 			    editor.getSession().setMode("ace/mode/html");
 
-			    editor.getSession().on("change", function(event) {
-				    console.log(editor.getValue());
-			    	$(".html-code").val(editor.getValue());
-				});
 
 			    editor.setValue("<body>\n\t<h1>hello, world!</h1>\n</body>");
 
