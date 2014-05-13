@@ -201,15 +201,13 @@
 	
 					</pre>
 					
-					<!-- 隐藏的输入框用来保存用户代码，并与后台bean绑定 -->		
-					<input type="text" class="html-code hidden" />	
 					
 					<!-- 用户登陆才能显示此按钮 -->		
-					<!-- <input type="submit" class="btn btn-primary submit-btn float-left" /> -->	
-	
-						
-						
-					<button class="btn btn-primary" style="float: left" id="submit-code">提交</button>
+					<c:if test="${ currentUser != null }">
+						<button class="btn btn-primary" style="float: left" id="submit-code">提交</button>
+					</c:if>
+					
+
 					<button class="btn btn-primary" style="float: right">重置</button>
 					
 					<div id="msg" class="float-left error-msg">
@@ -386,10 +384,10 @@
    					type: "GET",
    					dataType: 'json',
    					success: function(data) {
-   						console.log(data);
-   						currentSectionId = data.sectionId;
    						$("#section-name").html(data.name);
    						$("#section-content").html(data.content);
+   						console.log(data.initialCode);
+   						editor.setValue(data.initialCode.replace(/\\n/g, "\n"));
    					}
    				});
 			});
@@ -402,7 +400,8 @@
 			    editor.getSession().setMode("ace/mode/html");
 
 
-			    editor.setValue("<body>\n\t<h1>hello, world!</h1>\n</body>");
+			    editor.setValue("${ section.initialCode }");
+			    //editor.setValue("<body>\n\t<h1>hello, world!</h1>\n</body>");
 
 			    // 每秒钟预览一下结果
 			    setTimeout(updatePreview, 1000);

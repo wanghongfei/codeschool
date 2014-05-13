@@ -142,6 +142,12 @@
 			        		<label for="section-content">小节内容：</label>
 			        		<textarea name="sectionContent" id="section-content" ></textarea>
 			        	</div>
+
+			        	<!-- 初始代码 -->  	
+			        	<div>
+			        		<label for="section-code">初始代码：</label>
+			        		<textarea name="sectionContent" id="section-code" ></textarea>
+			        	</div>
 			        	
 			        	<!-- 创建验证规则 -->
 			        	<div id="rule-type">
@@ -238,6 +244,7 @@
 					chapterId: $("#select-chapter option:selected").val(),
 					sectionName: $("#section-name").val(),
 					sectionContent: $("#section-content").val(),
+					initialCode: $("#section-code").val(),
 					
 					// 验证规则内容
 					ruleType: $("#select-type option:selected").val(),

@@ -68,6 +68,7 @@ public class LessonController {
 				.add("sectionId", cs.getId())
 				.add("name", cs.getSectionName())
 				.add("content", cs.getCourseContent())
+				.add("initialCode", cs.getInitialCode())
 				.build();
 		
 		return json.toString();

@@ -40,6 +40,8 @@ public class CourseSection implements java.io.Serializable {
 	private Integer finishedMemberAmount;
 	private String sectionName;
 	
+	private String initialCode; // 初始代码
+	
 	/**
 	 * 验证规则即小节通过的条件
 	 * 一个小节可能会包含多个验证规则
@@ -124,6 +126,19 @@ public class CourseSection implements java.io.Serializable {
 
 	public void setRules(List<ValidationRule> rules) {
 		this.rules = rules;
+	}
+
+	@Column(name = "initial_code")
+	public String getInitialCode() {
+		if (null != this.initialCode){
+			//return initialCode.replace("\n", "\\n").replace("\t", "\\t");
+		}
+		System.out.println("code : " + this.initialCode);
+		return this.initialCode;
+	}
+
+	public void setInitialCode(String initialCode) {
+		this.initialCode = initialCode;
 	}
 
 
