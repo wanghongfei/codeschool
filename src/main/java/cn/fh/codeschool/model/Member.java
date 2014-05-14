@@ -53,6 +53,7 @@ public class Member implements java.io.Serializable {
 	private Integer maxConsecution;
 	private Long rank;
 	
+	private String startedCourseIds; // 已经开始学习的课程id, 以 ';'分隔
 	private String finishedSectionIds; // 保存用户通过的小节的id,以 ';'分隔
 	
 	private byte[] avatar;
@@ -321,5 +322,15 @@ public class Member implements java.io.Serializable {
 	public void setFinishedSectionIds(String finishedSectionIds) {
 		this.finishedSectionIds = finishedSectionIds;
 	}
+
+	@Column(name = "started_course_ids", columnDefinition="TEXT")
+	public String getStartedCourseIds() {
+		return startedCourseIds;
+	}
+
+	public void setStartedCourseIds(String startedCourseIds) {
+		this.startedCourseIds = startedCourseIds;
+	}
+
 
 }
