@@ -30,15 +30,15 @@ public class SecureFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		String path = req.getRequestURI();
 		
-		// 未登陆不得访问
-		HttpSession session = req.getSession(false);
-		if (null == session) {
-			forbid((HttpServletResponse)response);
-			return;
-		}
+		
 
 		// 访问后台管理页面,需验证权限
+		HttpSession session = req.getSession(false);
 		if (path.startsWith("/codeschool/backstage/")) {
+			if (null == session) {
+				forbid((HttpServletResponse)response);
+				return;
+			}
 			
 			Member m = (Member)session.getAttribute("currentUser");
 			if (null == m || false == validateUser(m)) {
@@ -49,6 +49,11 @@ public class SecureFilter implements Filter {
 		
 		// 访问用户信息,需登陆
 		if (path.startsWith("/codeschool/user/")) {
+			if (null == session) {
+				forbid((HttpServletResponse)response);
+				return;
+			}
+
 			Member m = (Member)session.getAttribute("currentUser");
 			if (null == m) {
 				forbid((HttpServletResponse)response);
@@ -59,7 +64,7 @@ public class SecureFilter implements Filter {
 
 		chain.doFilter(request, response);
 	}
-	
+
 	/**
 	 * 返回无权访问页面
 	 * @param response
