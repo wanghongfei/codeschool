@@ -73,10 +73,12 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						个人主页 <i class="fa fa-link fa-1x"></i>
+						他的好友 <i class="fa fa-link fa-1x"></i>
 					</div>
 					<div class="panel-body">
-						<a href="http://bootply.com">bootply.com</a>
+						<c:forEach items="${ member.friendList }" var="_f">
+							<a href="/codeschool/user/${ _f.username }/profile">${ _f.username }</a>
+						</c:forEach>
 					</div>
 				</div>
 
@@ -175,22 +177,30 @@
 			
 			<%-- 好友动态 --%>
 			<div class="col-sm-9">
+				<%-- 选项卡标题 --%>
 				<ul class="nav nav-tabs" id="activities-tab">
 					<li class="active"><a href="#friends-activities" data-toggle="tab">好友动态</a></li>
 					<li><a href="#my-activities" data-toggle="tab">我的动态</a></li>
 				</ul>	
-				
+
+				<%-- 选项卡内容 --%>
 				<div class="tab-content">
-				
 					<%-- 好友活动 --%>
 					<div class="tab-pane active" id="friends-activities">
 						<div class="table-responsive" >
-							<h2></h2>
-							<!-- jquery knob -->
-							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
-         	 			      	<input type="text" class="knob" readonly="readonly" value="30" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
-          		  		 		<div class="knob-label">C++</div>
-          	 		   		</div>
+							<table class="table table-hover">
+								<tbody>
+									<c:forEach items="${ activityList }" var="_a">
+										<tr>
+											<td>
+												<i class="pull-right fa fa-edit"></i>
+												用户[${ _a.member.username }] ${ _a.occurTime } - ${ _a.content }
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+	
           		      	</div>
 					</div>
 					

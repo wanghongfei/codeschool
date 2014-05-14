@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.fh.codeschool.model.CourseProgressWrapper;
 import cn.fh.codeschool.model.Member;
+import cn.fh.codeschool.model.RecentActivity;
 import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.service.CourseService;
 
 @Controller
 public class UserController {
+	private static final int ACTIVITY_AMOUNT = 5;
+	
 	@Autowired
 	private AccountService accountService;
 	
@@ -76,6 +79,8 @@ public class UserController {
 		}
 		model.addAttribute("isFriend", isFriend);
 		
+		
+		
 		// 得到用户正在学习的课程
 		List<Integer> courseIds = m.getStartedCourseIdList();
 		System.out.println("用户正在学习的课程id:" + courseIds);
@@ -90,6 +95,27 @@ public class UserController {
 			wrapperList.add(wrap);
 		}
 		model.addAttribute("wrapperList", wrapperList);
+		
+		
+		
+		// 取5条好友最近动态
+		List<Member> friendList = m.getFriendList();
+		List<RecentActivity> activityList = new ArrayList<RecentActivity>();
+		int ix = 0;
+		for ( Member friend : friendList ) {
+			if (ix >= 5) {
+				break;
+			}
+			
+			System.out.println("取出好友:" + friend.getUsername());
+			Member fr = accountService.findMember(friend.getUsername());
+			if (fr.getRecentActivity().size() > 0) {
+				activityList.add(fr.getRecentActivity().get(0));
+			}
+			
+			++ix;
+		}
+		model.addAttribute("activityList", activityList);
 		
 		return "/user/profile";
 	}
