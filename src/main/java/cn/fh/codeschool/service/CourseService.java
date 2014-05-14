@@ -35,6 +35,14 @@ public class CourseService {
 	@PersistenceContext
 	private EntityManager em;
 	
+	/**
+	 * 删除一个课程
+	 * @param c
+	 */
+	public void delete(Integer id) {
+		Course c = em.find(Course.class, id);
+		em.remove(c);
+	}
 	
 	/**
 	 * 查询所有 Course 实体

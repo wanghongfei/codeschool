@@ -43,11 +43,43 @@ public class BackstageController {
 	private SectionService sectionService;
 	
 	
-	@RequestMapping(value = "/backstage/course")
+	@RequestMapping(value = "/backstage/course", method = RequestMethod.GET)
 	public String addCourse(Model model) {
+		List<Course> courses = courseService.courseList();
+		model.addAttribute("courseList", courses);
+		
 		return "/backstage/console-course";
 	}
 	
+	/**
+	 * 删除一个课程 
+	 * @return
+	 */
+	@RequestMapping(value = "/backstage/course/delete", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String deleteCourse(@RequestBody Map<String, Object> reqMap) {
+		Integer courseId = Integer.valueOf((String)reqMap.get("courseId"));
+		
+		JsonObject json = null;
+		try {
+			courseService.delete(courseId);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			json = Json.createObjectBuilder()
+					.add("result", false)
+					.add("message", "删除出错")
+					.build();
+			
+			return json.toString();
+		}
+		
+		json = Json.createObjectBuilder()
+				.add("result", true)
+				.add("message", "删除成功")
+				.build();
+		
+		return json.toString();
+	}
+
 	/**
 	 * 响应添加课程表单POST请求
 	 * @param course

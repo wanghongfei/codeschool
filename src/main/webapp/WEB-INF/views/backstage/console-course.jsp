@@ -78,10 +78,27 @@
 			        	<div>
 			        		<input type="submit" value="保存" />
 			        	</div>
+
 			        	
 			        	<div id="error-msg"></div>
 		        	</form>
 		        	
+		        	
+		        	<form id="form-del" action="<c:url value='/backstage/course/delete' />">
+		        		<div>
+		       		 		<select id="select-course">
+		        				<c:forEach items="${ courseList }" var="_c">
+		        					<option value="${ _c.id }"><c:out value="${ _c.courseName }"  /></option>	
+		        				</c:forEach>
+		       	 			</select>
+		        		</div>
+		        	
+			        	<div>
+			        		<button id="btn-del" class="btn" >删除课程</button>
+			        	</div>
+			        	
+			        	<div class="error-msg"></div>
+		        	</form>
 					
 				</section><!-- /.content -->
 			</aside>
@@ -119,6 +136,35 @@
    						if (true == data.result) {
    							$("input[name='courseName']").val("");
    							$("textarea[name='courseDescription']").val("");
+   						}
+   					}
+   				});
+			});
+			
+			// 删除课程
+			$("#form-del").submit(function(e) {
+				e.preventDefault();
+				
+				var id = $("#select-course option:selected").val(); 
+				var json = {
+					courseId: id
+				};
+				
+				$.ajax({
+   					url: $("#form-del").attr("action"),
+   					type: "POST",
+   					dataType: 'json',
+   					contentType: 'application/json',
+   					data: JSON.stringify(json),
+   					success: function(data) {
+   						var msg = $("#error-msg");
+   						
+   						msg.html(data.message);
+   						msg.removeClass("hidden").addClass("error-msg");
+   						
+   						// 删除下拉表单中的对应option
+   						if (true == data.result) {
+   							$("#select-course option[value='" + id + "']").remove();
    						}
    					}
    				});
