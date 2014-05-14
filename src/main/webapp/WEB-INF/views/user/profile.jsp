@@ -124,24 +124,6 @@
         	    			  	 	<div class="knob-label">${ _w.courseName }</div>
             	    			</div>
 							</c:forEach>
-						
-							<!--
-							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
-          			      		<input type="text" class="knob" readonly="readonly" value="30" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
-            			  	 	<div class="knob-label">HTML</div>
-                			</div>
-							jquery knob
-							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
-          			      		<input type="text" class="knob" readonly="readonly" value="30" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
-            			  	 	<div class="knob-label">JavaScript</div>
-                			</div>
-							jquery knob
-							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
-          			      		<input type="text" class="knob" readonly="readonly" value="30" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
-            			  	 	<div class="knob-label">C++</div>
-                			</div> -->
-                				
-                				
                 				
 					 		<hr>
 							<div class="row">
@@ -152,46 +134,6 @@
 						<!--/table-resp-->
 
 						<hr>
-
-						<h4>Recent Activity</h4>
-
-						<%-- 最近活动 --%>
-						<div class="table-responsive">
-							<table class="table table-hover">
-
-								<tbody>
-									<c:forEach items="${ member.recentActivity }" var="_r">
-										<tr>
-											<td>
-												<i class="pull-right fa fa-edit"></i>
-												${ _r.occurTime } - ${ _r.content }
-											</td>
-										</tr>
-									</c:forEach>
-									<!-- <tr>
-										<td><i class="pull-right fa fa-edit"></i> Today, 12:23 -
-											Mark Friendo liked and shared your post.</td>
-									</tr>
-									<tr>
-										<td><i class="pull-right fa fa-edit"></i> Today, 12:20 -
-											You posted a new blog entry title "Why social media is".</td>
-									</tr>
-									<tr>
-										<td><i class="pull-right fa fa-edit"></i> Yesterday -
-											Karen P. liked your post.</td>
-									</tr>
-									<tr>
-										<td><i class="pull-right fa fa-edit"></i> 2 Days Ago -
-											Philip W. liked your post.</td>
-									</tr>
-									<tr>
-										<td><i class="pull-right fa fa-edit"></i> 2 Days Ago -
-											Jeff Manzi liked your post.</td>
-									</tr> -->
-								</tbody>
-							</table>
-						</div>
-
 					</div>
 					
 					
@@ -230,6 +172,49 @@
 				<!--/tab-pane-->
 			</div>
 			<!--/tab-content-->
+			
+			<%-- 好友动态 --%>
+			<div class="col-sm-9">
+				<ul class="nav nav-tabs" id="activities-tab">
+					<li class="active"><a href="#friends-activities" data-toggle="tab">好友动态</a></li>
+					<li><a href="#my-activities" data-toggle="tab">我的动态</a></li>
+				</ul>	
+				
+				<div class="tab-content">
+				
+					<%-- 好友活动 --%>
+					<div class="tab-pane active" id="friends-activities">
+						<div class="table-responsive" >
+							<h2></h2>
+							<!-- jquery knob -->
+							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+         	 			      	<input type="text" class="knob" readonly="readonly" value="30" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
+          		  		 		<div class="knob-label">C++</div>
+          	 		   		</div>
+          		      	</div>
+					</div>
+					
+					<%-- 我的活动 --%>
+					<div class="tab-pane" id="my-activities">
+						<div class="table-responsive" >
+							<div class="table-responsive">
+								<table class="table table-hover">
+									<tbody>
+										<c:forEach items="${ member.recentActivity }" var="_r">
+											<tr>
+												<td>
+													<i class="pull-right fa fa-edit"></i>
+													${ _r.occurTime } - ${ _r.content }
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+                		</div>
+					</div>
+				</div>
+			</div>
 
 		</div>
 	</div> <!-- container -->
@@ -249,7 +234,7 @@
 
 	<script src="<c:url value='/resources/js/app.js' />"></script>
 	<script src="<c:url value='/resources/js/login.js' />"></script>
-	<script src="<c:url value='/resources/js/profile.js' />"></script>
+	<%--<script src="<c:url value='/resources/js/profile.js' />"></script> --%>
 	<script type="text/javascript">
 		//<![CDATA[
 		$("#register-btn").click(function(e) {
