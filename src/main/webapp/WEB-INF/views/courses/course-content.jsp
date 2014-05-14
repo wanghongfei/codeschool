@@ -222,10 +222,10 @@
 	<!-- AdminLTE App -->
 	<script src='<c:url value="/resources/js/AdminLTE/app.js" />'></script>
 
-	<!-- <script src="/spring-mvc/resources/js/jquery-ui.js"></script> -->
+	<!-- <script src="/spring-mvc/resoures/js/jquery-ui.js"></script> -->
 	<script src='<c:url value="/resources/js/code-editor/ace.js" />'></script>
 
-
+	<script src="<c:url value='/resources/js/app.js' />"></script>
 	<script src="<c:url value='/resources/js/login.js' />"></script>
 	<script type="text/javascript">
 		//<![CDATA[

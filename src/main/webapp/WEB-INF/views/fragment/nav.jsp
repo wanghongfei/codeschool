@@ -16,30 +16,35 @@
 		<!-- /.navbar-header -->
 
 
-		<!-- 未登陆 -->
+		<%-- 未登陆 --%>
 		<c:if test="${currentUser == null }">
 			<div>
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="#about" class="nav-link">关于</a></li>
 						<li><a href="#sign-in" id="register-btn">登陆</a></li>
-						<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
+ 						<li><button class="btn btn-warning btn-sm navbar-btn" onclick="redirect();">注册</button></li>
 					</ul>
 				</div>
 			</div>
 		</c:if>
 
-		<!-- 已登陆 -->
+		<%-- 已登陆 --%>
 		<c:if test="${currentUser != null }">
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#about" class="nav-link"> <span
-							id="user-info"> ${currentUser.username}, 积分:
-								${currentUser.point} </span>
-					</a></li>
-					<li><a href="<c:url value='/logout' />" class="nav-link">退出登陆</a>
+					<li>
+						<a href="#about" class="nav-link"> <span id="user-info"> ${currentUser.username}, 积分:${currentUser.point} </span></a>
 					</li>
-					<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
+					<li>
+						<a href="<c:url value='/logout' />" class="nav-link">退出登陆</a>
+					</li>
+					<c:if test="${ currentUser.hasRole('admin') }">
+						<li><a href="<c:url value='/backstage/course' />" class="nav-link">后台页面</a></li>
+					</c:if>
+					<li>
+ 						<button class="btn btn-warning btn-sm navbar-btn" onclick="redirect();">注册</button>
+					</li>
 				</ul>
 			</div>
 		</c:if>

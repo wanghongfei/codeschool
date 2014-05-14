@@ -122,6 +122,7 @@
 		<!-- AdminLTE App -->
 		<script src='<c:url value="/resources/js/AdminLTE/app.js" />'></script>
 
+		<script src="<c:url value='/resources/js/app.js' />"></script>
 		<script src="<c:url value='/resources/js/login.js' />"></script>
 		<script type="text/javascript">
 		    
