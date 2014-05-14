@@ -42,56 +42,7 @@
 		
 		<div class="wrapper row-offcanvas row-offcanvas-left">
 			<!-- 左侧主体 starts -->
-			<aside class="left-side sidebar-offcanvas">
-				<!-- sidebar: style can be found in sidebar.less -->
-			    <section class="sidebar">
-			        <!-- Sidebar user panel -->
-			        <div class="user-panel">
-			            <div class="pull-left image">
-			                <img src="img/avatar3.png" class="img-circle" alt="User Image" />
-			            </div>
-			            <div class="pull-left info">
-			                <p>Hello, Jane</p>
-			
-			                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-			            </div>
-			        </div>
-			        
-			
-			        <!-- sidebar menu: : style can be found in sidebar.less -->
-			        <ul class="sidebar-menu">
-			            <!-- <li class="active"> -->
-			            <li>
-			                <a href="#">
-			                    <i class="fa fa-dashboard"></i> <span>添加课程</span>
-			                </a>
-			            </li>
-			            <li>
-			                <a href="#">
-			                    <i class="fa fa-th"></i> <span>添加章节</span> <small class="badge pull-right bg-green">new</small>
-			                </a>
-			            </li>
-			            <li>
-			                <a href="#">
-			                    <i class="fa fa-th"></i> <span>添加小节</span> <small class="badge pull-right bg-green">new</small>
-			                </a>
-			            </li>
-			            <li class="treeview">
-			                <a href="#">
-			                    <i class="fa fa-bar-chart-o"></i>
-			                    <span>添加小节</span>
-			                    <i class="fa fa-angle-left pull-right"></i>
-			                </a>
-			                <ul class="treeview-menu">
-			                    <li><a href="pages/charts/morris.html"><i class="fa fa-angle-double-right"></i> Morris</a></li>
-			                    <li><a href="pages/charts/flot.html"><i class="fa fa-angle-double-right"></i> Flot</a></li>
-			                    <li><a href="pages/charts/inline.html"><i class="fa fa-angle-double-right"></i> Inline charts</a></li>
-			                </ul>
-			            </li>
-			            
-			        </ul>
-			    </section>
-			</aside>
+			<%@ include file="/WEB-INF/views/fragment/console-left.jsp" %>		
 			<!-- 左侧主体 ends -->
 			
 			<!-- 右侧主体 -->
