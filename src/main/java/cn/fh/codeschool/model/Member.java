@@ -96,6 +96,22 @@ public class Member implements java.io.Serializable {
 	}
 	
 	/**
+	 * 判断当前用户是否有指定的role
+	 * @param roleName
+	 * @return
+	 */
+	@Transient
+	public boolean hasRole(String roleName) {
+		for (Role r : this.getRoles()) {
+			if (r.getRoleName().equals(roleName)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * 添加一个sectionId
 	 * @param id
 	 */
