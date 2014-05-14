@@ -86,12 +86,12 @@
 								<c:forEach items="${ _c.courseSections }" var="_s">
 									<tr>									
 										<td class="table-section">
-											<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _s.id }' /></c:url>">
+											<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _s.id }' /><c:param name='courseId' value='${ param.courseId }' /></c:url>">
 												${ _s.sectionName }
 											</a>
 										</td>
 										<td>
-											<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _s.id }' /></c:url>">
+											<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _s.id }' /><c:param name='courseId' value='${ param.courseId }' /></c:url>">
 												${ _s.courseContent }
 											</a>
 											<p>已有 ${ _s.finishedMemberAmount } 人完成了该小节</p>

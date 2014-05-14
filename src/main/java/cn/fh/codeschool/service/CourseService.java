@@ -1,5 +1,6 @@
 package cn.fh.codeschool.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fh.codeschool.model.Course;
+import cn.fh.codeschool.model.CourseChapter;
+import cn.fh.codeschool.model.CourseSection;
 
 /**
  * Encapsulate Course entity CRUD operation.
@@ -34,6 +37,38 @@ public class CourseService {
 	
 	@PersistenceContext
 	private EntityManager em;
+	
+	/**
+	 * 仅返回课程名称
+	 * @param courseId
+	 * @return
+	 */
+	public String fetchCourseName(Integer courseId) {
+		System.out.println("传入courseId : " + courseId);
+		return em.createQuery("select c.courseName from Course c where c.id=:id", String.class)
+				.setParameter("id", courseId)
+				.getSingleResult();
+	}
+	
+	/**
+	 * 返回某课程所有小节的id
+	 * @param courseId 课程实体id
+	 * @return
+	 */
+	public List<Integer> fetchSectionIdsByCourse(Integer courseId) {
+		Course course = this.findCourse(courseId);
+		List<CourseChapter> chapters = course.getCourseChapters();
+		
+		// 遍历所有小节,把id放入ids中
+		List<Integer> ids = new ArrayList<Integer>();
+		for (CourseChapter chapter : chapters) {
+			for (CourseSection section : chapter.getCourseSections()) {
+				ids.add(section.getId());
+			}
+		}
+		
+		return ids;
+	}
 	
 	/**
 	 * 删除一个课程

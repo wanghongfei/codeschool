@@ -1,8 +1,10 @@
 package cn.fh.codeschool.model;
 // Generated Apr 29, 2014 2:35:49 PM by Hibernate Tools 4.0.0
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -55,6 +57,8 @@ public class Member implements java.io.Serializable {
 	
 	private String startedCourseIds; // 已经开始学习的课程id, 以 ';'分隔
 	private String finishedSectionIds; // 保存用户通过的小节的id,以 ';'分隔
+	private List<Integer> finishedSectionIdList = new ArrayList<Integer>(); // 对 finishedSectionIds进行封装
+	private List<Integer> startedCourseIdList = new ArrayList<Integer>(); // 对 startedCourseIds进行封装
 	
 	private byte[] avatar;
 	
@@ -64,6 +68,8 @@ public class Member implements java.io.Serializable {
 	//private Set<CourseSection> finishedSections = new HashSet<CourseSection>(0);
 
 	public Member() {
+		// 初始化 this.finishedSectionIdList成员
+		
 	}
 
 	public Member(int id, String username) {
@@ -93,6 +99,15 @@ public class Member implements java.io.Serializable {
 		this.rank = rank;
 		this.roles = memberRoles;
 		this.memberAcquiredBadgeses = memberAcquiredBadgeses;
+	}
+	
+	/**
+	 * 返回用户已经完成的小节数
+	 * @return
+	 */
+	@Transient
+	public int finishedSectionAmount() {
+		return this.finishedSectionIds.split(";").length;
 	}
 	
 	/**
@@ -365,6 +380,10 @@ public class Member implements java.io.Serializable {
 
 	@Column(name = "finished_section_ids", columnDefinition="TEXT")
 	public String getFinishedSectionIds() {
+		if (null == this.finishedSectionIds) {
+			this.finishedSectionIds = "";
+		}
+		
 		return finishedSectionIds;
 	}
 
@@ -374,11 +393,50 @@ public class Member implements java.io.Serializable {
 
 	@Column(name = "started_course_ids", columnDefinition="TEXT")
 	public String getStartedCourseIds() {
+		if (null == this.startedCourseIds) {
+			this.startedCourseIds = "";
+		}
 		return startedCourseIds;
 	}
 
 	public void setStartedCourseIds(String startedCourseIds) {
 		this.startedCourseIds = startedCourseIds;
+	}
+
+	@Transient
+	public List<Integer> getFinishedSectionIdList() {
+		// 如果List还没有值,则创建List
+		if (false == this.getFinishedSectionIds().equals("") && 0 == this.finishedSectionIdList.size()) {
+			String[] ids = this.finishedSectionIds.split(";");
+			
+			for (String id : ids) {
+				this.finishedSectionIdList.add(Integer.valueOf(id));
+			}
+		}
+
+		return finishedSectionIdList;
+	}
+
+	public void setFinishedSectionIdList(List<Integer> finishedSectionIdList) {
+		this.finishedSectionIdList = finishedSectionIdList;
+	}
+
+	@Transient
+	public List<Integer> getStartedCourseIdList() {
+		// 如果List还没有值,则创建List
+		if (false == this.getStartedCourseIds().equals("") && 0 == this.startedCourseIdList.size()) {
+			String[] ids = this.getStartedCourseIds().split(";");
+			
+			for (String id : ids) {
+				this.startedCourseIdList.add(Integer.valueOf(id));
+			}
+		}
+			
+		return startedCourseIdList;
+	}
+
+	public void setStartedCourseIdList(List<Integer> startedCourseIdList) {
+		this.startedCourseIdList = startedCourseIdList;
 	}
 
 

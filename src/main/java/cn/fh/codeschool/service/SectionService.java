@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.fh.codeschool.model.Course;
 import cn.fh.codeschool.model.CourseChapter;
 import cn.fh.codeschool.model.CourseSection;
 import cn.fh.codeschool.model.ValidationRule;
@@ -25,6 +26,7 @@ public class SectionService {
 	
 	@Autowired
 	private ChapterService chapterService;
+	
 	
 	/**
 	 * 与数据库同步
@@ -72,6 +74,10 @@ public class SectionService {
 		CourseChapter chapter = em.find(CourseChapter.class, chapterId);
 		section.setCourseChapter(chapter);
 		section.getRules().add(rule);
+		
+		// 将课程实体中section数量 +1
+		Course course = chapter.getCourse();
+		course.setSectionAmount(course.getSectionAmount() + 1);
 
 		em.persist(section);
 	}

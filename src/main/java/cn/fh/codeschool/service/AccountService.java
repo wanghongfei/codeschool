@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +22,44 @@ public class AccountService {
 	@PersistenceContext
 	private EntityManager em;
 	
+	@Autowired
+	private CourseService courseService;
+	
 	private String message;
 	
+	/**
+	 * 返回用户完成某一课程百分比
+	 * @param m
+	 * @param courseId
+	 * @return
+	 */
+	public int fetchPercentageByCourse(Member m, Integer courseId) {
+		// 得到某课程所有的小节id
+		List<Integer> allSectionIds = courseService.fetchSectionIdsByCourse(courseId);
+		List<Integer> finishedIds = m.getFinishedSectionIdList();
+
+		// 用户一个小节也没完成
+		if (null == finishedIds) {
+			return 0;
+		}
+		
+		int sum = 0;
+		for (Integer id : allSectionIds) {
+			if (m.getFinishedSectionIdList().contains(id)) {
+				++sum;
+			}
+		}
+		
+		double percentage = sum / (double)allSectionIds.size();
+		//System.out.println("百分比:" + percentage + ", sum = " + sum);
+		
+		return (int)(percentage * 100);
+	}
+	
+	/**
+	 * 更新Member到数据库
+	 * @param m
+	 */
 	@Transactional(readOnly = false)
 	public void saveMember(Member m) {
 		em.merge(m);

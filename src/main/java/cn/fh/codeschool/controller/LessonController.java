@@ -23,6 +23,7 @@ import cn.fh.codeschool.model.Course;
 import cn.fh.codeschool.model.CourseChapter;
 import cn.fh.codeschool.model.CourseSection;
 import cn.fh.codeschool.model.Member;
+import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.service.ChapterService;
 import cn.fh.codeschool.service.CourseService;
 import cn.fh.codeschool.service.SectionService;
@@ -49,19 +50,43 @@ public class LessonController {
 	@Autowired
 	private ValidationService validationService;
 	
+	@Autowired
+	private AccountService accountService;
+	
 	/**
 	 * 用户请求课程学习页面，将小节放到model中
 	 * @return
 	 */
 	@RequestMapping(value = "/courses/start")
-	public String startCourse(@RequestParam Integer sectionId, Model model) {
+	public String startCourse(@RequestParam Integer sectionId,
+			@RequestParam Integer courseId,
+			Model model,
+			HttpServletRequest req) {
+
 		CourseSection cs = sectionService.findSectionEager(sectionId);
 		
 		String trimmedCode = cs.getInitialCode().replace("\n", "\\n");
 		cs.setInitialCode(trimmedCode);
-		
 
 		model.addAttribute("section", cs);
+		
+		// 标记当前课程为用户开始学习
+		if (null != req.getSession(false)) {
+			Member m = (Member)req.getSession(false).getAttribute("currentUser");
+			
+			// 下面的if测试用
+			/*if (null != m) {
+				System.out.println("完成百分比: " + accountService.fetchPercentageByCourse(m, courseId));
+			}*/
+
+			// 用户的 startedCourseIds中没有此id时,再进行添加
+			if (null != m && false == m.includeCourseId(courseId)) {
+
+				m.addCourseId(courseId);
+				accountService.saveMember(m);
+			}
+		}
+		
 
 		return "/courses/course-content";
 	}

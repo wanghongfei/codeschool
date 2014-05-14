@@ -111,21 +111,28 @@
 				<div class="tab-content">
 					<div class="tab-pane active" id="home">
 						<div class="table-responsive" >
-							<!-- jquery knob -->
+							<c:forEach items="${ wrapperList }" var="_w">
+								<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+    	      			      		<input type="text" class="knob" readonly="readonly" value="${ _w.progress }" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
+        	    			  	 	<div class="knob-label">${ _w.courseName }</div>
+            	    			</div>
+							</c:forEach>
+						
+							<!--
 							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
           			      		<input type="text" class="knob" readonly="readonly" value="30" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
             			  	 	<div class="knob-label">HTML</div>
                 			</div>
-							<!-- jquery knob -->
+							jquery knob
 							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
           			      		<input type="text" class="knob" readonly="readonly" value="30" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
             			  	 	<div class="knob-label">JavaScript</div>
                 			</div>
-							<!-- jquery knob -->
+							jquery knob
 							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
           			      		<input type="text" class="knob" readonly="readonly" value="30" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
             			  	 	<div class="knob-label">C++</div>
-                			</div>
+                			</div> -->
                 				
                 				
                 				
@@ -215,6 +222,7 @@
 		</div>
 	</div> <!-- container -->
 
+	<%@ include file="/WEB-INF/views/fragment/login.jsp" %>	
 
 	<%@ include file="/WEB-INF/views/fragment/footer.jsp" %>	
 
@@ -228,24 +236,16 @@
 	<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
 
 	<script src="<c:url value='/resources/js/app.js' />"></script>
+	<script src="<c:url value='/resources/js/login.js' />"></script>
 	<script src="<c:url value='/resources/js/profile.js' />"></script>
 	<script type="text/javascript">
 		//<![CDATA[
-		// 滚动效果
-		$(".scroll-link").click(
-				function(e) {
-					e.preventDefault();
-					var link = $(this);
-					var href = link.attr("href");
-					$("html,body").animate({
-						scrollTop : $(href).offset().top - 80
-					}, 500);
-					link.closest(".navbar").find(
-							".navbar-toggle:not(.collapsed)").click();
-				});
-
 		$("#register-btn").click(function(e) {
 			$('#loginModal').modal('toggle');
+		});
+		
+		$(document).ready(function() {
+			$(".knob").knob();
 		});
 
 		//]]>

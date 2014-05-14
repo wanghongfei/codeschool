@@ -93,6 +93,10 @@ public class Course implements java.io.Serializable {
 
 	@Column(name = "section_amount")
 	public Integer getSectionAmount() {
+		if (null == this.sectionAmount) {
+			this.sectionAmount = 0;
+		}
+		
 		return this.sectionAmount;
 	}
 
