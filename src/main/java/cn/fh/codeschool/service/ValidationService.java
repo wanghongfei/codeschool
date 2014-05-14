@@ -1,6 +1,6 @@
 package cn.fh.codeschool.service;
 
-import java.util.Set;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import cn.fh.codeschool.model.CourseSection;
 import cn.fh.codeschool.model.Member;
+import cn.fh.codeschool.model.RecentActivity;
 import cn.fh.codeschool.service.validation.Validator;
 
 /**
@@ -63,6 +64,10 @@ public class ValidationService {
 				cs.increaseFinishedAmount();
 				sectionService.updateSection(cs);
 				log.info("用户 {} 分数 + 1, 当前分数：{}", m.getUsername(), m.getPoint());
+				
+				
+				// 更新用户最近活动
+				m.getRecentActivity().add(new RecentActivity("完成了{" + cs.getSectionName() + "}小节", new Date(), m));
 				
 				// 更新数据库
 				accountService.saveMember(m);

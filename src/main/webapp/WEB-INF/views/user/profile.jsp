@@ -80,7 +80,6 @@
 					</div>
 				</div>
 
-
 				<ul class="list-group">
 					<li class="list-group-item text-muted">最近活动 <i
 						class="fa fa-dashboard fa-1x"></i></li>
@@ -156,15 +155,20 @@
 
 						<h4>Recent Activity</h4>
 
+						<%-- 最近活动 --%>
 						<div class="table-responsive">
 							<table class="table table-hover">
 
 								<tbody>
-									<tr>
-										<td><i class="pull-right fa fa-edit"></i> Today, 1:00 -
-											Jeff Manzi liked your post.</td>
-									</tr>
-									<tr>
+									<c:forEach items="${ member.recentActivity }" var="_r">
+										<tr>
+											<td>
+												<i class="pull-right fa fa-edit"></i>
+												${ _r.occurTime } - ${ _r.content }
+											</td>
+										</tr>
+									</c:forEach>
+									<!-- <tr>
 										<td><i class="pull-right fa fa-edit"></i> Today, 12:23 -
 											Mark Friendo liked and shared your post.</td>
 									</tr>
@@ -183,7 +187,7 @@
 									<tr>
 										<td><i class="pull-right fa fa-edit"></i> 2 Days Ago -
 											Jeff Manzi liked your post.</td>
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>

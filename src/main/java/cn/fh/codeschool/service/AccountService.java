@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fh.codeschool.model.Member;
+import cn.fh.codeschool.model.RecentActivity;
 import cn.fh.codeschool.model.Role;
 
 @Repository
@@ -122,6 +123,11 @@ public class AccountService {
 			return null;
 		}
 		
+		// 触发 RecentActivity EAGER加载
+		for (RecentActivity activity : ms.get(0).getRecentActivity()) {
+			activity.getId();
+		}
+		
 		return ms.get(0);
 	}
 	
@@ -147,6 +153,11 @@ public class AccountService {
 			this.message = "密码错误";
 			System.out.println(this.message);
 			return null;
+		}
+		
+		// 触发 RecentActivity EAGER加载
+		for (RecentActivity activity : m.getRecentActivity()) {
+			activity.getId();
 		}
 		
 		logger.info("用户 {} 验证成功", username);

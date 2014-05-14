@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -59,6 +60,9 @@ public class Member implements java.io.Serializable {
 	// 朋友
 	private Member parent;
 	private List<Member> friendList = new ArrayList<Member>();
+	
+	// 最近活动
+	private List<RecentActivity> recentActivity = new ArrayList<RecentActivity>();
 	
 	private String startedCourseIds; // 已经开始学习的课程id, 以 ';'分隔
 	private String finishedSectionIds; // 保存用户通过的小节的id,以 ';'分隔
@@ -477,6 +481,15 @@ public class Member implements java.io.Serializable {
 
 	public void setFriendList(List<Member> friendList) {
 		this.friendList = friendList;
+	}
+
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	public List<RecentActivity> getRecentActivity() {
+		return recentActivity;
+	}
+
+	public void setRecentActivity(List<RecentActivity> recentActivity) {
+		this.recentActivity = recentActivity;
 	}
 
 
