@@ -66,8 +66,8 @@
 						2.13.2014</li>
 					<li class="list-group-item text-right"><span class="pull-left"><strong>最后一次登陆
 						</strong></span> Yesterday</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>真实姓名
-						</strong></span> Joseph Doe</li>
+					<li class="list-group-item text-right"><span class="pull-left"><strong>积分排名
+						</strong></span> 第${ member.rank }名</li>
 
 				</ul>
 

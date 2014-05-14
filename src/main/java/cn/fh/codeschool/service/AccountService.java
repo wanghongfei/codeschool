@@ -87,12 +87,14 @@ public class AccountService {
 	 * 查询数据库得到当前比用户分高的用户数量
 	 * @param m
 	 */
+	@Transactional(readOnly = false)
 	public void updateRank(Member m) {
 		Long rank = em.createQuery("select count(m.id) from Member m where m.point>:point", Long.class)
 			.setParameter("point", m.getPoint())
 			.getSingleResult();
 		
 		m.setRank(rank + 1);
+		this.saveMember(m);
 		
 		logger.info("用户排名:{}", m.getRank());
 	}

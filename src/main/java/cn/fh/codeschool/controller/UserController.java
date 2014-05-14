@@ -44,6 +44,8 @@ public class UserController {
 		targetMember.setParent(m);
 		accountService.saveMember(targetMember);
 		//accountService.saveMember(m);
+		
+		
 
 		return "redirect:/user/" + username + "/profile";
 	}
@@ -56,6 +58,9 @@ public class UserController {
 		if (null == m) {
 			return "redirect:/error/not-exist";
 		}
+
+		// 更新排名信息
+		accountService.updateRank(m);
 
 		// 将member放入model中
 		model.addAttribute("member", m);
