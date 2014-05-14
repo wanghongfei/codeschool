@@ -61,6 +61,15 @@ public class AccountService {
 	}
 	
 	/**
+	 * 返回数据库中所有的用户名
+	 * @return
+	 */
+	public List<String> findMemberName() {
+		return em.createQuery("select m.username from Member m", String.class)
+				.getResultList();
+	}
+	
+	/**
 	 * 根据用户名查找用户
 	 * @param username
 	 * @return 用户不存在返回 null

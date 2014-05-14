@@ -40,7 +40,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-10">
-				<h1>${ m.username}</h1>
+				<h1>${ member.username}</h1>
 			</div>
 			<div class="col-sm-2">
 				<a href="/users" class="pull-right"><img title="profile image"

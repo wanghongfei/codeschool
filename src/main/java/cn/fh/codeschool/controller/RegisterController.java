@@ -1,5 +1,7 @@
 package cn.fh.codeschool.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,12 @@ public class RegisterController {
 	public String registerUser(@ModelAttribute User user) {
 		logger.info("用户注册请求 u: {}, p: {}", user.getUsername(), user.getPassword());
 		
+		// 用户名重复性查检
+		if (true == repeatCheck(aService.findMemberName(), user.getUsername())) {
+			logger.info("用户名 {} 已存在", user.getUsername());
+			return "/register";
+		}
+		
 		Member m = new Member();
 		m.setUsername(user.getUsername());
 		m.setPassword(user.getPassword());
@@ -44,6 +52,22 @@ public class RegisterController {
 		aService.saveMember(m);
 
 		return "/register";
+	}
+	
+	/**
+	 * 检查用户名是否重复
+	 * @param names
+	 * @param username
+	 * @return 重复返回true
+	 */
+	private boolean repeatCheck(List<String> names, String username) {
+		for (String name : names) {
+			if (name.equals(username)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
 
