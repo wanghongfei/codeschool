@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -54,6 +55,10 @@ public class Member implements java.io.Serializable {
 	private Integer point;
 	private Integer maxConsecution;
 	private Long rank;
+	
+	// 朋友
+	private Member parent;
+	private List<Member> friendList = new ArrayList<Member>();
 	
 	private String startedCourseIds; // 已经开始学习的课程id, 以 ';'分隔
 	private String finishedSectionIds; // 保存用户通过的小节的id,以 ';'分隔
@@ -99,6 +104,23 @@ public class Member implements java.io.Serializable {
 		this.rank = rank;
 		this.roles = memberRoles;
 		this.memberAcquiredBadgeses = memberAcquiredBadgeses;
+	}
+	
+	/**
+	 * 判断用户是否有username这个朋友
+	 * @param username
+	 * @return
+	 */
+	@Transient
+	public boolean hasFriend(String username) {
+		for (Member m : friendList) {
+			System.out.println("用户好友:" + m.getUsername() + ", 对比好友:" + username);
+			if (username.equals(m.getUsername())) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -437,6 +459,24 @@ public class Member implements java.io.Serializable {
 
 	public void setStartedCourseIdList(List<Integer> startedCourseIdList) {
 		this.startedCourseIdList = startedCourseIdList;
+	}
+
+	@ManyToOne
+	public Member getParent() {
+		return parent;
+	}
+
+	public void setParent(Member parent) {
+		this.parent = parent;
+	}
+
+	@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+	public List<Member> getFriendList() {
+		return friendList;
+	}
+
+	public void setFriendList(List<Member> friendList) {
+		this.friendList = friendList;
 	}
 
 

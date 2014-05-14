@@ -40,7 +40,15 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-10">
+				<%-- 显示用户名 --%>
 				<h1>${ member.username}</h1>
+				<%-- 添加好友功能登陆可用 --%>
+				<c:if test="${ !isFriend && currentUser != null }">
+					<p><a href="/codeschool/user/${ member.username }/addFriend" >添加好友</a></p>
+				</c:if>
+				<c:if test="${ isFriend }">
+					<p>TA是我的好友</p>
+				</c:if>
 			</div>
 			<div class="col-sm-2">
 				<a href="/users" class="pull-right"><img title="profile image"
