@@ -34,7 +34,7 @@
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<a href="#about" class="nav-link"> <span id="user-info"> ${currentUser.username}, 积分:${currentUser.point} </span></a>
+						<a href="<c:url value='/user/${ currentUser.username }/profile' />" class="nav-link"> <span id="user-info"> ${currentUser.username}, 积分:${currentUser.point} </span></a>
 					</li>
 					<li>
 						<a href="<c:url value='/logout' />" class="nav-link">退出登陆</a>
