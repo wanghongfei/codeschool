@@ -112,6 +112,40 @@ public class Member implements java.io.Serializable {
 	}
 	
 	/**
+	 * 检测this.startedCourseIds中是否包含指定id
+	 * @param id
+	 * @return
+	 */
+	@Transient
+	public boolean includeCourseId(Integer id) {
+		if (null == this.startedCourseIds) {
+			return false;
+		}
+
+		String[] ids = this.startedCourseIds.split(";");
+		for (String sId : ids) {
+			if (sId.equals(id.toString())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * 添加一个courseId
+	 * @param id
+	 */
+	@Transient
+	public void addCourseId(Integer id) {
+		if (null == this.startedCourseIds) {
+			this.startedCourseIds = "";
+		}
+		
+		this.startedCourseIds += id.toString() + ";";
+	}
+	
+	/**
 	 * 添加一个sectionId
 	 * @param id
 	 */
@@ -122,7 +156,6 @@ public class Member implements java.io.Serializable {
 		}
 
 		this.finishedSectionIds += id.toString() + ';';
-		System.out.println("已经完成的课程id:" + this.finishedSectionIds);
 	}
 	
 	/**
