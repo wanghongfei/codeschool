@@ -48,7 +48,7 @@ public class SecureFilter implements Filter {
 		}
 		
 		// 访问用户信息,需登陆
-		if (path.startsWith("/codeschool/user/")) {
+		/*if (path.startsWith("/codeschool/user/")) {
 			if (null == session) {
 				forbid((HttpServletResponse)response);
 				return;
@@ -59,7 +59,7 @@ public class SecureFilter implements Filter {
 				forbid((HttpServletResponse)response);
 				return;
 			}
-		}
+		}*/
 
 
 		chain.doFilter(request, response);

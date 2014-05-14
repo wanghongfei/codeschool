@@ -60,6 +60,22 @@ public class AccountService {
 		logger.info("用户排名:{}", m.getRank());
 	}
 	
+	/**
+	 * 根据用户名查找用户
+	 * @param username
+	 * @return 用户不存在返回 null
+	 */
+	public Member findMember(String username) {
+		List<Member> ms = em.createQuery("select m from Member m where m.username=:username", Member.class)
+				.setParameter("username", username)
+				.getResultList();
+		
+		if (0 == ms.size()) {
+			return null;
+		}
+		
+		return ms.get(0);
+	}
 	
 	/**
 	 * 从数据库中查找用户，并判断用户名密码是否正确
