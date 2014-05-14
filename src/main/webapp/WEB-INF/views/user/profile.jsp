@@ -20,58 +20,15 @@
 
 <link href='<c:url value="/resources/css/login.css" />' rel="stylesheet" />
 <style>
-	.margin-elem {
-		height: 60px;
-	}
+.margin-elem {
+	height: 60px;
+}
 </style>
 </head>
 <body id="body">
 
 	<!--  顶部导航 starts -->
-	<nav class="navbar navbar-default navbar-inverse navbar-fixed-top"
-		role="navigation">
-		<div class="container" id="top-nav-bar">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-ex1-collapse">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand nav-link scroll-link" href="#top">编程乐园</a>
-			</div>
-			<!-- /.navbar-header -->
-
-
-			<!-- 未登陆 -->
-			<c:if test="${currentUser == null }">
-				<div>
-					<div class="collapse navbar-collapse navbar-ex1-collapse">
-						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#about" class="nav-link">关于</a></li>
-							<li><a href="#sign-in" id="register-btn">登陆</a></li>
-							<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
-						</ul>
-					</div>
-				</div>
-			</c:if>
-
-			<!-- 已登陆 -->
-			<c:if test="${currentUser != null }">
-				<div class="collapse navbar-collapse navbar-ex1-collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#about" class="nav-link"> <span
-								id="user-info"> ${currentUser.username}, 积分:
-									${currentUser.point} </span>
-						</a></li>
-						<li><a href="<c:url value='/logout' />" class="nav-link">退出登陆</a>
-						</li>
-						<li><button class="btn btn-warning btn-sm navbar-btn">注册</button></li>
-					</ul>
-				</div>
-			</c:if>
-			<!-- /.navbar-collapse -->
-		</div>
-	</nav>
+	<%@ include file="/WEB-INF/views/fragment/nav.jsp" %>	
 	<!--  顶部导航 ends -->
 
 
@@ -83,7 +40,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-10">
-				<h1>Joeuser</h1>
+				<h1>${ currentUser.username }</h1>
 			</div>
 			<div class="col-sm-2">
 				<a href="/users" class="pull-right"><img title="profile image"
@@ -96,19 +53,19 @@
 				<!--left col-->
 
 				<ul class="list-group">
-					<li class="list-group-item text-muted">Profile</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span>
+					<li class="list-group-item text-muted">个人资料</li>
+					<li class="list-group-item text-right"><span class="pull-left"><strong>注册时间</strong></span>
 						2.13.2014</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>Last
-								seen</strong></span> Yesterday</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>Real
-								name</strong></span> Joseph Doe</li>
+					<li class="list-group-item text-right"><span class="pull-left"><strong>最后一次登陆
+						</strong></span> Yesterday</li>
+					<li class="list-group-item text-right"><span class="pull-left"><strong>真实姓名
+						</strong></span> Joseph Doe</li>
 
 				</ul>
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						Website <i class="fa fa-link fa-1x"></i>
+						个人主页 <i class="fa fa-link fa-1x"></i>
 					</div>
 					<div class="panel-body">
 						<a href="http://bootply.com">bootply.com</a>
@@ -117,7 +74,7 @@
 
 
 				<ul class="list-group">
-					<li class="list-group-item text-muted">Activity <i
+					<li class="list-group-item text-muted">最近活动 <i
 						class="fa fa-dashboard fa-1x"></i></li>
 					<li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span>
 						125</li>
@@ -144,8 +101,8 @@
 			<div class="col-sm-9">
 
 				<ul class="nav nav-tabs" id="myTab">
-					<li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-					<li><a href="#messages" data-toggle="tab">Messages</a></li>
+					<li class="active"><a href="#home" data-toggle="tab">正在学习的课程</a></li>
+					<li><a href="#messages" data-toggle="tab">已经完成的课程</a></li>
 					<li><a href="#settings" data-toggle="tab">Settings</a></li>
 				</ul>
 
@@ -440,13 +397,7 @@
 	<!--/row-->
 
 
-
-	<footer>
-		<div class="container clearfix">
-			<p class="pull-left">Copyright 飞鸿软件工作室 2014</p>
-			<p class="pull-right">Email: brucewhf@gmail.com</p>
-		</div>
-	</footer>
+	<%@ include file="/WEB-INF/views/fragment/footer.jsp" %>	
 
 
 
