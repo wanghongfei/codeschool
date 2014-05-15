@@ -60,7 +60,7 @@ public class LoginController {
 		
 		
 		// test
-		accountService.updateRank(m);
+		//accountService.updateRank(m);
 		
 		return json.toString();
 	}
