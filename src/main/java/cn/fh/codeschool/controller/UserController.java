@@ -121,15 +121,56 @@ public class UserController {
 		
 		// 得到用户正在学习的课程
 		List<CourseProgressWrapper> wrapperList = fetchStartedCourseList(m);
-		model.addAttribute("wrapperList", wrapperList);
+		model.addAttribute("startedWrapperList", wrapperList);
 		
 		
+		// 得到用户未开始学习的课程
+		List<CourseProgressWrapper> unstartedWrapperList = fetchNotStartedCourseList(m);
+		model.addAttribute("unstartedWrapperList", unstartedWrapperList);
 		
 		// 取5条好友最近动态
 		List<RecentActivity> activityList = fetchRecentActivities(m);
 		model.addAttribute("activityList", activityList);
 		
 		return "/user/profile";
+	}
+	
+	/**
+	 * 得到用户未开始学习的课程
+	 * @param m
+	 * @return
+	 */
+	private List<CourseProgressWrapper> fetchNotStartedCourseList(Member m) {
+		List<Integer> allCourseIds = courseService.fetchCourseIds();
+		List<Integer> startedCourseIds = m.getStartedCourseIdList();
+		
+		// 如果开始的课程为空,则把所有课程都放到list中
+		List<CourseProgressWrapper> wrapperList = new ArrayList<CourseProgressWrapper>();
+		if (startedCourseIds.isEmpty()) {
+			for (Integer id : allCourseIds) {
+				CourseProgressWrapper wrapper = new CourseProgressWrapper();
+				wrapper.setCourseId(id);
+				wrapper.setCourseName(courseService.fetchCourseName(id));
+				wrapper.setProgress(0);
+
+				wrapperList.add(wrapper);
+			}
+		} else {
+			for (Integer id : startedCourseIds) {
+				logger.info("测试id: {}", id);
+				if (false == allCourseIds.contains(id))  {
+					CourseProgressWrapper wrapper = new CourseProgressWrapper();
+					wrapper.setCourseId(id);
+					wrapper.setCourseName(courseService.fetchCourseName(id));
+					wrapper.setProgress(0);
+					
+					wrapperList.add(wrapper);
+				}
+			}
+		}
+		
+		
+		return wrapperList;
 	}
 	
 	/**

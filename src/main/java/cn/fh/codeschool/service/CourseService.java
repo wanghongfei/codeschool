@@ -51,6 +51,15 @@ public class CourseService {
 	}
 	
 	/**
+	 * 查询所有课程的id
+	 * @return
+	 */
+	public List<Integer> fetchCourseIds() {
+		return em.createQuery("select c.id from Course c", Integer.class)
+				.getResultList();
+	}
+	
+	/**
 	 * 返回某课程所有小节的id
 	 * @param courseId 课程实体id
 	 * @return
