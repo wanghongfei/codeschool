@@ -110,7 +110,6 @@
 
 				<ul class="nav nav-tabs" id="myTab">
 					<li class="active"><a href="#home" data-toggle="tab">正在学习的课程</a></li>
-					<li><a href="#messages" data-toggle="tab">已经完成的课程</a></li>
 					<li><a href="#settings" data-toggle="tab">未学习的课程</a></li>
 				</ul>
 				
@@ -139,19 +138,6 @@
 						<hr>
 					</div>
 					
-					
-					<!--/tab-pane-->
-					<div class="tab-pane" id="messages">
-						<div class="table-responsive" >
-							<h2></h2>
-							<!-- jquery knob -->
-							<div class="col-md-3 col-sm-6 col-xs-6 text-center">
-          			     	 	<input type="text" class="knob" readonly="readonly" value="30" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
-            				 	<div class="knob-label">C++</div>
-              		  		</div>
-                		</div>
-						<hr>
-					</div>
 					
 					
 					<!--/tab-pane-->

@@ -120,11 +120,27 @@ public class UserController {
 		
 		
 		// 得到用户正在学习的课程
+		List<CourseProgressWrapper> wrapperList = fetchStartedCourseList(m);
+		model.addAttribute("wrapperList", wrapperList);
+		
+		
+		
+		// 取5条好友最近动态
+		List<RecentActivity> activityList = fetchRecentActivities(m);
+		model.addAttribute("activityList", activityList);
+		
+		return "/user/profile";
+	}
+	
+	/**
+	 * 得到用户存在学习的课程,封装成 CourseProgressWrapper对象返回
+	 * @param courseIds
+	 * @return
+	 */
+	private List<CourseProgressWrapper> fetchStartedCourseList(Member m) {
 		List<Integer> courseIds = m.getStartedCourseIdList();
-		System.out.println("用户正在学习的课程id:" + courseIds);
-
-		// 封装好后放入model中
 		List<CourseProgressWrapper> wrapperList = new ArrayList<CourseProgressWrapper>();
+		
 		for (Integer id : courseIds) {
 			CourseProgressWrapper wrap = new CourseProgressWrapper();
 			wrap.setCourseName(courseService.fetchCourseName(id));
@@ -133,20 +149,25 @@ public class UserController {
 			
 			wrapperList.add(wrap);
 		}
-		model.addAttribute("wrapperList", wrapperList);
 		
-		
-		
-		// 取5条好友最近动态
+		return wrapperList;
+	}
+	
+	/**
+	 * 得到最近几条朋友动态
+	 * @param friendList
+	 * @return
+	 */
+	private List<RecentActivity> fetchRecentActivities(Member m) {
 		List<Member> friendList = m.getFriendList();
 		List<RecentActivity> activityList = new ArrayList<RecentActivity>();
+
 		int ix = 0;
 		for ( Member friend : friendList ) {
 			if (ix >= ACTIVITY_AMOUNT) {
 				break;
 			}
 			
-			System.out.println("取出好友:" + friend.getUsername());
 			Member fr = accountService.findMember(friend.getUsername());
 			if (fr.getRecentActivity().size() > 0) {
 				activityList.add(fr.getRecentActivity().get(0));
@@ -154,9 +175,8 @@ public class UserController {
 			
 			++ix;
 		}
-		model.addAttribute("activityList", activityList);
 		
-		return "/user/profile";
+		return activityList;
 	}
 }
 
