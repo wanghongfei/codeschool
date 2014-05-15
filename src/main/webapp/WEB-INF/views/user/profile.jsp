@@ -122,21 +122,21 @@
 				<div class="tab-content">
 					<div class="tab-pane active" id="home">
 						<div class="table-responsive" >
-						<c:choose>
-							<c:when test="${ false == startedWrapperList.isEmpty() }">
-								<c:forEach items="${ startedWrapperList }" var="_w">
-									<a href="/codeschool/courses/list?courseId=${ _w.courseId }">
-										<div class="col-md-3 col-sm-6 col-xs-6 text-center">
-    	      				      			<input type="text" class="knob" readonly="readonly" value="${ _w.progress }" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
-        	 	   			  	 			<div class="knob-label">${ _w.courseName }</div>
-            		    				</div>
-            		    			</a>
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<h3>还没有正在学习的课程</h3>
-							</c:otherwise>
-						</c:choose>
+							<c:choose>
+								<c:when test="${ false == startedWrapperList.isEmpty() }">
+									<c:forEach items="${ startedWrapperList }" var="_w">
+										<a href="/codeschool/courses/list?courseId=${ _w.courseId }">
+											<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+    		      				      			<input type="text" class="knob" readonly="readonly" value="${ _w.progress }" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
+        		 	   			  	 			<div class="knob-label">${ _w.courseName }</div>
+            			    				</div>
+            			    			</a>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<h3>还没有正在学习的课程</h3>
+								</c:otherwise>
+							</c:choose>
                 				
 					 		<hr>
 							<div class="row">
@@ -169,6 +169,12 @@
 									<h3>恭喜,你已经学遍了本站课程!</h3>
 								</c:otherwise>
 							</c:choose>
+							
+							<hr>
+							<div class="row">
+								<div class="col-md-4 col-md-offset-4 text-center">
+								</div>
+							</div>
                 		</div>
 						
 						<hr>

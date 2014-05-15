@@ -156,9 +156,10 @@ public class UserController {
 				wrapperList.add(wrapper);
 			}
 		} else {
-			for (Integer id : startedCourseIds) {
+			for (Integer id : allCourseIds) {
 				logger.info("测试id: {}", id);
-				if (false == allCourseIds.contains(id))  {
+				
+				if (false == startedCourseIds.contains(id))  {
 					CourseProgressWrapper wrapper = new CourseProgressWrapper();
 					wrapper.setCourseId(id);
 					wrapper.setCourseName(courseService.fetchCourseName(id));
