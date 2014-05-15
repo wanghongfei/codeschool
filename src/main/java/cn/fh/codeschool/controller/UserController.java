@@ -91,6 +91,7 @@ public class UserController {
 			CourseProgressWrapper wrap = new CourseProgressWrapper();
 			wrap.setCourseName(courseService.fetchCourseName(id));
 			wrap.setProgress(accountService.fetchPercentageByCourse(m, id));
+			wrap.setCourseId(id);
 			
 			wrapperList.add(wrap);
 		}

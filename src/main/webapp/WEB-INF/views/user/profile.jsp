@@ -121,10 +121,12 @@
 					<div class="tab-pane active" id="home">
 						<div class="table-responsive" >
 							<c:forEach items="${ wrapperList }" var="_w">
-								<div class="col-md-3 col-sm-6 col-xs-6 text-center">
-    	      			      		<input type="text" class="knob" readonly="readonly" value="${ _w.progress }" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
-        	    			  	 	<div class="knob-label">${ _w.courseName }</div>
-            	    			</div>
+								<a href="/codeschool/courses/list?courseId=${ _w.courseId }">
+									<div class="col-md-3 col-sm-6 col-xs-6 text-center">
+    	      			      			<input type="text" class="knob" readonly="readonly" value="${ _w.progress }" data-width="180" data-height="180" data-fgColor="#3c8dbc"/>
+        	    			  	 		<div class="knob-label">${ _w.courseName }</div>
+            	    				</div>
+            	    			</a>
 							</c:forEach>
                 				
 					 		<hr>
@@ -149,6 +151,7 @@
             				 	<div class="knob-label">C++</div>
               		  		</div>
                 		</div>
+						<hr>
 					</div>
 					
 					
@@ -168,6 +171,7 @@
               		  		</div>
                 		</div>
 						
+						<hr>
 					</div>
 
 				</div>
@@ -194,7 +198,7 @@
 										<tr>
 											<td>
 												<i class="pull-right fa fa-edit"></i>
-												用户[${ _a.member.username }] ${ _a.occurTime } - ${ _a.content }
+												用户<a href="/codeschool/user/${ _a.member.username }/profile">${ _a.member.username }</a> ${ _a.occurTime } - ${ _a.content }
 											</td>
 										</tr>
 									</c:forEach>
