@@ -49,6 +49,7 @@
 				<c:if test="${ isFriend }">
 					<p>TA是我的好友</p>
 				</c:if>
+				<p><button class="btn" id="thumb-btn">赞一个 (<span id="thumb-amount">${ member.thumbAmount }</span>)</button></p>
 			</div>
 			<div class="col-sm-2">
 				<a href="/users" class="pull-right"><img title="profile image"
@@ -64,8 +65,6 @@
 					<li class="list-group-item text-muted">个人资料</li>
 					<li class="list-group-item text-right"><span class="pull-left"><strong>注册时间</strong></span>
 						2.13.2014</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>最后一次登陆
-						</strong></span> Yesterday</li>
 					<li class="list-group-item text-right"><span class="pull-left"><strong>积分排名
 						</strong></span> 第${ member.rank }名</li>
 
@@ -257,6 +256,20 @@
 		
 		$(document).ready(function() {
 			$(".knob").knob();
+		});
+		
+		// 点赞
+		$("#thumb-btn").click(function(e) {
+			$.ajax({
+				url: "/codeschool/user/${ member.username }/thumbUp",
+				type: "GET",
+				dataType: 'json',
+				contentType: 'application/json',
+				//data: JSON.stringify(json),
+				success: function(data) {
+					$("#thumb-amount").html(data.thumbs);
+				}
+			});
 		});
 
 		//]]>

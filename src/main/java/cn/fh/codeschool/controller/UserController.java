@@ -3,15 +3,20 @@ package cn.fh.codeschool.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.fh.codeschool.model.CourseProgressWrapper;
 import cn.fh.codeschool.model.Member;
@@ -22,12 +27,45 @@ import cn.fh.codeschool.service.CourseService;
 @Controller
 public class UserController {
 	private static final int ACTIVITY_AMOUNT = 5;
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
 	private AccountService accountService;
 	
 	@Autowired
 	private CourseService courseService;
+
+
+	/**
+	 * 为用户点赞
+	 * @param username
+	 * @return
+	 */
+	@RequestMapping(value = "/user/{username}/thumbUp", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	public @ResponseBody String thumbbUp(@PathVariable String username) {
+		JsonObject json = null;
+		Integer thumbs = -1;
+		try {
+			Member m = accountService.findMember(username);
+			thumbs = m.thumbUp();
+			accountService.saveMember(m);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("赞失败!!");
+			
+			json = Json.createObjectBuilder()
+					.add("result", false)
+					.add("thumbs", thumbs)
+					.build();
+		}
+		
+		json = Json.createObjectBuilder()
+				.add("result", true)
+				.add("thumbs", thumbs)
+				.build();
+		
+		return json.toString();
+	}
 	
 	/**
 	 * 响应添加好友请求
@@ -104,7 +142,7 @@ public class UserController {
 		List<RecentActivity> activityList = new ArrayList<RecentActivity>();
 		int ix = 0;
 		for ( Member friend : friendList ) {
-			if (ix >= 5) {
+			if (ix >= ACTIVITY_AMOUNT) {
 				break;
 			}
 			

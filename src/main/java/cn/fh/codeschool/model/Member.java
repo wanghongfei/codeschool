@@ -57,6 +57,9 @@ public class Member implements java.io.Serializable {
 	private Integer maxConsecution;
 	private Long rank;
 	
+	// 主页被赞的次数
+	private Integer thumbAmount; 
+	
 	// 朋友
 	private Member parent;
 	private List<Member> friendList = new ArrayList<Member>();
@@ -108,6 +111,17 @@ public class Member implements java.io.Serializable {
 		this.rank = rank;
 		this.roles = memberRoles;
 		this.memberAcquiredBadgeses = memberAcquiredBadgeses;
+	}
+	
+	/**
+	 * 赞的数量+1
+	 * @return
+	 */
+	@Transient
+	public Integer thumbUp() {
+		this.thumbAmount += 1;
+		
+		return this.thumbAmount;
 	}
 	
 	/**
@@ -490,6 +504,19 @@ public class Member implements java.io.Serializable {
 
 	public void setRecentActivity(List<RecentActivity> recentActivity) {
 		this.recentActivity = recentActivity;
+	}
+
+	@Column(name = "thumb_amount")
+	public Integer getThumbAmount() {
+		if (null == this.thumbAmount) {
+			this.thumbAmount = 0;
+		}
+		
+		return thumbAmount;
+	}
+
+	public void setThumbAmount(Integer thumbAmount) {
+		this.thumbAmount = thumbAmount;
 	}
 
 
