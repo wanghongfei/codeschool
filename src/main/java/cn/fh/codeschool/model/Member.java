@@ -57,6 +57,9 @@ public class Member implements java.io.Serializable {
 	private Integer maxConsecution;
 	private Long rank;
 	
+	// 注册时间
+	private Date registerDate;
+	
 	// 主页被赞的次数
 	private Integer thumbAmount; 
 	
@@ -517,6 +520,15 @@ public class Member implements java.io.Serializable {
 
 	public void setThumbAmount(Integer thumbAmount) {
 		this.thumbAmount = thumbAmount;
+	}
+
+	@Column(name = "register_date")
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
 	}
 
 

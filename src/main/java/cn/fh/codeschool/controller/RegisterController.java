@@ -1,5 +1,6 @@
 package cn.fh.codeschool.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -44,6 +45,7 @@ public class RegisterController {
 		Member m = new Member();
 		m.setUsername(user.getUsername());
 		m.setPassword(user.getPassword());
+		m.setRegisterDate(new Date());
 		
 		// 在这里注册的都是普通用户..
 		Role userRole = aService.fetchUserRole();

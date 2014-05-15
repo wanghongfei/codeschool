@@ -63,10 +63,14 @@
 
 				<ul class="list-group">
 					<li class="list-group-item text-muted">个人资料</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>注册时间</strong></span>
-						2.13.2014</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>积分排名
-						</strong></span> 第${ member.rank }名</li>
+					<li class="list-group-item text-right">
+						<span class="pull-left"><strong>注册时间</strong></span>
+						${ member.registerDate }
+					</li>
+					<li class="list-group-item text-right">
+						<span class="pull-left"><strong>积分排名</strong></span>
+						第${ member.rank }名
+					</li>
 
 				</ul>
 
