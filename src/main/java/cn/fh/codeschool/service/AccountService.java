@@ -29,6 +29,17 @@ public class AccountService {
 	private String message;
 	
 	/**
+	 * 得到积分排行榜前 limit 名用户
+	 * @param limit
+	 * @return
+	 */
+	public List<Member> fetchTopRank(int limit) {
+		return em.createQuery("select m from Member m order by m.point desc", Member.class)
+			.setMaxResults(limit)
+			.getResultList();
+	}
+	
+	/**
 	 * 返回用户完成某一课程百分比
 	 * @param m
 	 * @param courseId

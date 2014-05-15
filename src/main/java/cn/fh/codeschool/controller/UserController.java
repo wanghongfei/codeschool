@@ -27,6 +27,7 @@ import cn.fh.codeschool.service.CourseService;
 @Controller
 public class UserController {
 	private static final int ACTIVITY_AMOUNT = 5;
+	private static final int RANK_LIST_AMOUNT = 10;
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
@@ -117,6 +118,9 @@ public class UserController {
 		}
 		model.addAttribute("isFriend", isFriend);
 		
+		// 得到排行榜
+		List<Member> rankList = accountService.fetchTopRank(RANK_LIST_AMOUNT);
+		model.addAttribute("rankList", rankList);
 		
 		
 		// 得到用户正在学习的课程

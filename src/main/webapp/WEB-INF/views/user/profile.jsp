@@ -85,17 +85,29 @@
 					</div>
 				</div>
 
+				<%-- 积分榜 --%>
 				<ul class="list-group">
-					<li class="list-group-item text-muted">最近活动 <i
-						class="fa fa-dashboard fa-1x"></i></li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span>
-						125</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span>
+					<li class="list-group-item text-muted">
+						积分英雄榜
+						<i class="fa fa-dashboard fa-1x"></i>
+					</li>
+					
+					<c:forEach items="${ rankList }" var="_r">
+						<li class="list-group-item text-right">
+							<span class="pull-left">
+								<strong><a href="/codeschool/user/${ _r.username }/profile">${ _r.username }</a></strong>
+							</span>
+							${ _r.point }
+						</li>
+					</c:forEach>
+					
+					
+<!-- 					<li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span>
 						13</li>
 					<li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span>
 						37</li>
 					<li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span>
-						78</li>
+						78</li> -->
 				</ul>
 
 				<div class="panel panel-default">
