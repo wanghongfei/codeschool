@@ -74,6 +74,11 @@
 			        		<label for="course-description">课程介绍：</label>
 			        		<textarea name="courseDescription" id="course-description" rows="10" cols="30" ></textarea>
 			        	</div>
+
+			        	<div>
+			        		<label for="course-language">编程语言：</label>
+			        		<input type="text" name="courseLanguage" id="course-language" />
+			        	</div>
 			        	
 			        	<div>
 			        		<input type="submit" value="保存" />

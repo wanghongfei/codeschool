@@ -153,12 +153,25 @@
 					
 				<%-- 代码编辑区 tabs --%>
 				<ul class="nav nav-tabs" id="myTab">
-					<li class="active"><a href="#code-tab1" data-toggle="tab">HTML</a></li>
-					<li><a href="#code-tab2" data-toggle="tab">JavaScript</a></li>
-				</ul>
+						<c:forEach items="${ languageList }" var="_l">
+							<li><a href="#tab-${ _l }" data-id="editor-${ _l }" data-lan="${ _l }" data-toggle="tab">${ _l }</a></li>
+						</c:forEach>
+<!-- 					<li class="active"><a href="#code-tab1" data-toggle="tab">HTML</a></li>
+						<li><a href="#code-tab2" data-toggle="tab">JavaScript</a></li>
+ -->				</ul>
+				
+				
 				
 				<div class="tab-content">
-					<div class="tab-pane active" id="code-tab1">
+					<c:forEach items="${ languageList }" var="_l">
+						<div class="tab-pane" id="tab-${ _l }">
+							<div class="table-responsive" >
+ 								<pre id="editor-${ _l }" class="code-editor"></pre>
+    	    	        	</div>
+							<hr>
+						</div>
+					</c:forEach>
+<!-- 					<div class="tab-pane active" id="code-tab1">
 						<div class="table-responsive" >
  							<pre id="editor1" class="code-editor"></pre>
     	            	</div>
@@ -169,7 +182,7 @@
  							<pre id="editor2" class="code-editor"></pre>
      		           	</div>
 						<hr>
-					</div>
+					</div> -->
 				</div>
 
 

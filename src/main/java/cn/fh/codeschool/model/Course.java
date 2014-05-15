@@ -35,10 +35,11 @@ public class Course implements java.io.Serializable {
 	private Integer finishedMemberAmount;
 	private String courseCategory;
 	private String courseDescription;
-	//private Set<CourseChapter> courseChapters = new HashSet<CourseChapter>(0);
-	//private Set<AllBadges> allBadgeses = new HashSet<AllBadges>(0);
+
 	private List<CourseChapter> courseChapters = new ArrayList<CourseChapter>();
 	private List<AllBadges> allBadgeses = new ArrayList<AllBadges>();
+	
+	private String courseLanguage; // 以 ; 隔开
 
 	public Course() {
 		System.out.println("~~~~~~~~~~~~~Course constructed!");
@@ -153,6 +154,15 @@ public class Course implements java.io.Serializable {
 	 */
 	public void setCourseDescription(String courseDescription) {
 		this.courseDescription = courseDescription;
+	}
+
+	@Column(name = "course_language")
+	public String getCourseLanguage() {
+		return courseLanguage;
+	}
+
+	public void setCourseLanguage(String courseLanguage) {
+		this.courseLanguage = courseLanguage;
 	}
 
 }

@@ -63,12 +63,15 @@ public class LessonController {
 			Model model,
 			HttpServletRequest req) {
 
+		// 将小节放入model中
 		CourseSection cs = sectionService.findSectionEager(sectionId);
-		
 		String trimmedCode = cs.getInitialCode().replace("\n", "\\n");
 		cs.setInitialCode(trimmedCode);
-
 		model.addAttribute("section", cs);
+		
+		// 将语言放入model中
+		String[] lan = courseService.fetchCourseLanguage(courseId).split(";");
+		model.addAttribute("languageList", lan);
 		
 		// 标记当前课程为用户开始学习
 		if (null != req.getSession(false)) {

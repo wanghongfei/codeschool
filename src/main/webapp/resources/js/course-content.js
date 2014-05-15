@@ -2,9 +2,6 @@
  * 
  */
 
-var editor = null;
-var editor2 = null;
-
 // 预览窗口可拖动
 $('.result-container').draggable({
 	cursor : 'move'
@@ -23,7 +20,7 @@ $("#submit-code").click(function(e) {
 
 	console.log("当前section id : " + currentSectionId);
 	var json = {
-		code : editor.getValue(),
+		code : editors[0].getValue(),
 		sectionId : currentSectionId
 	};
 
@@ -47,7 +44,7 @@ $("#submit-code").click(function(e) {
 });
 
 function updatePreview() {
-	$("#result-preview").contents().find("html").html(editor.getValue());
+	$("#result-preview").contents().find("html").html(editors[0].getValue());
 	setTimeout(updatePreview, 1000);
 }
 
@@ -70,9 +67,32 @@ $(".change-section-link").click(function(e) {
 	});
 });
 
+var editors = []; // 维护 editor 引用
+
 $(document).ready(function() {
+	var tabTitles = $("#myTab").children();
+	var firstTitle = tabTitles.first();
+	var firstTab = $(".tab-content").children().first();
+	firstTitle.addClass("active");
+	firstTab.addClass("active");
+	
+	// 初始化所有 editor
+	$.each(tabTitles, function(ix ,elem) {
+		var title = $(elem).find("a");
+		var id = title.attr("data-id");
+		var lan = title.attr("data-lan");
+
+		var editor = ace.edit(id);
+		editor.setTheme("ace/theme/chrome");
+		editor.getSession().setMode("ace/mode/" + lan);
+		editor.setValue(initialCode);
+
+		editors.push(editor);
+	});
+	
 	// 设置代码编辑区样式
-	editor = ace.edit("editor1");
+
+/*	editor = ace.edit("editor1");
 	editor.setTheme("ace/theme/chrome");
 	editor.getSession().setMode("ace/mode/html");
 
@@ -80,10 +100,10 @@ $(document).ready(function() {
 	editor2.setTheme("ace/theme/chrome");
 	editor2.getSession().setMode("ace/mode/html");
 
-	//editor.setValue("${ section.initialCode }");
 	editor.setValue(initialCode);
-	// editor.setValue("<body>\n\t<h1>hello, world!</h1>\n</body>");
-
+*/
 	// 每秒钟预览一下结果
 	setTimeout(updatePreview, 1000);
+	
 });
+

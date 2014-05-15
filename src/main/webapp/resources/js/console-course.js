@@ -3,7 +3,8 @@ $("#form").submit(function(e) {
 
 	var json = {
 		courseName : $("input[name='courseName']").val(),
-		courseDescription : $("textarea[name='courseDescription']").val()
+		courseDescription : $("textarea[name='courseDescription']").val(),
+		courseLanguage : $("input[name='courseLanguage']").val()
 	};
 
 	$.ajax({

@@ -39,12 +39,22 @@ public class CourseService {
 	private EntityManager em;
 	
 	/**
+	 * 仅返回课程所用的编程语言
+	 * @param courseId
+	 * @return
+	 */
+	public String fetchCourseLanguage(Integer courseId) {
+		return em.createQuery("select c.courseLanguage from Course c where c.id=:id", String.class)
+				.setParameter("id", courseId)
+				.getSingleResult();
+	}
+	
+	/**
 	 * 仅返回课程名称
 	 * @param courseId
 	 * @return
 	 */
 	public String fetchCourseName(Integer courseId) {
-		System.out.println("传入courseId : " + courseId);
 		return em.createQuery("select c.courseName from Course c where c.id=:id", String.class)
 				.setParameter("id", courseId)
 				.getSingleResult();
