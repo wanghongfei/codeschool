@@ -239,42 +239,17 @@
 
 
 
-	<!-- <ui:insert name="javascript" />-->
 	<script src="<c:url value='/resources/js/jquery-1.9.1.js' />"></script>
 	<script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
 	<script src="<c:url value='/resources/js/jquery.knob.js' />"></script>
-	<!-- AdminLTE App -->
 	<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
 
 	<script src="<c:url value='/resources/js/app.js' />"></script>
 	<script src="<c:url value='/resources/js/login.js' />"></script>
-	<%--<script src="<c:url value='/resources/js/profile.js' />"></script> --%>
 	<script type="text/javascript">
-		//<![CDATA[
-		$("#register-btn").click(function(e) {
-			$('#loginModal').modal('toggle');
-		});
-		
-		$(document).ready(function() {
-			$(".knob").knob();
-		});
-		
-		// 点赞
-		$("#thumb-btn").click(function(e) {
-			$.ajax({
-				url: "/codeschool/user/${ member.username }/thumbUp",
-				type: "GET",
-				dataType: 'json',
-				contentType: 'application/json',
-				//data: JSON.stringify(json),
-				success: function(data) {
-					$("#thumb-amount").html(data.thumbs);
-				}
-			});
-		});
-
-		//]]>
+		var username = "${ member.username }";
 	</script>
+	<script src="<c:url value='/resources/js/profile.js' />"></script>
 
 </body>
 

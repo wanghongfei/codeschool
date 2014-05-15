@@ -76,24 +76,7 @@
 
 		<script src="<c:url value='/resources/js/app.js' />"></script>
 		<script src="<c:url value='/resources/js/login.js' />"></script>
-		<script type="text/javascript">
-		//<![CDATA[
-			// 滚动效果
-		    $(".scroll-link").click(function(e) {
-				e.preventDefault();
-				var link = $(this);
-				var href = link.attr("href");
-				$("html,body").animate({scrollTop: $(href).offset().top - 80}, 500);
-				link.closest(".navbar").find(".navbar-toggle:not(.collapsed)").click();
-			});
-
-   			$("#register-btn").click(function(e) {
-   				$('#loginModal').modal('toggle');
-			});
-
-   			
-   		//]]>
-	    </script>
+		<script src="<c:url value='/resources/js/home.js' />"></script>
 
 	</body>
 

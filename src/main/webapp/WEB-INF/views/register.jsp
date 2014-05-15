@@ -139,14 +139,6 @@
 	<script src="<c:url value='/resources/js/login.js' />"></script>
 	<script src="<c:url value='/resources/js/register.js' />"></script>
 	<script type="text/javascript">
-		//<![CDATA[
-
-
-		$("#register-btn").click(function(e) {
-			$('#loginModal').modal('toggle');
-		});
-
-		//]]>
 	</script>
 
 </body>

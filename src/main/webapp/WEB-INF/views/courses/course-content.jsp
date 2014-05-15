@@ -67,7 +67,7 @@
 			color: white;
 		}
 		
-		#editor {
+		.code-editor {
 			height: 600px;
 		}
 		
@@ -150,9 +150,27 @@
 
 			<!-- 右侧代码区 -->
 			<div class="col-md-8">
-				<pre id="editor">
-	
-					</pre>
+					
+				<%-- 代码编辑区 tabs --%>
+				<ul class="nav nav-tabs" id="myTab">
+					<li class="active"><a href="#code-tab1" data-toggle="tab">HTML</a></li>
+					<li><a href="#code-tab2" data-toggle="tab">JavaScript</a></li>
+				</ul>
+				
+				<div class="tab-content">
+					<div class="tab-pane active" id="code-tab1">
+						<div class="table-responsive" >
+ 							<pre id="editor1" class="code-editor"></pre>
+    	            	</div>
+						<hr>
+					</div>
+					<div class="tab-pane" id="code-tab2">
+						<div class="table-responsive" >
+ 							<pre id="editor2" class="code-editor"></pre>
+     		           	</div>
+						<hr>
+					</div>
+				</div>
 
 
 				<!-- 用户登陆才能显示此按钮 -->
@@ -219,107 +237,17 @@
 	<script src='<c:url value="/resources/js/jquery.js" />'></script>
 	<script src='<c:url value="/resources/js/jquery-ui.js" />'></script>
 	<script src='<c:url value="/resources/js/bootstrap.min.js" />'></script>
-	<!-- AdminLTE App -->
 	<script src='<c:url value="/resources/js/AdminLTE/app.js" />'></script>
 
-	<!-- <script src="/spring-mvc/resoures/js/jquery-ui.js"></script> -->
 	<script src='<c:url value="/resources/js/code-editor/ace.js" />'></script>
 
 	<script src="<c:url value='/resources/js/app.js' />"></script>
 	<script src="<c:url value='/resources/js/login.js' />"></script>
 	<script type="text/javascript">
-		//<![CDATA[
-		var editor = null;
 		var currentSectionId = "${section.id}";
-
-		// 为注册按钮绑定事件
-		$("#register-btn, #login-btn").click(function(e) {
-			$('#loginModal').modal('toggle');
-		});
-
-		// 预览窗口可拖动
-		$('.result-container').draggable({
-			cursor : 'move'
-		});
-
-		// 提交代码发送ajax请求
-		$("#submit-code").click(function(e) {
-			e.preventDefault();
-
-			var $msg = $("#msg");
-
-			//显示动态图片
-			var gifUrl = '<c:url value="/resources/img/ajax-loader.gif" />';
-			$msg.empty();
-			$msg
-					.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
-
-			console.log("当前section id : " + currentSectionId);
-			var json = {
-				code : editor.getValue(),
-				sectionId : currentSectionId
-			};
-
-			$
-					.ajax({
-						url : "<c:url value='/courses/start/submit-code' />",
-						type : "POST",
-						dataType : 'json',
-						contentType : 'application/json',
-						data : JSON.stringify(json),
-						success : function(data) {
-							// 清空信息并显示服务器返回数据	
-							$msg.empty();
-							$msg.html(data.message);
-
-							// 更新页面用户信息
-							$("#user-point").html(data.point);
-
-							console.log(data);
-						}
-					});
-		});
-
-		function updatePreview() {
-			$("#result-preview").contents().find("html")
-					.html(editor.getValue());
-			setTimeout(updatePreview, 1000);
-		}
-
-		// 切换小节
-		$(".change-section-link").click(function(e) {
-			e.preventDefault();
-
-			currentSectionId = $(this).attr("data-id");
-
-			$.ajax({
-				url : $(this).attr("href"),
-				type : "GET",
-				dataType : 'json',
-				success : function(data) {
-					$("#section-name").html(data.name);
-					$("#section-content").html(data.content);
-					//currentSectionId = data.id;
-					editor.setValue(data.initialCode.replace(/\\n/g, "\n"));
-				}
-			});
-		});
-
-		$(document).ready(function() {
-			// 设置代码编辑区样式
-			editor = ace.edit("editor");
-			editor.setTheme("ace/theme/chrome");
-			editor.getSession().setMode("ace/mode/html");
-
-			editor.setValue("${ section.initialCode }");
-			//editor.setValue("<body>\n\t<h1>hello, world!</h1>\n</body>");
-
-			// 每秒钟预览一下结果
-			setTimeout(updatePreview, 1000);
-		});
-
-		//]]>
+		var initialCode = "${ section.initialCode }";
 	</script>
+	<script src="<c:url value='/resources/js/course-content.js' />"></script>
 
 
 </body>

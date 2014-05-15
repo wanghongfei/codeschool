@@ -126,11 +126,6 @@
 		<script src="<c:url value='/resources/js/login.js' />"></script>
 		<script type="text/javascript">
 		    
-
-   			$("#register-btn").click(function(e) {
-   				$('#loginModal').modal('toggle');
-			});
-
 	    </script>
 
 	</body>
