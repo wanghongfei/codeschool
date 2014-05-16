@@ -1,5 +1,10 @@
 $(document).ready(function() {
 	$(".knob").knob();
+	$(".date").datepicker({
+		changeMonth : true,
+		changeYear : true,
+		yearRange: '1940:2014'
+	});
 });
 
 // 点赞
