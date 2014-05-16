@@ -245,17 +245,7 @@
 								<div class="col-xs-12 col-sm-6 col-md-6">
 									<div class="form-group">
 										<h4>地区</h4>
-										<select>
-											<option>山东</option>
-											<option>北京</option>
-											
-										</select>
-										省 
-										<select>
-											<option>山东</option>
-											<option>北京</option>
-										</select>
-										市
+										<div class="select-city"><input type="text" id="select-city" /></div>
 									</div>
 								</div>
 							</div>
@@ -345,6 +335,8 @@
 
 	<script src="<c:url value='/resources/js/app.js' />"></script>
 	<script src="<c:url value='/resources/js/login.js' />"></script>
+	<script src="<c:url value='/resources/js/area.js' />"></script>
+	<script src="<c:url value='/resources/js/select-city.js' />"></script>
 	<script type="text/javascript">
 		var username = "${ member.username }";
 	</script>

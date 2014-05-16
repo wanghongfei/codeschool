@@ -3,7 +3,8 @@ $(document).ready(function() {
 	$(".date").datepicker({
 		changeMonth : true,
 		changeYear : true,
-		yearRange: '1940:2014'
+		yearRange: '1940:2014',
+		dateFormat: 'yy-mm-dd'
 	});
 });
 
@@ -20,3 +21,5 @@ $("#thumb-btn").click(function(e) {
 		}
 	});
 });
+
+$.city_select($(".select-city"), $("#select-city"));
