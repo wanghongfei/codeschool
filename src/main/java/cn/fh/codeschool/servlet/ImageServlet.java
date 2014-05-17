@@ -18,6 +18,21 @@ import javax.sql.DataSource;
 
 public class ImageServlet extends HttpServlet {
 	private byte[] imgBuf;
+	private static DataSource ds;
+	
+	/**
+	 * 在类加载时就查找数据源，仅查找一次，提高性能
+	 */
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource)ctx.lookup("java:jboss/datasources/codeschool");
+		} catch (NamingException ex) {
+			ex.printStackTrace();
+			System.out.println("JNDI查找失败");
+		}
+	}
+	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,11 +61,9 @@ public class ImageServlet extends HttpServlet {
 	 * @param username
 	 */
 	private void fetchImage(String username) {
-		DataSource ds = null;
 		Connection conn = null;
 		
 		try {
-			ds = fetchDataSource();
 			conn = ds.getConnection();
 			PreparedStatement stmt = conn.prepareStatement("SELECT avatar_image FROM member where username=?");
 			stmt.setString(1, username);
@@ -64,9 +77,6 @@ public class ImageServlet extends HttpServlet {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			System.out.println("SQL执行失败");
-		} catch (NamingException ex) {
-			ex.printStackTrace();
-			System.out.println("JNDI查询失败");
 		} finally {
 			if (null != conn) {
 				closeConnection(conn);
@@ -79,10 +89,8 @@ public class ImageServlet extends HttpServlet {
 	 * @return
 	 * @throws NamingException
 	 */
-	private DataSource fetchDataSource() throws NamingException {
-		Context ctx = new InitialContext();
-		return (DataSource)ctx.lookup("java:jboss/datasources/codeschool");
-	}
+	//private DataSource fetchDataSource() throws NamingException {
+	//}
 	
 	private void closeConnection(Connection conn) {
 		try {
