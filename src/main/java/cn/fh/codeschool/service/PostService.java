@@ -20,16 +20,18 @@ public class PostService {
 	@PersistenceContext
 	private EntityManager em;
 	
-	private TypedQuery<Post> fetchPostByMemberQuery;
-	private TypedQuery<Post> fetchPostBySectionQuery;
 	
 	/**
-	 * 创建所需要的Query对象，以提高性能
+	 * 查询某小节的前 tot 篇帖子
+	 * @param section
+	 * @param tot
+	 * @return
 	 */
-	@PostConstruct
-	public void initQuery() {
-		this.fetchPostByMemberQuery = em.createNamedQuery("Post.findRecentPost", Post.class);
-		this.fetchPostBySectionQuery = em.createQuery("SELECT p FROM Post p WHERE p.section=:section ORDER BY p.time DESC", Post.class);
+	public List<Post> fetchPostBySection(CourseSection section, int tot) {
+		return em.createQuery("SELECT p FROM Post p WHERE p.section=:section ORDER BY p.time DESC", Post.class)
+				.setParameter("section", section)
+				.setMaxResults(tot)
+				.getResultList();
 	}
 	
 	/**
@@ -39,7 +41,8 @@ public class PostService {
 	 * @return
 	 */
 	public List<Post> fetchRecentPost(Member m, int tot) {
-		return fetchPostByMemberQuery.setParameter("author", m)
+		return em.createNamedQuery("Post.findRecentPost", Post.class)
+				.setParameter("author", m)
 				.setMaxResults(tot)
 				.getResultList();
 	}

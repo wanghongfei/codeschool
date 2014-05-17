@@ -2,10 +2,8 @@ package cn.fh.codeschool.service;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,14 +27,9 @@ public class AccountService {
 	@Autowired
 	private CourseService courseService;
 	
-	private TypedQuery<Post> fetchPostByMemberQuery;
 	
 	private String message;
 	
-	@PostConstruct
-	public void initQuery() {
-		this.fetchPostByMemberQuery = em.createQuery("SELECT p FROM Post p WHERE p.author=:author ORDER BY p.time DESC", Post.class);
-	}
 	
 	/**
 	 * 查询某个用户最近 tot 条帖子
@@ -45,7 +38,8 @@ public class AccountService {
 	 * @return
 	 */
 	public List<Post> fetchPostByMember(Member m, int tot) {
-		return this.fetchPostByMemberQuery.setParameter("author", m)
+		return em.createQuery("SELECT p FROM Post p WHERE p.author=:author ORDER BY p.time DESC", Post.class)
+				.setParameter("author", m)
 				.setMaxResults(tot)
 				.getResultList();
 	}
