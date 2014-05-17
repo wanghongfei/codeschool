@@ -40,6 +40,12 @@
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<li>
+						<form action="/codeschool/user/search" class="search-form">
+							<input type="text" name="username" class="form-control search-username" placeholder="用户搜索" />
+							<input type="submit" value="搜索" class="btn btn-sm search-btn" />
+						</form>
+					</li>
+					<li>
 						<a href="<c:url value='/user/${ currentUser.username }/profile' />" class="nav-link"> <span id="user-info"> ${currentUser.username}, 积分:<span id="user-point">${currentUser.point}</span> </span></a>
 					</li>
 					<li>
