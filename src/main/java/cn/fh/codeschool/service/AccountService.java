@@ -2,8 +2,10 @@ package cn.fh.codeschool.service;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fh.codeschool.model.Member;
+import cn.fh.codeschool.model.Post;
 import cn.fh.codeschool.model.RecentActivity;
 import cn.fh.codeschool.model.Role;
 
@@ -26,7 +29,26 @@ public class AccountService {
 	@Autowired
 	private CourseService courseService;
 	
+	private TypedQuery<Post> fetchPostByMemberQuery;
+	
 	private String message;
+	
+	@PostConstruct
+	public void initQuery() {
+		this.fetchPostByMemberQuery = em.createQuery("SELECT p FROM Post p WHERE p.author=:author ORDER BY p.time DESC", Post.class);
+	}
+	
+	/**
+	 * 查询某个用户最近 tot 条帖子
+	 * @param m
+	 * @param tot
+	 * @return
+	 */
+	public List<Post> fetchPostByMember(Member m, int tot) {
+		return this.fetchPostByMemberQuery.setParameter("author", m)
+				.setMaxResults(tot)
+				.getResultList();
+	}
 	
 	/**
 	 * 根据用户名进行模糊查询,最多返回10个结果

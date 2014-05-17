@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,11 +18,6 @@ import javax.persistence.Table;
  * @author whf
  *
  */
-
-@NamedQuery(
-		name = "Post.findRecentPost",
-		query = "SELECT p FROM Post p WHERE p.author=:author ORDER BY p.time DESC"
-		)
 
 @Entity
 @Table(name = "post")
