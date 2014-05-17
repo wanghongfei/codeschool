@@ -215,6 +215,8 @@ public class BackstageController {
 			valRule.setTagName(tagName);
 			valRule.setAttrName(attrName);
 			valRule.setAttrValue(attrValue);
+		} else if (type == RuleType.OUTPUT) {
+			valRule.setOutput(output);
 		} else {
 			logger.error("不支持的规则类型: {}", type.toString());
 		}
