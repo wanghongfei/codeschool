@@ -9,6 +9,10 @@ public enum RuleType {
 	 * 需要有某个属性
 	 */
 	ATTRIBUTE,
+	/**
+	 * 仅需要对比输出结果
+	 */
+	OUTPUT,
 	
 	/**
 	 * 语言种类

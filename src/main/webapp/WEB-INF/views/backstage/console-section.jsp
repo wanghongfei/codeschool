@@ -110,6 +110,11 @@
 			        			</c:forEach>
 			        		</select>
 			        	</div>
+
+ 			        	<div id="rule-result" class="hidden">
+			        		<label for="input-result">正确的输出结果</label>
+			        		<input type="text" name="result" id="input-result" />
+			        	</div>
 			        	
  			        	<div id="rule-contain" class="hidden">
 			        		<label for="input-tag">要包含的标签</label>

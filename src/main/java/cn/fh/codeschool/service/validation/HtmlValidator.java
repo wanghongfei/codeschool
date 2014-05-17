@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
 
 import cn.fh.codeschool.model.ValidationRule;
 
-@Service
+@Service("html")
 public class HtmlValidator implements Validator, java.io.Serializable {
 	/**
 	 * 待验证的代码

@@ -5,6 +5,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import cn.fh.codeschool.model.CourseSection;
@@ -20,7 +21,12 @@ import cn.fh.codeschool.service.validation.Validator;
 public class ValidationService {
 	
 	@Autowired
+	@Qualifier("html")
 	private Validator htmlValidator;
+
+	@Autowired
+	@Qualifier("result")
+	private Validator resultValidator;
 	
 	@Autowired
 	private AccountService accountService;
@@ -41,7 +47,7 @@ public class ValidationService {
 	 * @param code 用户代码
 	 * @return 验证结果
 	 */
-	public boolean process(CourseSection cs, Member m, String code) {
+	public boolean process(CourseSection cs, Member m, String code, String lan) {
 		boolean result = false;
 		htmlValidator.setCode(code);
 		
@@ -50,7 +56,13 @@ public class ValidationService {
 		//CourseSection cs = courseBean.findSection();
 				
 		// 执行验证
-		result = htmlValidator.validate(cs.getRules());
+		if ("html".equals("lan")) {
+			result = htmlValidator.validate(cs.getRules());
+		} else if ("javascript".equals("lan")) {
+			result = resultValidator.validate(cs.getRules());
+		}
+		
+		
 		if (true == result ) {
 			if (false == isCurrentSectionHasFinished(cs, m)) {
 				// 将当前课程标记已经通过

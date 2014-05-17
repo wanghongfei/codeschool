@@ -19,6 +19,9 @@ public class ValidationRule {
 	@Id @GeneratedValue
 	private int id;
 	
+	@Column(name = "output")
+	private String output;
+	
 	@Column(name = "rule_type")
 	private String ruleType; // 规则类型. CONTAIN or ATTRIBUTE
 	
@@ -75,6 +78,16 @@ public class ValidationRule {
 	}
 	public void setAttrValue(String attrValue) {
 		this.attrValue = attrValue;
+	}
+
+
+	public String getOutput() {
+		return output;
+	}
+
+
+	public void setOutput(String output) {
+		this.output = output;
 	}
 	
 }

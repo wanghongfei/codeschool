@@ -203,6 +203,7 @@ public class BackstageController {
 		String tagName = (String)reqMap.get("tagName");
 		String attrName = (String)reqMap.get("attrName");
 		String attrValue = (String)reqMap.get("attrValue");
+		String output = (String)reqMap.get("output");
 		
 		ValidationRule valRule = new ValidationRule();
 		valRule.setRuleType(type.toString());
