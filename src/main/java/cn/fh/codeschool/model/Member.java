@@ -57,6 +57,7 @@ public class Member implements java.io.Serializable {
 	private Integer maxConsecution;
 	private Long rank;
 	
+	
 	// 注册时间
 	private Date registerDate;
 	
@@ -552,6 +553,7 @@ public class Member implements java.io.Serializable {
 	public void setPostbackList(List<Postback> postbackList) {
 		this.postbackList = postbackList;
 	}
+
 
 
 }

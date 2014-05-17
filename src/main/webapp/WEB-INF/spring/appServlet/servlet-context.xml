@@ -59,6 +59,11 @@
 		id="transactionManager">
 		<beans:property name="entityManagerFactory" ref="emf" />
 	</beans:bean>
+	
+	<!-- 文件上传 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+		<beans:property name="maxUploadSize" value="100000" />
+	</beans:bean>
 
 	<tx:annotation-driven />
 

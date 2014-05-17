@@ -29,6 +29,10 @@
 	height: 60px;
 }
 
+.float-to-left {
+	float: left;
+}
+
 .center {
 	margin-left: auto;
 	margin-right: auto;
@@ -69,9 +73,16 @@
 				</p>
 			</div>
 			<div class="col-sm-2">
-				<a href="/users" class="pull-right"><img title="profile image"
-					class="img-circle img-responsive"
-					src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a>
+				<div class="float-to-left">
+					<a href="/users" class="pull-right">
+						<img title="profile image" class="img-circle img-responsive" src="/codeschool/image.avatar?username=${ member.username }">
+					</a>
+				</div>
+				<form action="/codeschool/user/${ member.username }/uploadAvatar" enctype="multipart/form-data" method="post" class="float-to-left">
+					<input type="file" name="avatarFile" />
+					<input type="submit" value="上传新头像" class="btn btn-sm" />
+				</form>
+					
 			</div>
 		</div>
 		<div class="row">

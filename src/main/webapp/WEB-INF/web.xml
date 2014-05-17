@@ -11,6 +11,16 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
+	<!-- 图片servlet -->
+	<servlet>
+		<servlet-name>Image Servlet</servlet-name>
+		<servlet-class>cn.fh.codeschool.servlet.ImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Image Servlet</servlet-name>
+		<url-pattern>*.avatar</url-pattern>
+	</servlet-mapping>
+	
 	<!-- 安全 -->
 	<filter>
 		<filter-name>Secure Filter</filter-name>

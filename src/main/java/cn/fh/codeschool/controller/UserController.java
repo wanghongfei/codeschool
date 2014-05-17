@@ -1,5 +1,6 @@
 package cn.fh.codeschool.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.fh.codeschool.model.CourseProgressWrapper;
 import cn.fh.codeschool.model.Member;
@@ -44,6 +46,31 @@ public class UserController {
 		
 		return "/user/user-list";
 	}
+	
+	/**
+	 * 用户头像上传
+	 * @param avatarFile
+	 * @param username
+	 * @return
+	 */
+	@RequestMapping(value  ="/user/{username}/uploadAvatar", method = RequestMethod.POST)
+	public String upload(@RequestParam MultipartFile avatarFile, @PathVariable String username,
+			HttpServletRequest req) {
+		byte[] buf = null;
+		try {
+			buf = avatarFile.getBytes();
+			System.out.println("文件长度:" + buf.length);
+			
+			Member m = (Member)req.getSession(false).getAttribute("currentUser");
+			m.setAvatar(buf);
+			accountService.saveMember(m);
+			
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		return "redirect:/user/" + username + "/profile";
+	}
 
 
 	/**
@@ -52,7 +79,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/user/{username}/thumbUp", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-	public @ResponseBody String thumbbUp(@PathVariable String username) {
+	public @ResponseBody String thumbUp(@PathVariable String username) {
 		JsonObject json = null;
 		Integer thumbs = -1;
 		try {
