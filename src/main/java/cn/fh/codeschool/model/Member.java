@@ -67,6 +67,10 @@ public class Member implements java.io.Serializable {
 	private Member parent;
 	private List<Member> friendList = new ArrayList<Member>();
 	
+	// 发表的帖子
+	private List<Post> postList = new ArrayList<Post>();
+	private List<Postback> postbackList = new ArrayList<Postback>();
+	
 	// 最近活动
 	private List<RecentActivity> recentActivity = new ArrayList<RecentActivity>();
 	
@@ -529,6 +533,24 @@ public class Member implements java.io.Serializable {
 
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
+	}
+
+	@OneToMany(mappedBy = "author")
+	public List<Post> getPostList() {
+		return postList;
+	}
+
+	public void setPostList(List<Post> postList) {
+		this.postList = postList;
+	}
+
+	@OneToMany(mappedBy = "author")
+	public List<Postback> getPostbackList() {
+		return postbackList;
+	}
+
+	public void setPostbackList(List<Postback> postbackList) {
+		this.postbackList = postbackList;
 	}
 
 

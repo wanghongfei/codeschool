@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,6 +21,10 @@ import javax.persistence.Table;
 public class Postback {
 	@Id @GeneratedValue
 	private Long id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "author_id")
+	private Member author;
 	
 	@ManyToOne
 	@JoinColumn(name = "original_post_id")
@@ -61,5 +66,13 @@ public class Postback {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public Member getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Member author) {
+		this.author = author;
 	}
 }
