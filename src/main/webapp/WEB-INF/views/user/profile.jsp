@@ -78,10 +78,12 @@
 						<img title="profile image" class="img-circle img-responsive" src="/codeschool/image.avatar?username=${ member.username }">
 					</a>
 				</div>
-				<form action="/codeschool/user/${ member.username }/uploadAvatar" enctype="multipart/form-data" method="post" class="float-to-left">
-					<input type="file" name="avatarFile" />
-					<input type="submit" value="上传新头像" class="btn btn-sm" />
-				</form>
+				<c:if test="${ currentUser != null }">
+					<form action="/codeschool/user/${ member.username }/uploadAvatar" enctype="multipart/form-data" method="post" class="float-to-left">
+						<input type="file" name="avatarFile" />
+						<input type="submit" value="上传新头像" class="btn btn-sm" />
+					</form>
+				</c:if>
 					
 			</div>
 		</div>
