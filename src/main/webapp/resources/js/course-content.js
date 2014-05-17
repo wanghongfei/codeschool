@@ -67,7 +67,18 @@ $(".change-section-link").click(function(e) {
 	});
 });
 
+$(".code-javascript").click(function(e) {
+	e.preventDefault();
+	
+	var $elem = $("#result-preview").contents().find("body");
+	$elem.html("");
+	var code = editors[0].getValue();
+	eval(code);
+	
+});
+
 var editors = []; // 维护 editor 引用
+var lastLog = null;
 
 $(document).ready(function() {
 	var tabTitles = $("#myTab").children();
@@ -90,20 +101,24 @@ $(document).ready(function() {
 		editors.push(editor);
 	});
 	
-	// 设置代码编辑区样式
-
-/*	editor = ace.edit("editor1");
-	editor.setTheme("ace/theme/chrome");
-	editor.getSession().setMode("ace/mode/html");
-
-	editor2 = ace.edit("editor2");
-	editor2.setTheme("ace/theme/chrome");
-	editor2.getSession().setMode("ace/mode/html");
-
-	editor.setValue(initialCode);
-*/
 	// 每秒钟预览一下结果
-	setTimeout(updatePreview, 1000);
+	if ($("#submit-code").length)
+		setTimeout(updatePreview, 1000);
+	
+	// 替换console.log
+	console.oldLog = console.log;
+	console.log = function(str) {
+		//console.oldLog(str);
+		
+		var $elem = $("#result-preview").contents().find("body");
+		var previousValue = $elem.html();
+		
+		if ("" == previousValue) {
+			$elem.html(str);
+		} else {
+			$elem.html(previousValue + "<br />" + str);
+		}
+	}
 	
 });
 

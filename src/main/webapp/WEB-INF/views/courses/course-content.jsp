@@ -154,12 +154,10 @@
 					
 				<%-- 代码编辑区 tabs --%>
 				<ul class="nav nav-tabs" id="myTab">
-						<c:forEach items="${ languageList }" var="_l">
-							<li><a href="#tab-${ _l }" data-id="editor-${ _l }" data-lan="${ _l }" data-toggle="tab">${ _l }</a></li>
-						</c:forEach>
-<!-- 					<li class="active"><a href="#code-tab1" data-toggle="tab">HTML</a></li>
-						<li><a href="#code-tab2" data-toggle="tab">JavaScript</a></li>
- -->				</ul>
+					<c:forEach items="${ languageList }" var="_l">
+						<li><a href="#tab-${ _l }" data-id="editor-${ _l }" data-lan="${ _l }" data-toggle="tab">${ _l }</a></li>
+					</c:forEach>
+				</ul>
 				
 				
 				
@@ -172,25 +170,18 @@
 							<hr>
 						</div>
 					</c:forEach>
-<!-- 					<div class="tab-pane active" id="code-tab1">
-						<div class="table-responsive" >
- 							<pre id="editor1" class="code-editor"></pre>
-    	            	</div>
-						<hr>
-					</div>
-					<div class="tab-pane" id="code-tab2">
-						<div class="table-responsive" >
- 							<pre id="editor2" class="code-editor"></pre>
-     		           	</div>
-						<hr>
-					</div> -->
+
 				</div>
 
 
 				<!-- 用户登陆才能显示此按钮 -->
 				<c:if test="${ currentUser != null }">
-					<button class="btn btn-primary" style="float: left"
-						id="submit-code">提交</button>
+					<c:if test="${ languageList[0] == 'javascript' }">
+						<button class="btn btn-primary code-javascript" style="float: left" >提交</button>
+					</c:if>
+					<c:if test="${ languageList[0] == 'html' }">
+						<button class="btn btn-primary" style="float: left"	id="submit-code">提交</button>
+					</c:if>
 				</c:if>
 
 
