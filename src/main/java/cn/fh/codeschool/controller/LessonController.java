@@ -38,6 +38,8 @@ import cn.fh.codeschool.service.ValidationService;
 public class LessonController {
 	private static final Logger logger = LoggerFactory.getLogger(LessonController.class);
 	
+	private String languageName;
+	
 	@Autowired
 	private CourseService courseService;
 	
@@ -122,6 +124,8 @@ public class LessonController {
 	public @ResponseBody String validateCode(@RequestBody Map<String, Object> reqMap, HttpSession session) {
 		// 取出参数
 		String code = (String)reqMap.get("code");
+		String lan = (String)reqMap.get("language");
+		this.languageName = lan;
 		Object id = reqMap.get("sectionId");
 		
 		Integer sectionId = null;
@@ -136,12 +140,13 @@ public class LessonController {
 		
 		CourseSection cs = sectionService.findSection(sectionId);
 		logger.info("得到section : {}", cs.getSectionName());
-		boolean result = validationService.process(cs, m, code);
+		boolean result = validationService.process(cs, m, code, lan);
 		
 		// 得到反馈信息
 		String msg = validationService.getMessage();
 		
 		// 返回结果
+		System.out.println("验证结果：" + result + ", 反馈信息:" + msg);
 		JsonObject json = Json.createObjectBuilder()
 				.add("result", result) // 验证结果
 				.add("message", msg) // 反馈信息
@@ -164,5 +169,19 @@ public class LessonController {
 		model.addAttribute("course", c);
 		
 		return "/courses/course-list";
+	}
+	
+	
+	@RequestMapping(value = "/courses/code-preview")
+	public String showCodePreview() {
+		return "/courses/code-preview";
+	}
+
+	public String getLanguageName() {
+		return languageName;
+	}
+
+	public void setLanguageName(String languageName) {
+		this.languageName = languageName;
 	}
 }

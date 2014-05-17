@@ -5,12 +5,23 @@ $("#select-type").change(function() {
 	// 只显示标签输入框
 	if (type == "CONTAIN") {
 		$("#rule-contain").removeClass("hidden");
+
 		$("#rule-attr").addClass("hidden");
+		$("#rule-result").addClass("hidden");
 
 		// 显示标签输入框和属性输入框
 	} else if (type == "ATTRIBUTE") {
 		$("#rule-attr").removeClass("hidden");
 		$("#rule-contain").removeClass("hidden");
+
+		$("#rule-result").addClass("hidden");
+	
+		// 只显示结果输入框
+	} else if (type == "OUTPUT") {
+		$("#rule-result").removeClass("hidden");
+
+		$("#rule-attr").addClass("hidden");
+		$("#rule-contain").addClass("hidden");
 	}
 });
 
@@ -58,6 +69,7 @@ $("#form").submit(function(e) {
 		ruleType : $("#select-type option:selected").val(),
 		tagName : $("#tag-name").val(),
 		attrName : $("#attr-name").val(),
+		output : $("#input-result").val(),
 		attrValue : $("#attr-value").val()
 	};
 

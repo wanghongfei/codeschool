@@ -21,6 +21,7 @@ $("#submit-code").click(function(e) {
 	console.log("当前section id : " + currentSectionId);
 	var json = {
 		code : editors[0].getValue(),
+		language: "html",
 		sectionId : currentSectionId
 	};
 
@@ -62,18 +63,58 @@ $(".change-section-link").click(function(e) {
 			$("#section-name").html(data.name);
 			$("#section-content").html(data.content);
 			// currentSectionId = data.id;
-			editor.setValue(data.initialCode.replace(/\\n/g, "\n"));
+			editors[0].setValue(data.initialCode.replace(/\\n/g, "\n"));
 		}
 	});
 });
 
+/**
+ * JS 验证
+ */
 $(".code-javascript").click(function(e) {
 	e.preventDefault();
 	
+	
+	// 清空预览窗口原有输出
 	var $elem = $("#result-preview").contents().find("body");
 	$elem.html("");
+	
+	// 执行用户JS代码
+	var $msg = $("#msg");
 	var code = editors[0].getValue();
-	eval(code);
+	try {
+		eval(code);
+	} catch (error) {
+		$msg.html("语法错误:" + error);
+		return;
+	}
+
+	// 显示动态图片
+	var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+	$msg.empty();
+	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
+	
+	// 向服务器发送请求
+	var json = {
+		language: "javascript",
+		code: $elem.html(),
+		sectionId : currentSectionId
+	}
+	$.ajax({
+		url : "/codeschool/courses/start/submit-code",
+		type : "POST",
+		dataType : 'json',
+		contentType : 'application/json',
+		data : JSON.stringify(json),
+		success : function(data) {
+			// 清空信息并显示服务器返回数据
+			$msg.empty();
+			$msg.html(data.message);
+
+			// 更新页面用户信息
+			$("#user-point").html(data.point);
+		}
+	});
 	
 });
 

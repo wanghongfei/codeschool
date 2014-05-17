@@ -49,17 +49,20 @@ public class ValidationService {
 	 */
 	public boolean process(CourseSection cs, Member m, String code, String lan) {
 		boolean result = false;
-		htmlValidator.setCode(code);
 		
 		
 		// 得到当前小节实体
 		//CourseSection cs = courseBean.findSection();
 				
 		// 执行验证
-		if ("html".equals("lan")) {
+		if ("html".equals(lan)) {
+			htmlValidator.setCode(code);
 			result = htmlValidator.validate(cs.getRules());
-		} else if ("javascript".equals("lan")) {
+			this.message = htmlValidator.getResultMessage();
+		} else if ("javascript".equals(lan)) {
+			resultValidator.setCode(code);
 			result = resultValidator.validate(cs.getRules());
+			this.message = resultValidator.getResultMessage();
 		}
 		
 		
@@ -88,7 +91,6 @@ public class ValidationService {
 			}
 		}
 		
-		this.message = htmlValidator.getResultMessage();
 		return result;
 	}
 	
