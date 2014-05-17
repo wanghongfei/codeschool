@@ -44,6 +44,9 @@ public class CourseSection implements java.io.Serializable {
 	
 	private String initialCode; // 初始代码
 	
+	// 这个小节的所有post
+	private List<Post> postList;
+	
 	
 	/**
 	 * 验证规则即小节通过的条件
@@ -149,6 +152,15 @@ public class CourseSection implements java.io.Serializable {
 
 	public void setInitialCode(String initialCode) {
 		this.initialCode = initialCode;
+	}
+
+	@OneToMany(mappedBy = "section", fetch = FetchType.LAZY)
+	public List<Post> getPostList() {
+		return postList;
+	}
+
+	public void setPostList(List<Post> postList) {
+		this.postList = postList;
 	}
 
 
