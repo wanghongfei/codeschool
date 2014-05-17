@@ -22,6 +22,7 @@
 
 
 <link href='<c:url value="/resources/css/register.css" />' rel="stylesheet" />
+<link href='<c:url value="/resources/css/app.css" />' rel="stylesheet" />
 <link href='<c:url value="/resources/css/login.css" />' rel="stylesheet" />
 <style>
 .margin-elem {
@@ -204,7 +205,7 @@
 								<div class="col-xs-12 col-sm-6 col-md-6">
 									<div class="form-group">
 										<h4>用户名</h4>
-										<input type="text" name="username" id="first_name"
+										<input readonly="readonly" type="text" name="username" id="first_name"
 											class="form-control" placeholder="用户名" tabindex="1">
 									</div>
 								</div>

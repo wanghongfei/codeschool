@@ -21,6 +21,12 @@
 			<div>
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<form action="/codeschool/user/search" class="search-form">
+								<input type="text" name="username" class="form-control search-username" placeholder="用户搜索" />
+								<input type="submit" value="搜索" class="btn btn-sm search-btn" />
+							</form>
+						</li>
 						<li><a href="#about" class="nav-link">关于</a></li>
 						<li><a href="#sign-in" id="register-btn">登陆</a></li>
  						<li><button class="btn btn-warning btn-sm navbar-btn" onclick="redirect();">注册</button></li>

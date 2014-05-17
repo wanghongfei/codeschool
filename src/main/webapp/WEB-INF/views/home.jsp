@@ -15,6 +15,7 @@
 		<link href='<c:url value="/resources/css/AdminLTE.css" />' rel="stylesheet" />
         
         	
+		<link href='<c:url value="/resources/css/app.css" />' rel="stylesheet" />
 		<link href='<c:url value="/resources/css/login.css" />' rel="stylesheet" />
 	</head>
 	<body id="body">

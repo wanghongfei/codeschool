@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+.search-form {
+	width: 200px;
+	margin-top: 10px;
+}
+
+.search-username {
+	width: 130px;
+	height: 31px;
+	float: left;
+}
+
+.search-btn {
+	margin-left: 10px;
+}

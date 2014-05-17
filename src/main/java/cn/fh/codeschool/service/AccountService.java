@@ -29,6 +29,18 @@ public class AccountService {
 	private String message;
 	
 	/**
+	 * 根据用户名进行模糊查询,最多返回10个结果
+	 * @param username
+	 * @return
+	 */
+	public List<Member> findMembers(String username) {
+		return em.createQuery("select m from Member m where m.username like concat('%', :username, '%')", Member.class)
+				.setParameter("username", username)
+				.setMaxResults(10)
+				.getResultList();
+	}
+	
+	/**
 	 * 得到积分排行榜前 limit 名用户
 	 * @param limit
 	 * @return

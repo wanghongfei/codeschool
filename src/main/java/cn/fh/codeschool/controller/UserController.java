@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.fh.codeschool.model.CourseProgressWrapper;
@@ -35,6 +36,14 @@ public class UserController {
 	
 	@Autowired
 	private CourseService courseService;
+	
+	@RequestMapping(value = "/user/search", method = RequestMethod.GET)
+	public String searchUser(@RequestParam String username, Model model) {
+		List<Member> ms = accountService.findMembers(username);
+		model.addAttribute("memberList", ms);
+		
+		return "/user/user-list";
+	}
 
 
 	/**

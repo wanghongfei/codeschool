@@ -18,6 +18,7 @@
 		rel="stylesheet" />
 	
 	
+	<link href='<c:url value="/resources/css/app.css" />' rel="stylesheet" />
 	<link href='<c:url value="/resources/css/login.css" />' rel="stylesheet" />
 	<style>
 		.margin-elem {
