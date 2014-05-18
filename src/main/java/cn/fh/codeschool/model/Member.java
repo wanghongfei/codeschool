@@ -4,7 +4,9 @@ package cn.fh.codeschool.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -86,6 +88,15 @@ public class Member implements java.io.Serializable {
 	private Set<MemberAcquiredBadges> memberAcquiredBadgeses = new HashSet<MemberAcquiredBadges>(0);
 	
 	//private Set<CourseSection> finishedSections = new HashSet<CourseSection>(0);
+	
+	/**
+	 * 已经收到的消息
+	 */
+	private Queue<Message> receivedMessageQueue = new LinkedList<Message>();
+	/**
+	 * 待发送的消息
+	 */
+	private Queue<Message> preparedSendingMessageQueue = new LinkedList<Message>();
 
 	public Member() {
 		// 初始化 this.finishedSectionIdList成员
@@ -552,6 +563,25 @@ public class Member implements java.io.Serializable {
 
 	public void setPostbackList(List<Postback> postbackList) {
 		this.postbackList = postbackList;
+	}
+
+	@Transient
+	public Queue<Message> getReceivedMessageQueue() {
+		return receivedMessageQueue;
+	}
+
+	public void setReceivedMessageQueue(Queue<Message> receivedMessageQueue) {
+		this.receivedMessageQueue = receivedMessageQueue;
+	}
+
+	@Transient
+	public Queue<Message> getPreparedSendingMessageQueue() {
+		return preparedSendingMessageQueue;
+	}
+
+	public void setPreparedSendingMessageQueue(
+			Queue<Message> preparedSendingMessageQueue) {
+		this.preparedSendingMessageQueue = preparedSendingMessageQueue;
 	}
 
 

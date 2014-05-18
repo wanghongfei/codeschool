@@ -10,7 +10,7 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<!-- 图片servlet -->
 	<servlet>
 		<servlet-name>Image Servlet</servlet-name>
@@ -20,7 +20,7 @@
 		<servlet-name>Image Servlet</servlet-name>
 		<url-pattern>*.avatar</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- 安全 -->
 	<filter>
 		<filter-name>Secure Filter</filter-name>
@@ -28,9 +28,14 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>Secure Filter</filter-name> <!-- mandatory -->
-	  	<url-pattern>/*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
+	<!-- 存放所有已经登陆用户 -->
+	<listener>
+		<listener-class>cn.fh.codeschool.servlet.LoggedInUserCollection</listener-class>
+	</listener>
+
 	<!-- spring -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
