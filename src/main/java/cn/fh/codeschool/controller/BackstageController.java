@@ -242,6 +242,7 @@ public class BackstageController {
 		// 取出课程参数
 		Integer chapterId = Integer.valueOf((String)reqMap.get("chapterId"));
 		String sectionName = (String)reqMap.get("sectionName");
+		String sectionDescription = (String)reqMap.get("sectionDescription");
 		String sectionContent = (String)reqMap.get("sectionContent");
 		String code = (String)reqMap.get("initialCode");
 		
@@ -271,6 +272,7 @@ public class BackstageController {
 		// 持久化
 		CourseSection section = new CourseSection();
 		section.setSectionName(sectionName);
+		section.setSectionDescription(sectionDescription);
 		section.setCourseContent(sectionContent);
 		section.setInitialCode(code);
 		sectionService.saveSection(section, valRule, chapterId);
@@ -323,6 +325,7 @@ public class BackstageController {
 			jArray.add(Json.createObjectBuilder()
 					.add("id", section.getId())
 					.add("sectionName", section.getSectionName())
+					.add("sectionDescription", section.getSectionDescription())
 					.add("sectionContent", section.getCourseContent())
 					.add("initialCode", section.getInitialCode())
 					.build());

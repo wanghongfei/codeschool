@@ -38,6 +38,7 @@ public class CourseSection implements java.io.Serializable {
 
 	private Integer id;
 	private CourseChapter courseChapter;
+	private String sectionDescription;
 	private String courseContent;
 	private Integer finishedMemberAmount;
 	private String sectionName;
@@ -162,6 +163,16 @@ public class CourseSection implements java.io.Serializable {
 	public void setPostList(List<Post> postList) {
 		this.postList = postList;
 	}
+
+	@Column(name = "section_description")
+	public String getSectionDescription() {
+		return sectionDescription;
+	}
+
+	public void setSectionDescription(String sectionDescription) {
+		this.sectionDescription = sectionDescription;
+	}
+
 
 
 

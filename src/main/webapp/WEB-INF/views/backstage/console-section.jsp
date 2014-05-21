@@ -76,7 +76,7 @@
 		        		</div>
 		        		
 		        		<div>
-			        		<label for="select-chapter">choose chapter:</label>
+			        		<label for="select-chapter">选择章节:</label>
 			        		<select id="select-chapter">
 			        			<option value="-1" selected="selected">请选择</option>
 			        		</select>
@@ -84,9 +84,14 @@
 		        		
 		        		<!-- 小节名称 -->
 			        	<div>
-			        		<label for="section-name">section name：</label>
+			        		<label for="section-name">小节名称：</label>
 			        		<input type="text" name="sectionName" id="section-name" />
-			        		
+			        	</div>
+			        	
+			        	<%-- 小节简介 --%>
+			        	<div>
+			        		<label for="section-name">小节简介：</label>
+			        		<input type="text" name="sectionDescription" id="section-description" />
 			        	</div>
 			        	
 			        	<!-- 小节内容 -->  	

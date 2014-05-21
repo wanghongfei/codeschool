@@ -96,6 +96,12 @@
 			        		
 			        	</div>
 			        	
+			        	<%-- 小节简介 --%>
+			        	<div>
+			        		<label for="section-name">小节简介：</label>
+			        		<input type="text" name="sectionDescription" id="section-description" />
+			        	</div>
+			        	
 			        	<!-- 小节内容 -->  	
 			        	<div>
 			        		<label for="section-content">小节内容：</label>

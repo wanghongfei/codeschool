@@ -93,7 +93,7 @@
 										</td>
 										<td>
 											<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _s.id }' /><c:param name='courseId' value='${ param.courseId }' /></c:url>">
-												${ _s.courseContent }
+												${ _s.sectionDescription }
 											</a>
 											<p>已有 ${ _s.finishedMemberAmount } 人完成了该小节</p>
 										</td>									
