@@ -24,8 +24,10 @@ $(".chat-link").click(function(e) {
 // 发送消息
 $("#btn-send").click(function(e) {
 	e.preventDefault();
+	if ("" == $(".chat-user").html()) {
+		return;
+	}
 	
-	console.log("发送点击1");
 	
 	var json = {
 		message: $("#input-msg").val()
@@ -39,7 +41,9 @@ $("#btn-send").click(function(e) {
 		data : JSON.stringify(json),
 		success : function(data) {
 			if (true == data.result) {
-				$(".chat").append(createMessageElement("消息 " + $("#input-msg").val() + " 发送成功!", "我"));
+				$(".chat").append(createMessageElement("消息发送成功!", "我"));
+			} else {
+				$(".chat").append(createMessageElement("消息[" + $("#input-msg").val() + "]发送失败!", "我"));
 			}
 		}
 	});
@@ -56,10 +60,9 @@ function receiveMsg() {
 			if (true == data.result) {
 				$(".chat").append(createMessageElement(data.data[0].content, data.data[0].from));
 			}
-			console.log(data);
 		}
 	});
-	setTimeout(receiveMsg, 5000);
+	setTimeout(receiveMsg, 10000);
 }
 
 function createMessageElement(content, user) {

@@ -55,16 +55,16 @@
 				        <small>Control panel</small>
 				    </h1>
 				    <ol class="breadcrumb">
-				        <li><a href="#"><i class="fa fa-dashboard"></i> 添加小节</a></li>
+				        <li><a href="#"><i class="fa fa-dashboard"></i> 修改小节</a></li>
 				        <!-- <li class="active">Blank page</li> -->
 				    </ol>
 				</section>
 				
 				<!-- Main content -->
 		        <section class="content">
-		        	<h1>添加小节</h1>
+		        	<h1>修改小节</h1>
 		        	
-		        	<form id="form" action="<c:url value='/backstage/section/save' />" >
+		        	<form id="form" action="<c:url value='/backstage/section/update' />" >
 		        		<div>
 			        		<label for="select-course">选择课程:</label>
 			        		<select id="select-course">
@@ -76,8 +76,15 @@
 		        		</div>
 		        		
 		        		<div>
-			        		<label for="select-chapter">choose chapter:</label>
+			        		<label for="select-chapter">选择章节:</label>
 			        		<select id="select-chapter">
+			        			<option value="-1" selected="selected">请选择</option>
+			        		</select>
+		        		</div>
+
+		        		<div>
+			        		<label for="select-section">选择小节:</label>
+			        		<select id="select-section">
 			        			<option value="-1" selected="selected">请选择</option>
 			        		</select>
 		        		</div>
@@ -98,7 +105,6 @@
 			        	<!-- 初始代码 -->
 			        	<div>
 			        		<label for="section-code">初始代码：</label>
-			        		<!-- <textarea name="sectionContent" id="section-code" ></textarea> -->
 			        		<pre id="editor" class="code-editor"></pre>
 			        	</div>
 			        	
@@ -151,7 +157,7 @@
 		<script src='<c:url value="/resources/js/code-editor/ace.js" />'></script>
 		<script type="text/javascript">
 	    </script>
-		<script src="<c:url value='/resources/js/console-section.js' />"></script>
+		<script src="<c:url value='/resources/js/console-update-section.js' />"></script>
 
 	</body>
 

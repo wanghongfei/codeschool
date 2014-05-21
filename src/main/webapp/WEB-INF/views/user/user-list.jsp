@@ -73,6 +73,8 @@
 	<script src="<c:url value='/resources/js/jquery.knob.js' />"></script>
 	<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
 
+	<%@ include file="/WEB-INF/views/fragment/chat.jsp"%>
+
 	<script src="<c:url value='/resources/js/app.js' />"></script>
 	<script src="<c:url value='/resources/js/login.js' />"></script>
 	<script src="<c:url value='/resources/js/area.js' />"></script>
@@ -81,6 +83,7 @@
 		var username = "${ member.username }";
 	</script>
 	<script src="<c:url value='/resources/js/profile.js' />"></script>
+	<script src="<c:url value='/resources/js/chat.js' />"></script>
 
 </body>
 

@@ -123,8 +123,11 @@
 		<!-- AdminLTE App -->
 		<script src='<c:url value="/resources/js/AdminLTE/app.js" />'></script>
 
+		<%@ include file="/WEB-INF/views/fragment/chat.jsp" %>
+
 		<script src="<c:url value='/resources/js/app.js' />"></script>
 		<script src="<c:url value='/resources/js/login.js' />"></script>
+		<script src="<c:url value='/resources/js/chat.js' />"></script>
 		<script type="text/javascript">
 		    
 	    </script>

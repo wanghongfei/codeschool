@@ -21,13 +21,16 @@
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu">
 			<!-- <li class="active"> -->
-			<li><a href="<c:url value='/backstage/course' />"> <i class="fa fa-dashboard"></i> <span>添加课程</span>
+			<li><a href="<c:url value='/backstage/course' />"> <i
+					class="fa fa-dashboard"></i> <span>添加课程</span>
 			</a></li>
-			<li><a href="<c:url value='/backstage/chapter' />"> <i class="fa fa-th"></i> <span>添加章节</span> <small
+			<li><a href="<c:url value='/backstage/chapter' />"> <i
+					class="fa fa-th"></i> <span>添加章节</span> <small
 					class="badge pull-right bg-green">new</small>
 			</a></li>
-			<li><a href="<c:url value='/backstage/section' />"> <i class="fa fa-th"></i> <span>添加小节</span>
-					<small class="badge pull-right bg-green">new</small>
+			<li><a href="<c:url value='/backstage/section' />"> <i
+					class="fa fa-th"></i> <span>添加小节</span> <small
+					class="badge pull-right bg-green">new</small>
 			</a></li>
 			<li class="treeview"><a href="#"> <i
 					class="fa fa-bar-chart-o"></i> <span>添加小节</span> <i
@@ -41,6 +44,10 @@
 					<li><a href="pages/charts/inline.html"><i
 							class="fa fa-angle-double-right"></i> Inline charts</a></li>
 				</ul></li>
+			<li><a href="<c:url value='/backstage/updateSection' />"> <i
+					class="fa fa-th"></i> <span>修改小节</span> <small
+					class="badge pull-right bg-green">new</small>
+			</a></li>
 
 		</ul>
 	</section>

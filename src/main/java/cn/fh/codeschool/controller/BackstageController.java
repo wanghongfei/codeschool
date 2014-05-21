@@ -185,6 +185,53 @@ public class BackstageController {
 	}
 	
 	/**
+	 * 显示修改小节页面
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/backstage/updateSection")
+	public String updateSection(Model model) {
+		List<Course> courses = courseService.courseList();
+		model.addAttribute("courseList", courses);
+		
+		// 遍历所有 RuleType Enum类型，封装成List对象
+		List<String> types = new ArrayList<String>();
+		for (RuleType t : RuleType.values()) {
+			types.add(t.toString());
+		}
+		model.addAttribute("ruleTypeList", types);
+
+		return "/backstage/console-update-section";
+	}
+	
+	/**
+	 * 响应更新小节的表单提交请求.
+	 * @param reqMap
+	 * @return
+	 */
+	@RequestMapping(value  ="/backstage/section/update", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String updateSection(@RequestBody Map<String, Object> reqMap) {
+		Integer sectionId = Integer.valueOf((String)reqMap.get("sectionId"));
+		String name = (String)reqMap.get("sectionName");
+		String content = (String)reqMap.get("sectionContent");
+		String initialCode = (String)reqMap.get("initialCode");
+		
+		CourseSection cs = sectionService.findSection(sectionId);
+		cs.setSectionName(name);
+		cs.setCourseContent(content);
+		cs.setInitialCode(initialCode);
+		
+		sectionService.updateSection(cs);
+		
+		JsonObject json = Json.createObjectBuilder()
+				.add("result", true)
+				.add("message", "更新 " + name + " 成功")
+				.build();
+		
+		return json.toString();
+	}
+	
+	/**
 	 * 响应保存小节的表单提交请求.
 	 * @param reqMap
 	 * @return
@@ -251,6 +298,33 @@ public class BackstageController {
 			jArray.add(Json.createObjectBuilder()
 					.add("id", cc.getId())
 					.add("chapterName", cc.getChapterName())
+					.build());
+		}
+
+		return jArray.build().toString();
+	}
+
+	/**
+	 * 用户选择章节后，显示该章节的所有小节
+	 * @param reqMap
+	 * @return
+	 */
+	@RequestMapping(value = "/backstage/section/fetchSection", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String refreshSection(@RequestBody Map<String, Object> reqMap) {
+		Integer chapterId = Integer.valueOf((String)reqMap.get("chapterId"));
+		System.out.println("章节id：" + chapterId);
+		
+		JsonArrayBuilder jArray = Json.createArrayBuilder();
+		
+		List<CourseSection> sections = sectionService.sectionList(chapterId);
+		System.out.println("小节：" + sections);
+		//List<CourseChapter> chapters = chapterService.chapterList(courseId);
+		for (CourseSection section : sections) {
+			jArray.add(Json.createObjectBuilder()
+					.add("id", section.getId())
+					.add("sectionName", section.getSectionName())
+					.add("sectionContent", section.getCourseContent())
+					.add("initialCode", section.getInitialCode())
 					.build());
 		}
 

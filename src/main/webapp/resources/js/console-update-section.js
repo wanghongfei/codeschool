@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 // 为选择验证类型绑定事件
 // 根据不同的类型显示不同的元素
 $("#select-type").change(function() {
@@ -25,7 +28,54 @@ $("#select-type").change(function() {
 	}
 });
 
-// 为 select 绑定事件
+var sections = null; // 保存服务返回的章节的所有小节数据
+$("#select-chapter").change(
+		function() {
+			var json = {
+				chapterId : $("#select-chapter option:selected").val()
+			};
+
+			$.ajax({
+				url : "/codeschool/backstage/section/fetchSection",
+				type : "POST",
+				dataType : "json",
+				contentType : "application/json",
+				data : JSON.stringify(json),
+				success : function(data) {
+					sections = data;
+					console.log(data);
+
+					// 清空小节列表原有内容
+					$("#select-section").empty();
+
+					// 添加新 option
+					$("#select-section").append($('<option value="-1" selected="selected">请选择</option>"'));
+					for (var ix = 0; ix < data.length; ++ix) {
+						var section = data[ix];
+						var $newOption = $("<option value='" + section.id
+								+ "'>" + section.sectionName + "</option>");
+						$("#select-section").append($newOption);
+					}
+				}
+			});
+		});
+
+$("#select-section").change(function() {
+	var selectedId = $("#select-section option:selected").val();
+	var selectSection = null;
+	$.each(sections, function(ix, obj) {
+		if (obj.id == selectedId) {
+			selectedSection = obj;
+			return false;
+		}
+	});
+	
+	// 更新表单域
+	$("#section-name").val(selectedSection.sectionName);
+	$("#section-content").val(selectedSection.sectionContent);
+	editor.setValue(selectedSection.initialCode);
+});
+
 $("#select-course").change(
 		function() {
 			var json = {
@@ -45,6 +95,7 @@ $("#select-course").change(
 					$("#select-chapter").empty();
 
 					// 添加新 option
+					$("#select-chapter").append($('<option value="-1" selected="selected">请选择</option>"'));
 					for (var ix = 0; ix < data.length; ++ix) {
 						var chapter = data[ix];
 						var $newOption = $("<option value='" + chapter.id
@@ -59,11 +110,9 @@ $("#form").submit(function(e) {
 	e.preventDefault();
 
 	var json = {
-		courseId : $("#select-course option:selected").val(),
-		chapterId : $("#select-chapter option:selected").val(),
+		sectionId : $("#select-section option:selected").val(),
 		sectionName : $("#section-name").val(),
 		sectionContent : $("#section-content").val(),
-		//initialCode : $("#section-code").val(),
 		initialCode : editor.getValue(),
 
 		// 验证规则内容

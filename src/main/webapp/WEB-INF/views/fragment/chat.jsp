@@ -13,7 +13,7 @@
 					class="btn btn-default btn-xs dropdown-toggle toggle-show">
 					<span class="glyphicon glyphicon-chevron-down"></span>
 				</button>
-				<ul class="dropdown-menu slidedown">
+				<%--<ul class="dropdown-menu slidedown">
 					<li><a href="http://www.jquery2dotnet.com"><span
 							class="glyphicon glyphicon-refresh"> </span>Refresh</a></li>
 					<li><a href="http://www.jquery2dotnet.com"><span
@@ -25,12 +25,12 @@
 					<li class="divider"></li>
 					<li><a href="http://www.jquery2dotnet.com"><span
 							class="glyphicon glyphicon-off"></span> Sign Out</a></li>
-				</ul>
+				</ul> --%>
 			</div>
 		</div>
 		<div class="panel-body chat-body hidden">
 			<ul class="chat">
-				<!-- <li class="left clearfix"><span class="chat-img pull-left">
+				<%--  <li class="left clearfix"><span class="chat-img pull-left">
                             <img src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle">
                         </span>
                             <div class="chat-body clearfix">
@@ -43,7 +43,7 @@
                                     dolor, quis ullamcorper ligula sodales.
                                 </p>
                             </div>
-                        </li> -->
+                        </li> --%>
 			</ul>
 		</div>
 
@@ -60,7 +60,7 @@
 
 	<script>
 		$(document).ready(function() {
-			setTimeout(receiveMsg, 3000);
+			setTimeout(receiveMsg, 10000);
 		});
 	</script>
 </c:if>

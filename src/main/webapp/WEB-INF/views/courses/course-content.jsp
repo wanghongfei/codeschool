@@ -244,6 +244,8 @@
 	<script src='<c:url value="/resources/js/bootstrap.min.js" />'></script>
 	<script src='<c:url value="/resources/js/AdminLTE/app.js" />'></script>
 
+	<%@ include file="/WEB-INF/views/fragment/chat.jsp" %>	
+
 	<script src='<c:url value="/resources/js/code-editor/ace.js" />'></script>
 
 	<script src="<c:url value='/resources/js/app.js' />"></script>
@@ -253,6 +255,7 @@
 		var initialCode = "${ section.initialCode }";
 	</script>
 	<script src="<c:url value='/resources/js/course-content.js' />"></script>
+	<script src="<c:url value='/resources/js/chat.js' />"></script>
 
 
 </body>

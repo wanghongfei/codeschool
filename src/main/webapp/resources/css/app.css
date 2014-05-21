@@ -18,7 +18,14 @@
 .chat-dialog {
 	position: fixed;
 	width: 400px;
-	
 	bottom: 1px;
 	right: 1px;
+}
+
+.chat .chat-friend-list {
+	float: left;
+}
+
+.code-editor {
+	height: 600px;
 }
