@@ -78,6 +78,9 @@
 		<script src="<c:url value='/resources/js/app.js' />"></script>
 		<script src="<c:url value='/resources/js/login.js' />"></script>
 		<script src="<c:url value='/resources/js/home.js' />"></script>
+		<script src="<c:url value='/resources/js/chat.js' />"></script>
+		
+		<%@ include file="/WEB-INF/views/fragment/chat.jsp" %>		
 
 	</body>
 
