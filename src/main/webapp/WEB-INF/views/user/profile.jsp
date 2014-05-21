@@ -106,7 +106,8 @@
 					</div>
 					<div class="panel-body">
 						<c:forEach items="${ member.friendList }" var="_f">
-							<a href="/codeschool/user/${ _f.username }/profile">${ _f.username }</a>
+							<a href="/codeschool/user/${ _f.username }/profile">${ _f.username } </a>
+							<a class="chat-link" data-user="${ _f.username }" href="/codeschool/chat/send/${ _f.username }">跟TA聊天</a>
 						</c:forEach>
 					</div>
 				</div>
@@ -346,6 +347,8 @@
 	<script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
 	<script src="<c:url value='/resources/js/jquery.knob.js' />"></script>
 	<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
+	
+	<%@ include file="/WEB-INF/views/fragment/chat.jsp" %>
 
 	<script src="<c:url value='/resources/js/app.js' />"></script>
 	<script src="<c:url value='/resources/js/login.js' />"></script>
@@ -355,6 +358,8 @@
 		var username = "${ member.username }";
 	</script>
 	<script src="<c:url value='/resources/js/profile.js' />"></script>
+	<script src="<c:url value='/resources/js/chat.js' />"></script>
+
 
 </body>
 

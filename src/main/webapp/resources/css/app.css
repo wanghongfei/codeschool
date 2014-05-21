@@ -14,3 +14,11 @@
 .search-btn {
 	margin-left: 10px;
 }
+
+.chat-dialog {
+	position: fixed;
+	width: 400px;
+	
+	bottom: 1px;
+	right: 1px;
+}
