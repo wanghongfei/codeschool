@@ -72,6 +72,7 @@ $("#select-section").change(function() {
 	
 	// 更新表单域
 	$("#section-name").val(selectedSection.sectionName);
+	$("#section-description").val(selectedSection.sectionDescription);
 	$("#section-content").val(selectedSection.sectionContent);
 	editor.setValue(selectedSection.initialCode);
 });
@@ -112,6 +113,7 @@ $("#form").submit(function(e) {
 	var json = {
 		sectionId : $("#select-section option:selected").val(),
 		sectionName : $("#section-name").val(),
+		sectionDescription : $("#section-description").val(),
 		sectionContent : $("#section-content").val(),
 		initialCode : editor.getValue(),
 
@@ -122,6 +124,13 @@ $("#form").submit(function(e) {
 		output : $("#input-result").val(),
 		attrValue : $("#attr-value").val()
 	};
+	
+	var $msg = $("#error-msg");
+
+	// 显示动态图片
+	var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+	$msg.empty();
+	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
 
 	$.ajax({
 		url : $("#form").attr("action"),
@@ -130,10 +139,9 @@ $("#form").submit(function(e) {
 		contentType : "application/json",
 		data : JSON.stringify(json),
 		success : function(data) {
-			var msg = $("#error-msg");
 
-			msg.html(data.message);
-			msg.removeClass("hidden").addClass("error-msg");
+			$msg.html(data.message);
+			$msg.removeClass("hidden").addClass("error-msg");
 
 			// 清空表单
 			if (true == data.result) {

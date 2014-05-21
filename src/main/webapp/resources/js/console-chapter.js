@@ -7,8 +7,12 @@ $(document).ready(function() {
 			chapterName : $("#chapter-name").val()
 		};
 
-		var url = $(this).attr("action");
-		console.log("url : " + url);
+		var $msg = $("#error-msg");
+
+		// 显示动态图片
+		var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+		$msg.empty();
+		$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
 
 		$.ajax({
 			url : $("#form").attr("action"),
@@ -17,10 +21,9 @@ $(document).ready(function() {
 			contentType : 'application/json',
 			data : JSON.stringify(json),
 			success : function(data) {
-				var msg = $("#error-msg");
 
-				msg.html(data.message);
-				msg.removeClass("hidden").addClass("error-msg");
+				$msg.html(data.message);
+				$msg.removeClass("hidden").addClass("error-msg");
 
 				// 清空表单
 				if (true == data.result) {
