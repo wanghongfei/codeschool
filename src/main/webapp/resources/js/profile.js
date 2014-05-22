@@ -6,6 +6,8 @@ $(document).ready(function() {
 		yearRange: '1940:2014',
 		dateFormat: 'yy-mm-dd'
 	});
+	
+	$(".tip").tooltip();
 });
 
 // 点赞

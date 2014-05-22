@@ -6,7 +6,6 @@ $(".toggle-show").click(function(e) {
 	e.preventDefault();
 	
 	var $body = $(".chat-body");
-	console.log("点击" + $body);
 	if ($body.hasClass("hidden")) {
 		$body.removeClass("hidden");
 	} else {
@@ -19,6 +18,12 @@ $(".chat-link").click(function(e) {
 	e.preventDefault();
 	
 	$(".chat-user").html($(".chat-link").attr("data-user"));
+	var $body = $(".chat-body");
+	if ($body.hasClass("hidden")) {
+		$body.removeClass("hidden");
+	} else {
+		$body.addClass("hidden");
+	}
 });
 
 // 发送消息

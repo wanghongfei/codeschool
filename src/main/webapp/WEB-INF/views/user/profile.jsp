@@ -19,6 +19,8 @@
 
 <link href='<c:url value="/resources/css/AdminLTE.css" />'
 	rel="stylesheet" />
+<link href='<c:url value="/resources/css/font-awesome.min.css" />'
+	rel="stylesheet" />
 <link
 	href='<c:url value="/resources/css/jquery-ui-1.10.4.custom.min.css" />'
 	rel="stylesheet" />
@@ -60,12 +62,10 @@
 		<div class="row">
 			<div class="col-sm-10">
 				<%-- 显示用户名 --%>
-				<h1>${ member.username}</h1>
+				<span class="header">${ member.username}</span>
 				<%-- 添加好友功能登陆可用 --%>
 				<c:if test="${ !isFriend && currentUser != null }">
-					<p>
-						<a href="/codeschool/user/${ member.username }/addFriend">添加好友</a>
-					</p>
+					<a href="/codeschool/user/${ member.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
 				</c:if>
 				<c:if test="${ isFriend }">
 					<p>TA是我的好友</p>
@@ -114,8 +114,8 @@
 						<c:forEach items="${ member.friendList }" var="_f">
 							<a href="/codeschool/user/${ _f.username }/profile">${ _f.username }
 							</a>
-							<a class="chat-link" data-user="${ _f.username }"
-								href="/codeschool/chat/send/${ _f.username }">跟TA聊天</a>
+							<a class="chat-link tip" data-user="${ _f.username }"
+								href="/codeschool/chat/send/${ _f.username }" title="跟TA聊天"><i class="fa fa-fw fa-comments-o"></i></a>
 						</c:forEach>
 					</div>
 				</div>
@@ -127,9 +127,9 @@
 					</li>
 
 					<c:forEach items="${ rankList }" var="_r">
-						<li class="list-group-item text-right"><span
-							class="pull-left"> <strong><a
-									href="/codeschool/user/${ _r.username }/profile">${ _r.username }</a></strong>
+						<li class="list-group-item text-right">
+							<span class="pull-left"> <strong><a	href="/codeschool/user/${ _r.username }/profile">${ _r.username }</a></strong>
+							<a href="/codeschool/user/${ member.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
 						</span> ${ _r.point }</li>
 					</c:forEach>
 
