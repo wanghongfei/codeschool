@@ -20,6 +20,7 @@
 	width: 400px;
 	bottom: 1px;
 	right: 1px;
+	
 }
 
 .chat .chat-friend-list {
@@ -27,7 +28,7 @@
 }
 
 .code-editor {
-	height: 600px;
+	height: 559px;
 }
 
 .margin-top-20 {

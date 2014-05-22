@@ -68,9 +68,6 @@
 			color: white;
 		}
 		
-		.code-editor {
-			height: 600px;
-		}
 		
 		.float-left {
 			float: left;
@@ -167,7 +164,6 @@
 							<div class="table-responsive" >
  								<pre id="editor-${ _l }" class="code-editor"></pre>
     	    	        	</div>
-							<hr>
 						</div>
 					</c:forEach>
 

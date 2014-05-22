@@ -4,7 +4,7 @@
 
 
 <c:if test="${ currentUser != null }">
-	<div class="panel panel-primary chat-dialog">
+	<div class="panel panel-primary chat-dialog" style="margin-bottom: 0px;">
 		<div class="panel-heading">
 			<span class="glyphicon glyphicon-comment"></span> 在线聊天: &nbsp;<span
 				class="chat-user"></span>
