@@ -43,7 +43,7 @@ $("#btn-send").click(function(e) {
 			if (true == data.result) {
 				$(".chat").append(createMessageElement("消息发送成功!", "我"));
 			} else {
-				$(".chat").append(createMessageElement("消息[" + $("#input-msg").val() + "]发送失败!", "我"));
+				$(".chat").append(createMessageElement("消息[" + $("#input-msg").val() + "]发送失败!原因：用户不在线", "我"));
 			}
 		}
 	});

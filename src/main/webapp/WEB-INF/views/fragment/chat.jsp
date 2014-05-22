@@ -7,7 +7,7 @@
 	<div class="panel panel-primary chat-dialog" style="margin-bottom: 0px;">
 		<div class="panel-heading">
 			<span class="glyphicon glyphicon-comment"></span> 在线聊天: &nbsp;<span
-				class="chat-user"></span>
+				class="chat-user">未选择聊天对象</span>
 			<div class="btn-group pull-right">
 				<button type="button"
 					class="btn btn-default btn-xs dropdown-toggle toggle-show">

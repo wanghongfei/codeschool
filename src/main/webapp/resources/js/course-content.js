@@ -18,7 +18,6 @@ $("#submit-code").click(function(e) {
 	$msg.empty();
 	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
 
-	console.log("当前section id : " + currentSectionId);
 	var json = {
 		code : editors[0].getValue(),
 		language: "html",
@@ -38,8 +37,6 @@ $("#submit-code").click(function(e) {
 
 			// 更新页面用户信息
 			$("#user-point").html(data.point);
-
-			console.log(data);
 		}
 	});
 });
