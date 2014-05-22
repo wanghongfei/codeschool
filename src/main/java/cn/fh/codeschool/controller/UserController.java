@@ -2,6 +2,8 @@ package cn.fh.codeschool.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.json.Json;
@@ -102,6 +104,51 @@ public class UserController {
 				.build();
 		
 		return json.toString();
+	}
+	
+	/**
+	 * 更新用户个人信息
+	 * @param username
+	 * @param nickName
+	 * @param email
+	 * @param birthday
+	 * @param qq
+	 * @param session
+	 * @return 重新显示profile页面
+	 */
+	@RequestMapping(value = "/user/{username}/update", method = RequestMethod.POST)
+	public String updateProfile(@PathVariable String username, @RequestParam String nickName,
+								@RequestParam String email, @RequestParam String birthday,
+								@RequestParam String qq, HttpSession session) {
+		
+		Member m =  (Member)session.getAttribute("currentUser");
+		m.setNickName(nickName);
+		m.setEmailAddress(email);
+		m.setBirthday(splitDate(birthday));
+		m.setQqNumber(qq);
+		accountService.saveMember(m);
+		
+		return "redirect:/user/" + username + "/profile";
+	}
+	
+	/**
+	 * 将 yy-mm-dd 格式的string转换成Date对象
+	 * @param dateStr
+	 * @return
+	 */
+	private Date splitDate(String dateStr) {
+		if ("".equals(dateStr)) {
+			return null;
+		}
+
+		String[] parts = null;
+		Calendar cal = null;
+
+		cal = Calendar.getInstance();
+		parts = dateStr.split("-");
+		cal.set(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+		
+		return cal.getTime();
 	}
 	
 	/**

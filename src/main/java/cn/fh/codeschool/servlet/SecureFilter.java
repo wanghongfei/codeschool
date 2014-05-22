@@ -26,6 +26,9 @@ public class SecureFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
+		
+		// 防止中文乱码
+		request.setCharacterEncoding("UTF-8");
 
 		HttpServletRequest req = (HttpServletRequest)request;
 		String path = req.getRequestURI();

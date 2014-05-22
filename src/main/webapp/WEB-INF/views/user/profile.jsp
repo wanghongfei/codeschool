@@ -1,5 +1,8 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
 <%@ page session="true"%>
 
 <!DOCTYPE html>
@@ -21,7 +24,8 @@
 	rel="stylesheet" />
 
 
-<link href='<c:url value="/resources/css/register.css" />' rel="stylesheet" />
+<link href='<c:url value="/resources/css/register.css" />'
+	rel="stylesheet" />
 <link href='<c:url value="/resources/css/app.css" />' rel="stylesheet" />
 <link href='<c:url value="/resources/css/login.css" />' rel="stylesheet" />
 <style>
@@ -74,17 +78,19 @@
 			</div>
 			<div class="col-sm-2">
 				<div class="float-to-left">
-					<a href="/users" class="pull-right">
-						<img title="profile image" class="img-circle img-responsive" src="/codeschool/image.avatar?username=${ member.username }">
+					<a href="/users" class="pull-right"> <img title="profile image"
+						class="img-circle img-responsive"
+						src="/codeschool/image.avatar?username=${ member.username }">
 					</a>
 				</div>
 				<c:if test="${ currentUser != null }">
-					<form action="/codeschool/user/${ member.username }/uploadAvatar" enctype="multipart/form-data" method="post" class="float-to-left">
-						<input type="file" name="avatarFile" />
-						<input type="submit" value="上传新头像" class="btn btn-sm" />
+					<form action="/codeschool/user/${ member.username }/uploadAvatar"
+						enctype="multipart/form-data" method="post" class="float-to-left">
+						<input type="file" name="avatarFile" /> <input type="submit"
+							value="上传新头像" class="btn btn-sm" />
 					</form>
 				</c:if>
-					
+
 			</div>
 		</div>
 		<div class="row">
@@ -106,8 +112,10 @@
 					</div>
 					<div class="panel-body">
 						<c:forEach items="${ member.friendList }" var="_f">
-							<a href="/codeschool/user/${ _f.username }/profile">${ _f.username } </a>
-							<a class="chat-link" data-user="${ _f.username }" href="/codeschool/chat/send/${ _f.username }">跟TA聊天</a>
+							<a href="/codeschool/user/${ _f.username }/profile">${ _f.username }
+							</a>
+							<a class="chat-link" data-user="${ _f.username }"
+								href="/codeschool/chat/send/${ _f.username }">跟TA聊天</a>
 						</c:forEach>
 					</div>
 				</div>
@@ -212,22 +220,32 @@
 
 					<%-- 个人资料 --%>
 					<div class="tab-pane" id="profile">
-						<form role="form" action="<c:url value='/register' />"
-							method="post">
+						<form role="form"
+							action="/codeschool/user/${ member.username }/update"
+							method="post" accept-charset="UTF-8">
 							<hr class="colorgraph">
 							<div class="row">
 								<div class="col-xs-12 col-sm-6 col-md-6">
 									<div class="form-group">
 										<h4>用户名</h4>
-										<input readonly="readonly" type="text" name="username" id="first_name"
-											class="form-control" placeholder="用户名" tabindex="1">
+										<input readonly="readonly" type="text" name="username"
+											id="first_name" class="form-control"
+											value="${ member.username }" placeholder="用户名" tabindex="1">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-6 col-md-6">
 									<div class="form-group">
 										<h4>昵称</h4>
-										<input type="text" name="nickname" id="last_name"
-											class="form-control" placeholder="昵称" tabindex="2">
+										<c:if test="${ currentUser != null && currentUser.username == member.username }">
+											<input type="text" name="nickName" id="last_name"
+												class="form-control" value="${ member.nickName }"
+												placeholder="昵称" tabindex="2">
+										</c:if>
+										<c:if test="${ currentUser == null || currentUser.username != member.username }">
+											<input type="text" name="nickName" id="last_name"
+												class="form-control" readonly="readonly"
+												value="${ member.nickName }" placeholder="昵称" tabindex="2">
+										</c:if>
 									</div>
 								</div>
 							</div>
@@ -236,15 +254,33 @@
 								<div class="col-xs-12 col-sm-6 col-md-6">
 									<div class="form-group">
 										<h4>邮箱</h4>
-										<input type="email" name="email" id="email"
-											class="form-control" placeholder="邮箱" tabindex="4">
+										<c:if test="${ currentUser != null && currentUser.username == member.username }">
+											<input type="email" name="email" id="email"
+												class="form-control" value="${ member.emailAddress }"
+												placeholder="邮箱" tabindex="4">
+										</c:if>
+										<c:if test="${ currentUser == null || currentUser.username != member.username }">
+											<input type="email" name="email" id="email"
+												class="form-control" readonly="readonly"
+												value="${ member.emailAddress }" placeholder="邮箱"
+												tabindex="4">
+										</c:if>
+
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-6 col-md-6">
 									<div class="form-group">
 										<h4>生日</h4>
-										<input type="text" name="email" id="birthday"
-											class="form-control date" placeholder="生日" tabindex="4">
+										<c:if test="${ currentUser != null && currentUser.username == member.username }">
+											<input type="text" name="birthday" id="birthday"
+												class="form-control date" value="${ member.birthday }"
+												placeholder="生日" tabindex="4">
+										</c:if>
+										<c:if test="${ currentUser == null || currentUser.username != member.username }">
+											<input type="text" name="birthday" id="birthday"
+												class="form-control" readonly="readonly"
+												value="${ member.birthday }" placeholder="生日" tabindex="4">
+										</c:if>
 									</div>
 								</div>
 							</div>
@@ -253,27 +289,36 @@
 								<div class="col-xs-12 col-sm-6 col-md-6">
 									<div class="form-group">
 										<h4>QQ</h4>
-										<input type="text" name="password" id="password"
-											class="form-control" placeholder="QQ" tabindex="5">
+										<c:if test="${ currentUser != null && currentUser.username == member.username }">
+											<input type="text" name="qq" id="qq" class="form-control"
+												value="${ member.qqNumber }" placeholder="QQ" tabindex="5">
+										</c:if>
+										<c:if test="${ currentUser == null || currentUser.username != member.username }">
+											<input type="text" name="qq" id="qq" class="form-control"
+												value="${ member.qqNumber }" readonly="readonly"
+												placeholder="QQ" tabindex="5">
+										</c:if>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-6 col-md-6">
 									<div class="form-group">
 										<h4>地区</h4>
-										<div class="select-city"><input type="text" id="select-city" /></div>
+										<div class="select-city">
+											<input type="text" id="select-city" />
+										</div>
 									</div>
 								</div>
 							</div>
 
 							<hr class="colorgraph">
-							<div class="row">
-								<div class="col-xs-12 col-md-1">
-									<input type="submit" value="注册" class="btn btn-primary btn-block btn-sm" tabindex="7">
+							<c:if test="${ currentUser != null }">
+								<div class="row">
+									<div class="col-xs-12 col-md-1">
+										<input type="submit" value="保存"
+											class="btn btn-primary btn-block btn-sm" tabindex="7">
+									</div>
 								</div>
-								<div class="col-xs-12 col-md-1">
-									<a href="#" class="btn btn-success btn-block btn-sm">登陆</a>
-								</div>
-							</div>
+							</c:if>
 						</form>
 					</div>
 
@@ -286,7 +331,7 @@
 			<%-- 好友动态 --%>
 			<div class="col-sm-9">
 				<%-- 选项卡标题 --%>
-				<ul class="nav nav-tabs" id="activities-tab">
+				<ul class="nav nav-tabs margin-top-20" id="activities-tab">
 					<li class="active"><a href="#friends-activities"
 						data-toggle="tab">好友动态</a></li>
 					<li><a href="#my-activities" data-toggle="tab">我的动态</a></li>
@@ -343,12 +388,13 @@
 
 
 	<script src="<c:url value='/resources/js/jquery-1.9.1.js' />"></script>
-	<script src="<c:url value='/resources/js/jquery-ui-1.10.4.custom.min.js' />"></script>
+	<script
+		src="<c:url value='/resources/js/jquery-ui-1.10.4.custom.min.js' />"></script>
 	<script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
 	<script src="<c:url value='/resources/js/jquery.knob.js' />"></script>
 	<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
-	
-	<%@ include file="/WEB-INF/views/fragment/chat.jsp" %>
+
+	<%@ include file="/WEB-INF/views/fragment/chat.jsp"%>
 
 	<script src="<c:url value='/resources/js/app.js' />"></script>
 	<script src="<c:url value='/resources/js/login.js' />"></script>
