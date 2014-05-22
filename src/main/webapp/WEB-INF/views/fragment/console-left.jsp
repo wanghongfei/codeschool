@@ -48,6 +48,10 @@
 					class="fa fa-th"></i> <span>修改小节</span> <small
 					class="badge pull-right bg-green">new</small>
 			</a></li>
+			<li><a href="<c:url value='/backstage/statistics' />"> <i
+					class="fa fa-th"></i> <span>统计信息</span> <small
+					class="badge pull-right bg-green">new</small>
+			</a></li>
 
 		</ul>
 	</section>

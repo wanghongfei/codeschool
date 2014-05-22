@@ -83,7 +83,7 @@
 						src="/codeschool/image.avatar?username=${ member.username }">
 					</a>
 				</div>
-				<c:if test="${ currentUser != null }">
+				<c:if test="${ currentUser != null && currentUser.username == member.username }">
 					<form action="/codeschool/user/${ member.username }/uploadAvatar"
 						enctype="multipart/form-data" method="post" class="float-to-left">
 						<input type="file" name="avatarFile" /> <input type="submit"
@@ -97,12 +97,32 @@
 			<div class="col-sm-3">
 				<!--left col-->
 
-				<ul class="list-group">
+				<ul class="list-group profile-list">
 					<li class="list-group-item text-muted">个人资料</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>注册时间</strong></span>
-						${ member.registerDate }</li>
-					<li class="list-group-item text-right"><span class="pull-left"><strong>积分排名</strong></span>
-						第${ member.rank }名</li>
+					<li class="list-group-item text-right">
+						<span class="pull-left"><strong>注册时间</strong></span>
+						${ member.registerDate }
+					</li>
+					<li class="list-group-item text-right">
+						<span class="pull-left"><strong>生日</strong></span>
+						${ member.birthday }
+					</li>
+					<li class="list-group-item text-right">
+						<span class="pull-left"><strong>邮箱</strong></span>
+						${ member.emailAddress }
+					</li>
+					<li class="list-group-item text-right">
+						<span class="pull-left"><strong>QQ</strong></span>
+						${ member.qqNumber }
+					</li>
+					<li class="list-group-item text-right">
+						<span class="pull-left"><strong>所在地</strong></span>
+						${ member.location }
+					</li>
+					<li class="list-group-item text-right">
+						<span class="pull-left"><strong>积分排名</strong></span>
+						第${ member.rank }名
+					</li>
 
 				</ul>
 

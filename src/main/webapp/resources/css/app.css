@@ -38,3 +38,7 @@
 .header {
 	font-size: 36px;
 }
+
+.profile-list li {
+	height: 42px;
+}
