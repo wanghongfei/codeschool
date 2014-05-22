@@ -30,6 +30,11 @@
 				width: 80px;
 			}
 			
+			.row .table td {
+				text-align: center;
+				vertical-align: middle;
+			}
+			
 			.centralize {
 				margin-left: auto;
 				margin-right: auto;
@@ -75,7 +80,7 @@
 		
 				<div class="row">
 					<c:forEach items="${ chapterList }" var="_c">
-						<table class="table table-bordered table-hover">
+						<table class="table table-bordered table-hover" style="margin-left: auto; margin-right:auto; width: 50%;">
 							<thead>
 								<tr>
 									<th class="centralize-text" colspan="2">${ _c.chapterName }</th>
