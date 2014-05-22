@@ -22,6 +22,7 @@ import cn.fh.codeschool.model.Course;
 import cn.fh.codeschool.model.CourseChapter;
 import cn.fh.codeschool.model.CourseSection;
 import cn.fh.codeschool.model.ValidationRule;
+import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.service.ChapterService;
 import cn.fh.codeschool.service.CourseService;
 import cn.fh.codeschool.service.SectionService;
@@ -42,6 +43,8 @@ public class BackstageController {
 	@Autowired
 	private SectionService sectionService;
 	
+	@Autowired
+	private AccountService accountService;
 	
 	@RequestMapping(value = "/backstage/course", method = RequestMethod.GET)
 	public String addCourse(Model model) {
@@ -138,6 +141,19 @@ public class BackstageController {
 		model.addAttribute("courseList", courses);
 		
 		return "/backstage/console-chapter";
+	}
+	
+	/**
+	 * 显示统计信息页面
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/backstage/statistics", method = RequestMethod.GET)
+	public String statistics(Model model) {
+		Long memberAmount = accountService.fetchUserAmount();
+		model.addAttribute("memberAmount", memberAmount);
+		
+		return "/backstage/console-statistics";
 	}
 	
 	/**

@@ -30,6 +30,14 @@ public class AccountService {
 	
 	private String message;
 	
+	/**
+	 * 返回注册用户的数量
+	 * @return
+	 */
+	public Long fetchUserAmount() {
+		return em.createQuery("SELECT COUNT(*) FROM Member m", Long.class)
+				.getSingleResult();
+	}
 	
 	/**
 	 * 查询某个用户最近 tot 条帖子
