@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -114,21 +116,30 @@ public class UserController {
 	 * @param birthday
 	 * @param qq
 	 * @param session
-	 * @return 重新显示profile页面
+	 * @return
 	 */
-	@RequestMapping(value = "/user/{username}/update", method = RequestMethod.POST)
-	public String updateProfile(@PathVariable String username, @RequestParam String nickName,
-								@RequestParam String email, @RequestParam String birthday,
-								@RequestParam String qq, HttpSession session) {
+	@RequestMapping(value = "/user/{username}/update", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String updateProfile(@PathVariable String username, @RequestBody Map<String, Object> reqMap, HttpSession session) {
+
+		// obtain json data
+		String nickName = (String)reqMap.get("nickName");
+		String qq = (String)reqMap.get("qq");
+		String birthday = (String)reqMap.get("birthday");
+		String email = (String)reqMap.get("email");
+		String location = (String)reqMap.get("location");
 		
 		Member m =  (Member)session.getAttribute("currentUser");
 		m.setNickName(nickName);
 		m.setEmailAddress(email);
 		m.setBirthday(splitDate(birthday));
 		m.setQqNumber(qq);
+		m.setLocation(location);
 		accountService.saveMember(m);
 		
-		return "redirect:/user/" + username + "/profile";
+		return Json.createObjectBuilder()
+				.add("result", true)
+				.build()
+				.toString();
 	}
 	
 	/**

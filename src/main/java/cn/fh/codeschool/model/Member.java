@@ -63,6 +63,9 @@ public class Member implements java.io.Serializable {
 	// 注册时间
 	private Date registerDate;
 	
+	// 居住地，以 ; 分隔
+	private String location;
+	
 	// 主页被赞的次数
 	private Integer thumbAmount; 
 	
@@ -582,6 +585,19 @@ public class Member implements java.io.Serializable {
 	public void setPreparedSendingMessageQueue(
 			Queue<Message> preparedSendingMessageQueue) {
 		this.preparedSendingMessageQueue = preparedSendingMessageQueue;
+	}
+
+	@Column(name = "location")
+	public String getLocation() {
+		if (null == location) {
+			this.location = "";
+		}
+		
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 

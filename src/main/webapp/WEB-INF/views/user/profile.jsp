@@ -135,6 +135,7 @@
 
 				</ul>
 
+				<%--
 				<div class="panel panel-default">
 					<div class="panel-heading">Social Media</div>
 					<div class="panel-body">
@@ -144,6 +145,7 @@
 							class="fa fa-google-plus fa-2x"></i>
 					</div>
 				</div>
+				 --%>
 
 			</div>
 			<!--/col-3-->
@@ -222,7 +224,8 @@
 					<div class="tab-pane" id="profile">
 						<form role="form"
 							action="/codeschool/user/${ member.username }/update"
-							method="post" accept-charset="UTF-8">
+							method="post" accept-charset="UTF-8"
+							id="form">
 							<hr class="colorgraph">
 							<div class="row">
 								<div class="col-xs-12 col-sm-6 col-md-6">
@@ -237,12 +240,12 @@
 									<div class="form-group">
 										<h4>昵称</h4>
 										<c:if test="${ currentUser != null && currentUser.username == member.username }">
-											<input type="text" name="nickName" id="last_name"
+											<input type="text" name="nickName" id="nickName"
 												class="form-control" value="${ member.nickName }"
 												placeholder="昵称" tabindex="2">
 										</c:if>
 										<c:if test="${ currentUser == null || currentUser.username != member.username }">
-											<input type="text" name="nickName" id="last_name"
+											<input type="text" name="nickName" id="nickName"
 												class="form-control" readonly="readonly"
 												value="${ member.nickName }" placeholder="昵称" tabindex="2">
 										</c:if>
@@ -317,6 +320,7 @@
 										<input type="submit" value="保存"
 											class="btn btn-primary btn-block btn-sm" tabindex="7">
 									</div>
+									<span id="error-msg"></span>
 								</div>
 							</c:if>
 						</form>
