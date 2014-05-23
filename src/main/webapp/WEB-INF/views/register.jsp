@@ -47,34 +47,39 @@
 					<div class="row">
 						<div class="col-xs-12 col-sm-6 col-md-6">
 							<div class="form-group">
+								<h4>登陆名</h4>
 								<input type="text" name="username" id="first_name"
-									class="form-control input-lg" placeholder="用户名"
+									class="form-control input-lg" placeholder="4 ~ 15个字符
 									tabindex="1">
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-6">
 							<div class="form-group">
+								<h4>昵称</h4>
 								<input type="text" name="nickname" id="last_name"
-									class="form-control input-lg" placeholder="昵称"
+									class="form-control input-lg" placeholder="2 ~ 15个字符"
 									tabindex="2">
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
+						<h4>邮箱</h4>
 						<input type="email" name="email" id="email"
-							class="form-control input-lg" placeholder="邮箱"
+							class="form-control input-lg" placeholder="可做为用户名进行登陆"
 							tabindex="4">
 					</div>
 					<div class="row">
 						<div class="col-xs-12 col-sm-6 col-md-6">
 							<div class="form-group">
+							<h4>登陆密码</h4>
 								<input type="password" name="password" id="password"
-									class="form-control input-lg" placeholder="登陆密码"
+									class="form-control input-lg" placeholder="8 ~ 20个字符"
 									tabindex="5">
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-6">
 							<div class="form-group">
+								<h4>确认密码</h4>
 								<input type="password" name="password_confirmation"
 									id="password_confirmation" class="form-control input-lg"
 									placeholder="确认密码" tabindex="6">
@@ -89,22 +94,16 @@
 								class="hidden" value="1">
 							</span>
 						</div>
-						<div class="col-xs-8 col-sm-9 col-md-9">
-							By clicking <strong class="label label-primary">Register</strong>,
-							you agree to the <a href="#" data-toggle="modal"
-								data-target="#t_and_c_m">Terms and Conditions</a> set out by
-							this site, including our Cookie Use.
-						</div>
 					</div>
 
 					<hr class="colorgraph">
 					<div class="row">
 						<div class="col-xs-12 col-md-6">
-							<input type="submit" value="注册"
+							<input type="submit" value="注册用户"
 								class="btn btn-primary btn-block btn-lg" tabindex="7">
 						</div>
 						<div class="col-xs-12 col-md-6">
-							<a href="#" class="btn btn-success btn-block btn-lg">登陆</a>
+							<a href="#" class="btn btn-success btn-block btn-lg" id="register">已有账号，马上登陆</a>
 						</div>
 					</div>
 				</form>

@@ -6,6 +6,7 @@ function redirect() {
 }
 
 // 登陆按钮
-$("#register-btn").click(function(e) {
+$("#register-btn, #register").click(function(e) {
+	e.preventDefault();
 	$('#loginModal').modal('toggle');
 });
