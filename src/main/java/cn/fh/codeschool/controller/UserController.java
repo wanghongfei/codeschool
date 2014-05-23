@@ -177,13 +177,13 @@ public class UserController {
 		
 		Member m = (Member)session.getAttribute("currentUser");
 		m.getFriendList().add(targetMember);
-		targetMember.setParent(m);
-		accountService.saveMember(targetMember);
-		//accountService.saveMember(m);
+		//targetMember.setParent(m);
+		//accountService.saveMember(targetMember);
+		accountService.saveMember(m);
 		
 		
 
-		return "redirect:/user/" + username + "/profile";
+		return "redirect:/user/" + m.getUsername() + "/profile";
 	}
 	
 	@RequestMapping(value = "/user/{username}/profile", method = RequestMethod.GET)

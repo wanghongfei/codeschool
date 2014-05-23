@@ -62,7 +62,7 @@
 		<div class="row">
 			<div class="col-sm-10">
 				<%-- 显示用户名 --%>
-				<span class="header">${ member.username}</span>
+				<span class="profile-header">${ member.username}</span>
 				<%-- 添加好友功能登陆可用 --%>
 				<c:if test="${ !isFriend && currentUser != null }">
 					<a href="/codeschool/user/${ member.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
@@ -149,7 +149,12 @@
 					<c:forEach items="${ rankList }" var="_r">
 						<li class="list-group-item text-right">
 							<span class="pull-left"> <strong><a	href="/codeschool/user/${ _r.username }/profile">${ _r.username }</a></strong>
-							<a href="/codeschool/user/${ member.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
+							<c:if test="${ !currentUser.hasFriend(_r.username) }">
+								<a href="/codeschool/user/${ _r.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
+							</c:if>
+							<c:if test="${ currentUser.hasFriend(_r.username) }">
+								<a class="chat-link tip" data-user="${ _r.username }" href="/codeschool/chat/send/${ _r.username }" title="跟TA聊天"><i class="fa fa-fw fa-comments-o"></i></a>
+							</c:if>
 						</span> ${ _r.point }</li>
 					</c:forEach>
 

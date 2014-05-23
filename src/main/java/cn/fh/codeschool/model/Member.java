@@ -70,7 +70,7 @@ public class Member implements java.io.Serializable {
 	private Integer thumbAmount; 
 	
 	// 朋友
-	private Member parent;
+	//private Member parent;
 	private List<Member> friendList = new ArrayList<Member>();
 	
 	// 发表的帖子
@@ -501,16 +501,20 @@ public class Member implements java.io.Serializable {
 		this.startedCourseIdList = startedCourseIdList;
 	}
 
-	@ManyToOne
+/*	@ManyToOne
 	public Member getParent() {
 		return parent;
 	}
 
 	public void setParent(Member parent) {
 		this.parent = parent;
-	}
+	}*/
 
-	@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+	//@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "member_friend",
+			joinColumns = @JoinColumn(name = "member_id"),
+			inverseJoinColumns = @JoinColumn(name = "friend_id"))
 	public List<Member> getFriendList() {
 		return friendList;
 	}
