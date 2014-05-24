@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
 		)
 
 @Entity
-@Table(name = "course_section", schema = "public")
+@Table(name = "course_section")
 public class CourseSection implements java.io.Serializable {
 
 	private Integer id;

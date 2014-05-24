@@ -5,11 +5,11 @@
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema">
 	<datasource jndi-name="java:jboss/datasources/codeschool"
 		enabled="true" use-java-context="true" pool-name="codeschooldb">
-		<connection-url>jdbc:postgresql://localhost:5432/codeschool-noneseam</connection-url>
-		<driver-class>org.postgresql.Driver</driver-class>
-		<driver>postgresql</driver>
+		<connection-url>jdbc:mysql://localhost:3306/codeschool?characterEncoding=utf-8</connection-url>
+		<driver-class>com.mysql.jdbc.Driver</driver-class>
+		<driver>mysql</driver>
 		<security>
-			<user-name>postgres</user-name>
+			<user-name>root</user-name>
 			<password>111111</password>
 		</security>
 	</datasource>
