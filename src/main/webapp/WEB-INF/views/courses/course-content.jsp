@@ -62,6 +62,7 @@
 		/* 左侧教程区 */
 		#course-section {
 			height: 600px;
+			overflow:scroll;
 		}
 		
 		.text-white {
@@ -125,7 +126,7 @@
 
 
 			<!-- 左侧教程 -->
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<div id="course-section" class="box box-primary">
 					<div class="box-header" data-toggle="tooltip"
 						title="Header tooltip">

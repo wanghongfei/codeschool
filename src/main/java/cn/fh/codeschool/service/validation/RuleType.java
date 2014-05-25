@@ -15,6 +15,11 @@ public enum RuleType {
 	OUTPUT,
 	
 	/**
+	 * 无条件通过
+	 */
+	NONE,
+	
+	/**
 	 * 语言种类
 	 */
 	HTML,

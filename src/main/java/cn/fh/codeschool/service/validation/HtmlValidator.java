@@ -41,11 +41,16 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 */
 	//public boolean validate(ValidationRule rule) {
 	public boolean validate(List<ValidationRule> rules) {
-		logger.info("进入validate()方法");
 		if (rules.size() == 0) {
 			resultMessage = "未定义验证规则，默认为验证失败";
 			logger.info(resultMessage);
 			return false;
+		}
+		
+		// 无条件通过
+		if (rules.get(0).equals(RuleType.NONE.toString())) {
+			this.resultMessage = "恭喜通过！请继续学习下一节！";
+			return true;
 		}
 
 		try {

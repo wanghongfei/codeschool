@@ -102,7 +102,7 @@ public class CourseSection implements java.io.Serializable {
 		this.courseChapter = courseChapter;
 	}
 
-	@Column(name = "course_content")
+	@Column(name = "course_content", columnDefinition = "TEXT")
 	public String getCourseContent() {
 		return this.courseContent;
 	}
