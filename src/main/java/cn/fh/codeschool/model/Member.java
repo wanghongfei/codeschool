@@ -17,8 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -431,6 +431,7 @@ public class Member implements java.io.Serializable {
 		this.memberAcquiredBadgeses = memberAcquiredBadgeses;
 	}
 
+	@Lob
 	@Column(name = "avatar_image")
 	public byte[] getAvatar() {
 		return avatar;

@@ -64,12 +64,14 @@
 				<%-- 显示用户名 --%>
 				<span class="profile-header">${ member.username}</span>
 				<%-- 添加好友功能登陆可用 --%>
-				<c:if test="${ !isFriend && currentUser != null }">
-					<a href="/codeschool/user/${ member.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
-				</c:if>
-				<c:if test="${ isFriend }">
-					<p>TA是我的好友</p>
-				</c:if>
+				<c:choose>
+					<c:when test="${ !isFriend && currentUser != null }">
+						<a href="/codeschool/user/${ member.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
+					</c:when>
+					<c:when test="${ isFriend }">
+						<p>TA是我的好友</p>
+					</c:when>
+				</c:choose>
 				<p>
 					<button class="btn" id="thumb-btn">
 						赞一个 (<span id="thumb-amount">${ member.thumbAmount }</span>)

@@ -128,6 +128,8 @@ public class UserController {
 		String email = (String)reqMap.get("email");
 		String location = (String)reqMap.get("location");
 		
+		System.out.println("昵称：" + nickName);
+		
 		Member m =  (Member)session.getAttribute("currentUser");
 		m.setNickName(nickName);
 		m.setEmailAddress(email);
@@ -168,17 +170,21 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/{username}/addFriend", method = RequestMethod.GET)
 	public String addFriend(@PathVariable String username, HttpSession session) {
-		Member targetMember = accountService.findMember(username);
 		
+		
+		Member m = (Member)session.getAttribute("currentUser");
+		// 不能重复添加
+		if (true == m.hasFriend(username)) {
+			return "redirect:/user/" + m.getUsername() + "/profile";
+		}
+
+		Member targetMember = accountService.findMember(username);
 		// 防止恶意用户自行发送请求
 		if (null == targetMember) {
 			return "redirect:/error/not-exist";
 		}
-		
-		Member m = (Member)session.getAttribute("currentUser");
+
 		m.getFriendList().add(targetMember);
-		//targetMember.setParent(m);
-		//accountService.saveMember(targetMember);
 		accountService.saveMember(m);
 		
 		
