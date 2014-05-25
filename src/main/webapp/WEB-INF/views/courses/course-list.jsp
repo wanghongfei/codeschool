@@ -116,14 +116,14 @@
 							<div class="small-box colors">
 								<div class="inner">
 									<h3>
-										53<sup style="font-size: 20px">%</sup>
+										${ _c.percentage }<sup style="font-size: 20px">%</sup>
 									</h3>
 									<p>${ _c.chapterName }</p>
 								</div>
 								<div class="icon">
 									<i class="ion ion-stats-bars"></i>
 								</div>
-								<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _s.id }' /><c:param name='courseId' value='${ param.courseId }' /></c:url>" class="small-box-footer"> 开始学习 <i class="fa fa-arrow-circle-right"></i></a>
+								<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _c.courseSections.get(0).id }' /><c:param name='courseId' value='${ param.courseId }' /></c:url>" class="small-box-footer"> 开始学习 <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
 					</c:forEach>

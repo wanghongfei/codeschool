@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -38,10 +39,12 @@ public class CourseChapter implements java.io.Serializable {
 	private String chapterName;
 	private String memo;
 	private Integer finishedMemberAmount;
-	//private Set<AllBadges> allBadgeses = new HashSet<AllBadges>(0);
-	//private Set<CourseSection> courseSections = new HashSet<CourseSection>(0);
+	
 	private List<CourseSection> courseSections = new ArrayList<CourseSection>();
 	private List<AllBadges> allBadgeses = new ArrayList<AllBadges>();
+	
+	// 完成度
+	private Integer percentage;
 
 	public CourseChapter() {
 		System.out.println("####### courseChapter constructed!");
@@ -133,5 +136,18 @@ public class CourseChapter implements java.io.Serializable {
 
 	public String toString() {
 		return this.chapterName;
+	}
+
+	@Transient
+	public Integer getPercentage() {
+		if (null == this.percentage) {
+			this.percentage = 0;
+		}
+		
+		return percentage;
+	}
+
+	public void setPercentage(Integer percentage) {
+		this.percentage = percentage;
 	}
 }

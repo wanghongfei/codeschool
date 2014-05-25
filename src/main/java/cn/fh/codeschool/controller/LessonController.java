@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -168,7 +169,44 @@ public class LessonController {
 		Course c = courseService.findCourse(courseId);
 		model.addAttribute("course", c);
 		
+		// 如果用户已经登陆，则计算章节完成度
+		HttpSession session = req.getSession(false);
+		if (null != session) {
+			Member m =  (Member)session.getAttribute("currentUser");
+			if (null != m) {
+				for (CourseChapter chapter : chapters) {
+					chapter.setPercentage(calculatePercentage(m, chapter));
+				}	
+			}
+		}
+		
 		return "/courses/course-list";
+	}
+	
+	/**
+	 * 计算当前章节的完成度
+	 * @param m
+	 * @param chapter
+	 * @return
+	 */
+	private int calculatePercentage(Member m, CourseChapter chapter) {
+		List<Integer> finishedIds = m.getFinishedSectionIdList();
+
+		if (true == finishedIds.isEmpty()) {
+			return 0;
+		}
+		
+		int tot = chapter.getCourseSections().size();
+		int sum = 0;
+		for (Integer id : finishedIds) {
+			for (CourseSection section : chapter.getCourseSections()) {
+				if (section.getId().equals(id)) {
+					++sum;
+				}
+			}
+		}
+		
+		return (int)((double)sum / tot * 100);
 	}
 	
 	
