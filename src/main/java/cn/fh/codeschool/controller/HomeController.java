@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.fh.codeschool.model.Course;
-import cn.fh.codeschool.model.Member;
+import cn.fh.codeschool.scope.Conversation;
+import cn.fh.codeschool.scope.ConversationManager;
 import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.service.CourseService;
 
@@ -42,6 +43,13 @@ public class HomeController {
 		// 把课程放入model中
 		List<Course> courses = courseService.courseList();
 		model.addAttribute("courseList", courses);
+		
+		
+		// Conversation test
+		//ConversationManager cm = (ConversationManager)req.getSession().getAttribute("cm");
+		//Conversation c = cm.createConversation();
+		//logger.info(">>>>>>>>>> create Conversation:" + c.getCid());
+		//ConversationManager.expireTime = 1000 * 10L; // 10s
 		
 		return "home";
 	}

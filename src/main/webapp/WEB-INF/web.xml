@@ -20,6 +20,8 @@
 		<servlet-name>Image Servlet</servlet-name>
 		<url-pattern>*.avatar</url-pattern>
 	</servlet-mapping>
+	
+	
 
 	<!-- 安全 -->
 	<filter>
@@ -34,6 +36,10 @@
 	<!-- 存放所有已经登陆用户 -->
 	<listener>
 		<listener-class>cn.fh.codeschool.servlet.LoggedInUserCollection</listener-class>
+	</listener>
+	<!-- 启动定时器 -->
+	<listener>
+		<listener-class>cn.fh.codeschool.servlet.AppServletContextListener</listener-class>
 	</listener>
 
 	<!-- spring -->
