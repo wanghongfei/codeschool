@@ -36,7 +36,7 @@ public class ImageServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String username = (String)req.getParameter("username");
+		String username = req.getParameter("username");
 		OutputStream out = resp.getOutputStream();
 		if (null == username) {
 			out.write("no user specified".getBytes());
