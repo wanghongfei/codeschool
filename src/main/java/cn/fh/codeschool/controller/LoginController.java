@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.model.User;
 import cn.fh.codeschool.service.AccountService;
+import cn.fh.codeschool.servlet.LoggedInUserCollection;
 
 @Controller
 public class LoginController {
@@ -36,6 +37,10 @@ public class LoginController {
 	public @ResponseBody String login(@RequestBody User user,
 			HttpServletRequest req) {
 		logger.info("用户 {} 请求登陆", user.getUsername());
+		
+		// test
+		//accountService.checkUser(user.getUsername(), user.getPassword());
+		// test
 		
 		JsonObject json = null;
 		Member m = accountService.findMember(user.getUsername(), user.getPassword());
@@ -59,8 +64,8 @@ public class LoginController {
 		req.getSession().setAttribute("currentUser", m);
 		
 		
-		// test
-		//accountService.updateRank(m);
+		// 将登陆用户的session放入集合中
+		LoggedInUserCollection.getSessionMap().put(user.getUsername(), req.getSession());
 		
 		return json.toString();
 	}
@@ -76,7 +81,7 @@ public class LoginController {
 		
 		// 防止用户自行访问 /logout
 		if (null != m) {
-			logger.info("用户 {} 退出登陆", ((Member)session.getAttribute("currentUser")).getUsername());
+			logger.info("用户 {} 退出登陆", m.getUsername());
 			session.invalidate();
 		}
 		

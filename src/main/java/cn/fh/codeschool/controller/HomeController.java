@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.fh.codeschool.model.Course;
+import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.scope.Conversation;
 import cn.fh.codeschool.scope.ConversationManager;
 import cn.fh.codeschool.service.AccountService;
@@ -46,10 +47,14 @@ public class HomeController {
 		
 		
 		// Conversation test
-		//ConversationManager cm = (ConversationManager)req.getSession().getAttribute("cm");
-		//Conversation c = cm.createConversation();
-		//logger.info(">>>>>>>>>> create Conversation:" + c.getCid());
-		//ConversationManager.expireTime = 1000 * 10L; // 10s
+		ConversationManager cm = (ConversationManager)req.getSession().getAttribute("cm");
+		Conversation c = cm.createConversation();
+		logger.info(">>>>>>>>>> create Conversation:" + c.getCid());
+		logger.debug(">>>debug:{1}", "hello");
+		ConversationManager.expireTime = 1000 * 10L; // 10s
+		Member m = new Member();
+		m.setId(100);
+		c.addBean("m", m);
 		
 		return "home";
 	}

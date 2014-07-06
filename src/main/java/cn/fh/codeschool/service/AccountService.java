@@ -1,6 +1,7 @@
 package cn.fh.codeschool.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,9 @@ public class AccountService {
 	
 	@Autowired
 	private CourseService courseService;
+	
+	@Autowired
+	private Credentials credentials;
 	
 	
 	private String message;
@@ -176,6 +180,48 @@ public class AccountService {
 		}
 		
 		return ms.get(0);
+	}
+	
+	/**
+	 * @deprecated
+	 * @param username
+	 * @param pwd
+	 * @return
+	 */
+	public Credentials checkUser(String username, String pwd) {
+		@SuppressWarnings("unchecked")
+		//List<Object[]> list = em.createQuery("SELECT m.username, m.password, m.roles FROM Member m WHERE m.username = :username")
+		List<Object[]> list = em.createNativeQuery("SELECT m.username, r2.role_name FROM member m JOIN member_role r1 ON r1.member_id=m.id JOIN role r2 ON r2.id=r1.role_id WHERE m.username = :username")
+				.setParameter("username", username)
+				.getResultList();
+		
+		for (Object[] o : list) {
+			for (Object oo : o) {
+				System.out.println("~~~~~~~~~~" + oo);
+			}
+		}
+		
+		// check username
+		if (list.isEmpty()) {
+			this.message = "该用户不存在!";
+			return null;
+		}
+		
+		// check password
+		String realPwd = (String)list.get(0)[1];
+		if (false == pwd.equals(realPwd)) {
+			this.message = "密码错误";
+			return null;
+		}
+		
+		credentials.setUsername(username);
+		credentials.setPassword(pwd);
+		Set<Role> roleSet = (Set<Role>)list.get(0)[2];
+		for (Role r : roleSet) {
+			credentials.addRole(r.getRoleName());
+		}
+		
+		return credentials;
 	}
 	
 	/**
