@@ -45,6 +45,23 @@ public class Role implements java.io.Serializable {
 		this.memo = memo;
 		this.members = memberRoles;
 	}
+	
+	/**
+	 * Two Role objects are equal only when their role names are identical.
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+		
+		if (false == o instanceof Role) {
+			return false;
+		}
+		
+		Role role = (Role)o;
+		return roleName.equals(role.roleName);
+	}
 
 	@Id
 	@GeneratedValue
