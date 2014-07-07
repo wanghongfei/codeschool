@@ -63,7 +63,10 @@ public class UserController {
 		byte[] buf = null;
 		try {
 			buf = avatarFile.getBytes();
-			System.out.println("文件长度:" + buf.length);
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("## 文件长度：{}", buf.length);
+			}
 			
 			Member m = (Member)req.getSession(false).getAttribute("currentUser");
 			m.setAvatar(buf);
@@ -128,7 +131,9 @@ public class UserController {
 		String email = (String)reqMap.get("email");
 		String location = (String)reqMap.get("location");
 		
-		System.out.println("昵称：" + nickName);
+		if (logger.isDebugEnabled()) {
+			logger.debug("## 昵称：{}", nickName);
+		}
 		
 		Member m =  (Member)session.getAttribute("currentUser");
 		m.setNickName(nickName);
@@ -261,7 +266,6 @@ public class UserController {
 			}
 		} else {
 			for (Integer id : allCourseIds) {
-				logger.info("测试id: {}", id);
 				
 				if (false == startedCourseIds.contains(id))  {
 					CourseProgressWrapper wrapper = new CourseProgressWrapper();

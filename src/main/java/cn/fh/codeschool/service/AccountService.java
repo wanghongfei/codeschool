@@ -195,11 +195,6 @@ public class AccountService {
 				.setParameter("username", username)
 				.getResultList();
 		
-		for (Object[] o : list) {
-			for (Object oo : o) {
-				System.out.println("~~~~~~~~~~" + oo);
-			}
-		}
 		
 		// check username
 		if (list.isEmpty()) {
@@ -237,14 +232,20 @@ public class AccountService {
 		
 		if (0 == ms.size()) {
 			this.message = "该用户不存在!";
-			System.out.println(this.message);
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("## {}", this.message);
+			}
 			return null;
 		}
 		
 		Member m = ms.get(0);
 		if (!m.getPassword().equals(pwd)) {
 			this.message = "密码错误";
-			System.out.println(this.message);
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("## {}", this.message);
+			}
 			return null;
 		}
 		

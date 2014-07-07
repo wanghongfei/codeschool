@@ -11,6 +11,8 @@ import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,8 @@ import cn.fh.codeschool.servlet.LoggedInUserCollection;
 
 @Controller
 public class ChatController {
+	private static Logger logger = LoggerFactory.getLogger(ChatController.class);
+
 	/**
 	 * 向指定用户发送消息
 	 * @return
@@ -31,8 +35,13 @@ public class ChatController {
 	@RequestMapping(value = "/chat/send/{username}", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public @ResponseBody String chat(@PathVariable String username, @RequestBody Map<String, Object> reqMap,
 			HttpServletRequest req) {
+		// obtain request parameter
 		String message = (String)reqMap.get("message");
-		System.out.println("由到信息：" + message);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("## Message received:{}", message);
+		}
+
 		// 得到已经登陆用户的session
 		Map<String, HttpSession> sessionMap = LoggedInUserCollection.getSessionMap();
 		
@@ -97,7 +106,10 @@ public class ChatController {
 		JsonArrayBuilder jArray = Json.createArrayBuilder();
 		while (false == msgQueue.isEmpty()) {
 			Message msg = msgQueue.poll();
-			System.out.println("取出新消息 : " + msg);
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("## Get message:{}", msg);
+			}
 			
 			jArray.add(Json.createObjectBuilder()
 					.add("from", msg.getFromUser())
@@ -108,8 +120,12 @@ public class ChatController {
 		}
 		
 		JsonObject obj = json.add("data", jArray).build();
-		System.out.println("返回：" + obj.toString());
+		String jsonString = obj.toString();
 		
-		return obj.toString();
+		if (logger.isDebugEnabled()) {
+			logger.debug("Return JSON:{}", jsonString);
+		}
+		
+		return jsonString;
 	}
 }

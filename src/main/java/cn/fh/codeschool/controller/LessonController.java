@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -140,14 +139,21 @@ public class LessonController {
 		Member m = (Member)session.getAttribute("currentUser");
 		
 		CourseSection cs = sectionService.findSection(sectionId);
-		logger.info("得到section : {}", cs.getSectionName());
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("得到section : {}", cs.getSectionName());
+		}
+
 		boolean result = validationService.process(cs, m, code, lan);
 		
 		// 得到反馈信息
 		String msg = validationService.getMessage();
 		
 		// 返回结果
-		System.out.println("验证结果：" + result + ", 反馈信息:" + msg);
+		if (logger.isDebugEnabled()) {
+			logger.debug("## 验证结果:{}, 反馈信息:{}", result, msg);
+		}
+		
 		JsonObject json = Json.createObjectBuilder()
 				.add("result", result) // 验证结果
 				.add("message", msg) // 反馈信息

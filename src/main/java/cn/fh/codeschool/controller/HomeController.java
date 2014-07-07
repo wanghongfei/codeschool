@@ -47,14 +47,14 @@ public class HomeController {
 		
 		
 		// Conversation test
-		ConversationManager cm = (ConversationManager)req.getSession().getAttribute("cm");
+		/*ConversationManager cm = (ConversationManager)req.getSession().getAttribute("cm");
 		Conversation c = cm.createConversation();
 		logger.info(">>>>>>>>>> create Conversation:" + c.getCid());
 		logger.debug(">>>debug:{1}", "hello");
 		ConversationManager.expireTime = 1000 * 10L; // 10s
 		Member m = new Member();
 		m.setId(100);
-		c.addBean("m", m);
+		c.addBean("m", m);*/
 		
 		return "home";
 	}

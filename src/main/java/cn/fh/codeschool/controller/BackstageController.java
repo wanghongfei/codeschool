@@ -105,9 +105,13 @@ public class BackstageController {
 		}
 		
 		
-		System.out.println(json.toString());
+		String jsonString = json.toString();
 
-		return json.toString();
+		if (logger.isDebugEnabled()) {
+			logger.debug("## {}", jsonString);
+		}
+
+		return jsonString;
 	}
 	
 	/**
@@ -330,12 +334,19 @@ public class BackstageController {
 	@RequestMapping(value = "/backstage/section/fetchSection", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public @ResponseBody String refreshSection(@RequestBody Map<String, Object> reqMap) {
 		Integer chapterId = Integer.valueOf((String)reqMap.get("chapterId"));
-		System.out.println("章节id：" + chapterId);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("## 章节id:{}", chapterId);
+		}
 		
 		JsonArrayBuilder jArray = Json.createArrayBuilder();
 		
 		List<CourseSection> sections = sectionService.sectionList(chapterId);
-		System.out.println("小节：" + sections);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("## 小节:{}", sections);
+		}
+
 		//List<CourseChapter> chapters = chapterService.chapterList(courseId);
 		for (CourseSection section : sections) {
 			jArray.add(Json.createObjectBuilder()
