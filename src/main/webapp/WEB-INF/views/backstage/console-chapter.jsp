@@ -44,7 +44,7 @@
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
 				    <h1>
-				        Blank page
+				    	<a href="/codeschool">回到主页</a>
 				        <small>Control panel</small>
 				    </h1>
 				    <ol class="breadcrumb">
