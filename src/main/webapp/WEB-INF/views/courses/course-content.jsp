@@ -20,6 +20,7 @@
 	
 	<link href='<c:url value="/resources/css/app.css" />' rel="stylesheet" />
 	<link href='<c:url value="/resources/css/login.css" />' rel="stylesheet" />
+	<link href='<c:url value="/resources/css/message-board.css" />' rel="stylesheet" />
 	<style>
 		.margin-elem {
 			height: 59px;
@@ -190,6 +191,52 @@
 
 		</div>
 		<!-- row ends -->
+		
+		<%-- message board --%>
+		<div class="row">
+			<div class="col-md-7 col-md-offset-2">
+				<div class="msg-board">
+					<!-- header starts -->
+					<div class="msg-board-header">
+						<div class="msg-board-header-left float-to-left">
+							<span>留言(152)</span>
+						</div>
+						<div class="msg-board-header-right float-to-right">
+							<span><a href="#">上一页</a></span>
+							<span><a href="#">下一页</a></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<!-- header ends -->
+					
+					<!-- content starts -->
+					<div class="msg-board-main">
+					
+						<div class="msg-board-content">
+							<hr />
+							<div class="msg-board-left-main float-to-left">
+								<img src="http://qlogo2.store.qq.com/qzone/150699917/150699917/50" />
+								<div>Neo Smith</div>
+								<div>第1楼</div>
+							</div>
+							
+							<div class="msg-board-right-main float-to-left">
+								<div class="msg-board-text">
+									This is a piece of message;
+								</div>
+								<div class="msg-board-action">
+									<span>2014-2-18</span>
+									<span><a href="#">回复</a></span>
+									<span><a href="#">编辑</a></span>
+								</div>
+							</div>
+							<div style="clear:both"></div>
+						</div> <!-- content ends -->
+					</div>
+					<!-- content ends -->
+				</div>
+			</div>
+		</div>
 	</div>
 
 

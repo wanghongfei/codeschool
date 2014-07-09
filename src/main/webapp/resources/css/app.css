@@ -23,6 +23,13 @@
 	
 }
 
+.float-to-left {
+	float: left;
+}
+.float-to-right {
+	float: right;
+}
+
 .chat .chat-friend-list {
 	float: left;
 }
