@@ -17,7 +17,10 @@ $(".toggle-show").click(function(e) {
 $(".chat-link").click(function(e) {
 	e.preventDefault();
 	
-	$(".chat-user").html($(".chat-link").attr("data-user"));
+	// display target username on the top of the chat window
+	$(".chat-user").html($(this).attr("data-user"));
+	
+	// toggle chat window
 	var $body = $(".chat-body");
 	if ($body.hasClass("hidden")) {
 		$body.removeClass("hidden");
@@ -52,6 +55,9 @@ $("#btn-send").click(function(e) {
 			}
 		}
 	});
+	
+	// clear input text
+	$("#input-msg").val("");
 });
 
 // 接收消息
