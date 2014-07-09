@@ -55,6 +55,52 @@ public class BackstageController {
 	}
 	
 	/**
+	 * Manipulate Chapter modification AJAX request.
+	 * @param reqMap Containing request parameter `chapterId`
+	 * @param model
+	 * @return JSON string
+	 */
+	@RequestMapping(value = "/backstage/updateChapter/update", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String updateChapter(@RequestBody Map<String, Object> reqMap, Model model) {
+		Integer chapterId = Integer.valueOf( (String)reqMap.get("chapterId") );
+		String chapterName = (String)reqMap.get("chapterName");
+		
+		// update entity
+		JsonObject json = null;
+		CourseChapter cc = chapterService.findChapter(chapterId);
+		if (null == cc) {
+			json = Json.createObjectBuilder()
+					.add("result", false)
+					.add("message", "not found")
+					.build();
+		} else {
+			cc.setChapterName(chapterName);
+			chapterService.updateChapter(cc);
+		
+			json = Json.createObjectBuilder()
+					.add("result", true)
+					.add("message", "更新成功")
+					.build();
+		}
+		
+		return json.toString();
+	}
+	
+	/**
+	 * Display 'update chapter' page.
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/backstage/updateChapter", method = RequestMethod.GET)
+	public String showUpdateChapterPage(Model model) {
+		List<Course> courses = courseService.courseList();
+		model.addAttribute("courseList", courses);
+		
+		return "/backstage/console-update-chapter";
+	}
+		
+	
+	/**
 	 * 删除一个课程 
 	 * @return
 	 */

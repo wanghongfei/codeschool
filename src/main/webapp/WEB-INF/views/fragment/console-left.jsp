@@ -28,12 +28,21 @@
 					class="fa fa-th"></i> <span>添加章节</span> <small
 					class="badge pull-right bg-green">new</small>
 			</a></li>
+			
+			<li>
+				<a href="<c:url value='/backstage/updateChapter' />">
+					<i class="fa fa-th"></i>
+					<span>修改章节</span>
+					<small class="badge pull-right bg-green">new</small>
+				</a>
+			</li>
+			
 			<li><a href="<c:url value='/backstage/section' />"> <i
 					class="fa fa-th"></i> <span>添加小节</span> <small
 					class="badge pull-right bg-green">new</small>
 			</a></li>
 			<li class="treeview"><a href="#"> <i
-					class="fa fa-bar-chart-o"></i> <span>添加小节</span> <i
+					class="fa fa-bar-chart-o"></i> <span>test</span> <i
 					class="fa fa-angle-left pull-right"></i>
 			</a>
 				<ul class="treeview-menu">

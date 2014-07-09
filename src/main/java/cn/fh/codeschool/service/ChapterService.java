@@ -22,6 +22,15 @@ public class ChapterService {
 	@Autowired
 	private CourseService courseService;
 	
+	
+	/**
+	 * Merge a detached CourseChapter entity.
+	 * @param chapter
+	 */
+	public void updateChapter(CourseChapter chapter) {
+		em.merge(chapter);
+	}
+	
 	/**
 	 * 保存一个 CourseChapter 实体。但首先要传入该章节所属于的课程的id
 	 * @param chapter 要保存的CourseChapter entity
@@ -40,6 +49,7 @@ public class ChapterService {
 	 * @param courseId 课程实体id
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public List<CourseChapter> chapterListEager(Integer courseId) {
 		Course c = courseService.findCourse(courseId);
 		List<CourseChapter> chapters = em.createNamedQuery("CourseChapter.findCourseChapters", CourseChapter.class)
@@ -61,6 +71,7 @@ public class ChapterService {
 	 * @param courseId 课程实体id
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public List<CourseChapter> chapterList(Integer courseId) {
 		Course c = courseService.findCourse(courseId);
 		
@@ -74,6 +85,7 @@ public class ChapterService {
 	 * @param id
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public CourseChapter findChapter(Integer id) {
 		return em.find(CourseChapter.class, id);
 	}
