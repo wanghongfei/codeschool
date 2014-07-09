@@ -98,7 +98,32 @@ public class BackstageController {
 		
 		return "/backstage/console-update-chapter";
 	}
+	
+	/**
+	 * Manipulate Chapter deletion AJAX request.
+	 * @param reqMap
+	 * @return
+	 */
+	@RequestMapping(value = "/backstage/updateChapter/delete", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String deleteChapter(@RequestBody Map<String, Object> reqMap) {
+		Integer chapterId = Integer.valueOf( (String)reqMap.get("chapterId") );
 		
+		JsonObject json = null;
+		// deletion failed
+		if (false == chapterService.deleteChapter(chapterId)) {
+			json = Json.createObjectBuilder()
+					.add("result", false)
+					.add("message", "删除失败")
+					.build();
+		} else {
+			json = Json.createObjectBuilder()
+					.add("result", true)
+					.add("message", "success")
+					.build();
+		}
+		
+		return json.toString();
+	}
 	
 	/**
 	 * 删除一个课程 

@@ -22,6 +22,23 @@ public class ChapterService {
 	@Autowired
 	private CourseService courseService;
 	
+	/**
+	 * Delete a Chapter
+	 * @param id
+	 */
+	public boolean deleteChapter(Integer id) {
+		if (null == id) {
+			return false;
+		}
+
+		CourseChapter cc = findChapter(id);
+		if (null == cc) {
+			return false;
+		}
+
+		em.remove(cc);
+		return true;
+	}
 	
 	/**
 	 * Merge a detached CourseChapter entity.
