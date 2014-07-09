@@ -145,6 +145,9 @@
 						<div>
 		        			<input type="submit" value="保存" />
 		        		</div>
+		        		<div>
+		        			<button class="btn del-btn">删除</button>
+		        		</div>
 		        		<div id="error-msg" class="hidden"></div>
 		        	</form>
 		

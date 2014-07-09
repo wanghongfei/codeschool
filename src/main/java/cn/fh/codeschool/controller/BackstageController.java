@@ -225,6 +225,33 @@ public class BackstageController {
 	}
 	
 	/**
+	 * Delete a section.
+	 * @param reqMap Containing request parameter 'sectionId'
+	 * @return JSON string
+	 */
+	@RequestMapping(value = "/backstage/section/delete", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String deleteSection(@RequestBody Map<String, Object> reqMap) {
+		Integer sectionId = Integer.parseInt((String)reqMap.get("sectionId"));
+		
+		JsonObject json = null;
+		// deletion failed
+		if (false == sectionService.deleteSection(sectionId)) {
+			json = Json.createObjectBuilder()
+					.add("result", false)
+					.add("message", "删除失败")
+					.build();
+		} else {
+			json = Json.createObjectBuilder()
+					.add("result", true)
+					.add("message", "success")
+					.build();
+		}
+		
+		
+		return json.toString();
+	}
+	
+	/**
 	 * 响应更新小节的表单提交请求.
 	 * @param reqMap
 	 * @return

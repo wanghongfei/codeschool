@@ -27,6 +27,25 @@ public class SectionService {
 	@Autowired
 	private ChapterService chapterService;
 	
+	/**
+	 * Delete section
+	 * @param id
+	 * @return Return true if deletion succeeded, otherwise return false.
+	 */
+	@Transactional(readOnly = false)
+	public boolean deleteSection(Integer id) {
+		if (null == id) {
+			return false;
+		}
+		
+		CourseSection cs = em.find(CourseSection.class, id);
+		if (null == cs) {
+			return false;
+		}
+
+		em.remove(cs);
+		return true;
+	}
 	
 	/**
 	 * 与数据库同步

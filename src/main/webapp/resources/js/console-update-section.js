@@ -107,6 +107,48 @@ $("#select-course").change(
 			});
 		});
 
+// delete section
+$('.del-btn').click(function(e) {
+	e.preventDefault();
+	
+	var json = {
+		sectionId : $('#select-section option:selected').val()
+	};
+	
+	if ('-1' == json.sectionId) {
+		alert("未选中任何小节");
+		return false;
+	}
+	
+	var $msg = $("#error-msg");
+
+	// display loading GIF image
+	var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+	$msg.empty();
+	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
+	
+	// send ajax request
+	$.ajax({
+		url : "/codeschool/backstage/section/delete",
+		type : "POST",
+		dataType : "json",
+		contentType : "application/json",
+		data : JSON.stringify(json),
+		success : function(data) {
+			// display feedback message
+			$msg.html(data.message);
+			$msg.removeClass("hidden").addClass("error-msg");
+
+			// refresh this page if deletion succeeded
+			// in 1 second
+			if (true == data.result) {
+				setTimeout("location.reload()", 1000);
+			}
+		}
+	});
+	
+});
+
 $("#form").submit(function(e) {
 	e.preventDefault();
 
