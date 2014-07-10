@@ -1,0 +1,35 @@
+/* stlyes for message board */
+
+.msg-board {
+	margin-top: 20px;
+}
+
+
+.msg-board-main {
+	margin-top: 10px;
+}
+
+.msg-board-content {
+	height: 300px;
+}
+
+.msg-board-left-main img {
+	display: block;
+	width: 90px;
+	height: 90px;
+}
+.msg-board-left-main div {
+	text-align: center;
+}
+
+.msg-board-right-main {
+	margin-left: 30px;
+}
+
+.msg-board-text {
+	height: 70px;
+}
+
+.msg-board-action span {
+	margin-right: 20px;
+}
