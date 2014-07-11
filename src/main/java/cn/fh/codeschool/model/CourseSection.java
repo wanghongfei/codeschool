@@ -1,6 +1,7 @@
 package cn.fh.codeschool.model;
 // Generated Apr 29, 2014 2:35:49 PM by Hibernate Tools 4.0.0
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -47,6 +47,9 @@ public class CourseSection implements java.io.Serializable {
 	
 	// 这个小节的所有post
 	private List<Post> postList;
+	
+	// 本小节所有的用户评论
+	private List<Comment> commentList;
 	
 	
 	/**
@@ -171,6 +174,15 @@ public class CourseSection implements java.io.Serializable {
 
 	public void setSectionDescription(String sectionDescription) {
 		this.sectionDescription = sectionDescription;
+	}
+
+	@OneToMany(mappedBy="courseSection")
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
 	}
 
 

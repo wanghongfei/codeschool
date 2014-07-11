@@ -1,6 +1,7 @@
 package cn.fh.codeschool.model;
 // Generated Apr 29, 2014 2:35:49 PM by Hibernate Tools 4.0.0
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -86,6 +87,9 @@ public class Member implements java.io.Serializable {
 	private List<Integer> startedCourseIdList = new ArrayList<Integer>(); // 对 startedCourseIds进行封装
 	
 	private byte[] avatar;
+	
+	// 用户所发表的评论
+	private List<Comment> commentList = new ArrayList<Comment>();
 	
 	private Set<Role> roles = new HashSet<Role>(0);
 	private Set<MemberAcquiredBadges> memberAcquiredBadgeses = new HashSet<MemberAcquiredBadges>(0);
@@ -604,6 +608,17 @@ public class Member implements java.io.Serializable {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+
+	@OneToMany(mappedBy="member")
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
+	}
+
+
 
 
 
