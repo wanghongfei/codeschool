@@ -10,7 +10,10 @@
 }
 
 .msg-board-content {
-	height: 300px;
+}
+
+.msg-form {
+	margin-top: 20px;
 }
 
 .msg-board-left-main img {

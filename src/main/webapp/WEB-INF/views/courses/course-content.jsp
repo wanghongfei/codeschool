@@ -199,9 +199,10 @@
 					<!-- header starts -->
 					<div class="msg-board-header">
 						<div class="msg-board-header-left float-to-left">
-							<span>留言(152)</span>
+							<span>我要留言(152)</span>
 						</div>
 						<div class="msg-board-header-right float-to-right">
+							<span style="margin-right: 15px;">第1页</span>
 							<span><a href="#">上一页</a></span>
 							<span><a href="#">下一页</a></span>
 						</div>
@@ -232,10 +233,49 @@
 							</div>
 							<div style="clear:both"></div>
 						</div> <!-- content ends -->
+						
+						
+						<div class="msg-board-content">
+							<hr />
+							<div class="msg-board-left-main float-to-left">
+								<img src="http://qlogo2.store.qq.com/qzone/150699917/150699917/50" />
+								<div>Neo Smith</div>
+								<div>第1楼</div>
+							</div>
+							
+							<div class="msg-board-right-main float-to-left">
+								<div class="msg-board-text">
+									This is a piece of message;
+								</div>
+								<div class="msg-board-action">
+									<span>2014-2-18</span>
+									<span><a href="#">回复</a></span>
+									<span><a href="#">编辑</a></span>
+								</div>
+							</div>
+							<div style="clear:both"></div>
+						</div> <!-- content ends -->
+						
 					</div>
-					<!-- content ends -->
-				</div>
+				</div> <!-- msg-borad ends -->
+			</div> <!-- col ends -->
+			
+			<!-- msg form starts -->
+    		<div class="row">
+				<div class="col-sm-7 col-md-7 col-md-offset-2 msg-form">
+     		       <div class="panel panel-default">
+      		          <div class="panel-body">                
+     		               <form accept-charset="UTF-8" action="" method="POST">
+      		                  <textarea class="form-control counted" name="message" placeholder="输入评论" rows="5" style="margin-bottom:10px;"></textarea>
+      		                  <h6 class="pull-right" id="counter">320 characters remaining</h6>
+      		                  <button class="btn btn-info" type="submit">发表</button>
+      		              </form>
+      		          </div>
+      		      </div>
+      		  	</div>
 			</div>
+			<!-- msg form ends -->
+			
 		</div>
 	</div>
 
@@ -287,6 +327,7 @@
 	<script src='<c:url value="/resources/js/jquery-ui-1.10.4.custom.min.js" />'></script>
 	<script src='<c:url value="/resources/js/bootstrap.min.js" />'></script>
 	<script src='<c:url value="/resources/js/AdminLTE/app.js" />'></script>
+	<script src='<c:url value="/resources/js/char-counter.js" />'></script>
 
 	<%@ include file="/WEB-INF/views/fragment/chat.jsp" %>	
 
