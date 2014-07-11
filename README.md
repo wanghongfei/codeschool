@@ -1,1 +1,1 @@
-## codeschool## Inc用户在线提交代码，马上判断正误## 截图* <img src="http://img.my.csdn.net/uploads/201407/07/1404742524_8921.png" />* <img src="http://img.my.csdn.net/uploads/201407/07/1404742523_1166.png" />
+## codeschool## Inc用户在线提交代码，马上判断正误## 截图* <img src="http://img.my.csdn.net/uploads/201407/07/1404742524_8921.png" />* <img src="http://img.my.csdn.net/uploads/201407/07/1404742523_1166.png" />## 构建说明* 开发环境为 Debian-7.1, JDK7* 应用服务器JBoss Wildfly-8.1.0, 数据库MySql-5.5.37, 数据源配置见 `codeschool-ds.xml`* 在项目根目录下执行 `maven clean install`构建工程
