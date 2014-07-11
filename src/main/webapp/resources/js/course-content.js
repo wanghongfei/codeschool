@@ -115,6 +115,41 @@ $(".code-javascript").click(function(e) {
 	
 });
 
+// 提交评论
+$("#form").submit(function(e) {
+	e.preventDefault();
+	
+	var json = {
+		content: $(".counted").val(),
+		sectionId: currentSectionId
+	};
+
+	// 显示动态图片
+	var $msg = $("#err-msg");
+	var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+	$msg.empty();
+	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
+	
+	// 发送AJAX请求
+	$.ajax({
+		url: "/codeschool/courses/start/comment",
+		type: "POST",
+		dataType: "json",
+		contentType: "application/json",
+		data: JSON.stringify(json),
+		success : function(data) {
+			// 显示服务器反馈信息
+			$msg.html(data.message);
+
+			// 操作成功
+			if (data.result == true) {
+				// 刷新页面
+				location.reload(false);
+			}
+		}
+	});
+});
+
 var editors = []; // 维护 editor 引用
 var lastLog = null;
 

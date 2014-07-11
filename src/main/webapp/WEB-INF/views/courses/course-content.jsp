@@ -234,27 +234,28 @@
 							<div style="clear:both"></div>
 						</div> <!-- content ends -->
 						
-						
-						<div class="msg-board-content">
-							<hr />
-							<div class="msg-board-left-main float-to-left">
-								<img src="http://qlogo2.store.qq.com/qzone/150699917/150699917/50" />
-								<div>Neo Smith</div>
-								<div>第1楼</div>
-							</div>
+						<c:forEach items="${ commentList }" var="_c">
+							<div class="msg-board-content">
+								<hr />
+								<div class="msg-board-left-main float-to-left">
+									<img src="http://qlogo2.store.qq.com/qzone/150699917/150699917/50" />
+									<div>${ _c.member.username }</div>
+									<div>第1楼</div>
+								</div>
 							
-							<div class="msg-board-right-main float-to-left">
-								<div class="msg-board-text">
-									This is a piece of message;
+								<div class="msg-board-right-main float-to-left">
+									<div class="msg-board-text">
+										${ _c.msgContent }
+									</div>
+									<div class="msg-board-action">
+										<span>${ _c.msgTime }</span>
+										<span><a href="#">回复</a></span>
+										<span><a href="#">编辑</a></span>
+									</div>
 								</div>
-								<div class="msg-board-action">
-									<span>2014-2-18</span>
-									<span><a href="#">回复</a></span>
-									<span><a href="#">编辑</a></span>
-								</div>
-							</div>
-							<div style="clear:both"></div>
-						</div> <!-- content ends -->
+								<div style="clear:both"></div>
+							</div> <!-- content ends -->	
+						</c:forEach>
 						
 					</div>
 				</div> <!-- msg-borad ends -->
@@ -265,12 +266,13 @@
 				<div class="col-sm-7 col-md-7 col-md-offset-2 msg-form">
      		       <div class="panel panel-default">
       		          <div class="panel-body">                
-     		               <form accept-charset="UTF-8" action="" method="POST">
+     		               <form id="form" accept-charset="UTF-8" action="<c:url value='/courses/start/comment' />" method="POST">
       		                  <textarea class="form-control counted" name="message" placeholder="输入评论" rows="5" style="margin-bottom:10px;"></textarea>
       		                  <h6 class="pull-right" id="counter">320 characters remaining</h6>
       		                  <button class="btn btn-info" type="submit">发表</button>
       		              </form>
       		          </div>
+      		          <div id="err-msg"></div>
       		      </div>
       		  	</div>
 			</div>

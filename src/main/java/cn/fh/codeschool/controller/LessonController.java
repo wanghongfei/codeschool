@@ -1,5 +1,6 @@
 package cn.fh.codeschool.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.fh.codeschool.model.Comment;
 import cn.fh.codeschool.model.Course;
 import cn.fh.codeschool.model.CourseChapter;
 import cn.fh.codeschool.model.CourseSection;
 import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.service.ChapterService;
+import cn.fh.codeschool.service.CommentService;
 import cn.fh.codeschool.service.CourseService;
 import cn.fh.codeschool.service.SectionService;
 import cn.fh.codeschool.service.ValidationService;
@@ -55,8 +58,11 @@ public class LessonController {
 	@Autowired
 	private AccountService accountService;
 	
+	@Autowired
+	private CommentService commentService;
+	
 	/**
-	 * 用户请求课程学习页面，将小节放到model中
+	 * 用户请求课程学习页面，将小节和评论放到model中
 	 * @return
 	 */
 	@RequestMapping(value = "/courses/start")
@@ -74,6 +80,10 @@ public class LessonController {
 		// 将语言放入model中
 		String[] lan = courseService.fetchCourseLanguage(courseId).split(";");
 		model.addAttribute("languageList", lan);
+		
+		// 将评论放入model中
+		List<Comment> comList = commentService.queryComments(cs);
+		model.addAttribute("commentList", comList);
 		
 		// 标记当前课程为用户开始学习
 		if (null != req.getSession(false)) {
@@ -94,6 +104,54 @@ public class LessonController {
 		
 
 		return "/courses/course-content";
+	}
+	
+	/**
+	 * 响应用户评论AJAX请求
+	 * @param reqMap
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "/courses/start/comment", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public @ResponseBody String addComment(@RequestBody Map<String, Object>reqMap, HttpServletRequest req) {
+		// 取出 content 参数
+		String content = (String)reqMap.get("content");
+		Integer sectionId = Integer.valueOf( (String)reqMap.get("sectionId") );
+		
+		JsonObject json = null;
+		if (null == content || true == content.isEmpty()) {
+			// 查检内容是否为空
+			json = Json.createObjectBuilder()
+					.add("result", false)
+					.add("message", "content is empty")
+					.build();
+		} else {
+			// 检查是否登陆
+			HttpSession session = req.getSession(false);
+			Member m = null;
+			if (null == session || null == (m = (Member)session.getAttribute("currentUser")) ) {
+				json =  Json.createObjectBuilder()
+						.add("result", false)
+						.add("message", "not logged in")
+						.build();
+			} else {
+				// 写入数据库
+				CourseSection cs = sectionService.findSection(sectionId);
+				Comment com = new Comment();
+				com.setMsgContent(content);
+				com.setMsgTime(new Date());
+				
+				commentService.save(m, cs, com);
+
+				json =  Json.createObjectBuilder()
+						.add("result", true)
+						.add("message", "success")
+						.build();
+			}
+			
+		}
+		
+		return json.toString();
 	}
 	
 	/**
