@@ -194,7 +194,7 @@
 		
 		<%-- message board --%>
 		<div class="row">
-			<div class="col-md-7 col-md-offset-2">
+			<div class="col-md-8 col-md-offset-2">
 				<div class="msg-board">
 					<!-- header starts -->
 					<div class="msg-board-header">
@@ -224,16 +224,54 @@
 									<div>第1楼</div>
 								</div>
 							
-								<div class="msg-board-right-main float-to-left">
+								<div class="msg-board-right-main float-to-left ">
 									<div class="msg-board-text">
 										${ _c.msgContent }
 									</div>
 									<div class="msg-board-action">
 										<span>${ _c.msgTime }</span>
-										<span><a href="#">回复</a></span>
+										<span><a href="/codeschool/courses/start/comment/reply">回复</a></span>
 										<span><a href="#">编辑</a></span>
 									</div>
+									
+									<!-- reply starts -->
+									<%-- 判断有没有回复 --%>
+									<%-- <c:if test="${ 1 == _c.getHasReply() }"> --%>
+										<%-- <c:forEach items="${ _c.getReplyList() }" var="_r"> --%>
+											<div class="msg-reply">
+												<hr />
+												
+												<div class="msg-board-left-main float-to-left">
+													<img src="/codeschool/image.avatar?username=admin" />
+													<div>用户名</div>
+												</div>
+												
+												<div class="msg-board-right-main float-to-left ">
+												<div class="msg-board-text">
+													<%-- ${ _r.msgContent } --%>
+													hello
+												</div>
+												<div class="msg-board-action">
+													<span>2014-3-12<%-- ${ _r.msgTime } --%></span>
+													<span><a href="#">编辑</a></span>
+												</div>
+												
+												<!-- reply form -->
+												<form id="reply-form" action="">
+													<div class="input-group" style="width:400px; margin-top:5px">
+														<input name="reply-msg" type="text" class="form-control input-sm" placeholder="在此回复" />
+														<span class="input-group-btn">
+															<button class="btn btn-warning btn-sm" id="btn-send">回复</button>
+														</span>
+													</div>
+												</form>
+												</div>
+											</div>
+										<%-- </c:forEach> --%>
+									<%-- </c:if> --%>
+									<!-- reply ends -->
 								</div>
+									
 								<div style="clear:both"></div>
 							</div> <!-- content ends -->	
 						</c:forEach>

@@ -16,6 +16,17 @@
 	margin-top: 20px;
 }
 
+.msg-reply {
+	margin-left: 50px;
+}
+.msg-reply .msg-board-left-main img {
+	height: 45px;
+	width: 45px;
+}
+.msg-reply .msg-board-text {
+	height: inherit;
+}
+
 .msg-board-left-main img {
 	display: block;
 	width: 90px;
