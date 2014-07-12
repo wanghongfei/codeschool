@@ -104,7 +104,16 @@ public class CommentService {
 		for (Comment com : comList) {
 			com.getMember().getUsername();
 			com.getCourseSection().getSectionName();
+			
+			// 如果有回复则加载回复
+			if (1 == com.getHasReply()) {
+				List<Comment> repList = com.getReplyList();
+				for (Comment rep : repList) {
+					rep.getMsgTime();
+				}
+			}
 		}
+		
 		
 		return comList;
 	}

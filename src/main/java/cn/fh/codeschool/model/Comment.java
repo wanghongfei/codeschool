@@ -1,8 +1,12 @@
 package cn.fh.codeschool.model;
 
+
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -34,6 +38,23 @@ public class Comment implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="course_section_id")
 	private CourseSection courseSection;
+	
+	// 是否有回复
+	@Column(name = "has_reply")
+	private int hasReply;
+	
+	// 评论回复
+	@ManyToMany
+	@JoinTable(
+		name="coment_reply"
+		, joinColumns={
+			@JoinColumn(name="reply_id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="comment_id")
+			}
+		)
+	private List<Comment> replyList;
 
 	public Comment() {
 	}
@@ -76,6 +97,22 @@ public class Comment implements Serializable {
 
 	public void setCourseSection(CourseSection courseSection) {
 		this.courseSection = courseSection;
+	}
+
+	public int getHasReply() {
+		return hasReply;
+	}
+
+	public void setHasReply(int hasReply) {
+		this.hasReply = hasReply;
+	}
+
+	public List<Comment> getReplyList() {
+		return replyList;
+	}
+
+	public void setReplyList(List<Comment> replyList) {
+		this.replyList = replyList;
 	}
 
 }
