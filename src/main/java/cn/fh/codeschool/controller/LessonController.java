@@ -68,6 +68,7 @@ public class LessonController {
 	@RequestMapping(value = "/courses/start")
 	public String startCourse(@RequestParam Integer sectionId,
 			@RequestParam Integer courseId,
+			@RequestParam("commentPage") int page, // 评论页码
 			Model model,
 			HttpServletRequest req) {
 
@@ -82,8 +83,18 @@ public class LessonController {
 		model.addAttribute("languageList", lan);
 		
 		// 将评论放入model中
-		List<Comment> comList = commentService.queryComments(cs);
+		//List<Comment> comList = commentService.queryComments(cs);
+		List<Comment> comList = commentService.queryComentsByPage(cs, page);
 		model.addAttribute("commentList", comList);
+		
+		// 判断评论是否有下一页
+		if (true == commentService.isNextPageAvailable(cs, page)) {
+			model.addAttribute("nextPage", page + 1);
+		}
+		// 判断是否有上一页
+		if (true == commentService.isPreviousPageAvailable(page)) {
+			model.addAttribute("previousPage", page - 1);
+		}
 		
 		// 标记当前课程为用户开始学习
 		if (null != req.getSession(false)) {
@@ -112,7 +123,7 @@ public class LessonController {
 	 * @param req
 	 * @return
 	 */
-	@RequestMapping(value = "/courses/start/comment", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/courses/start/comment/add", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public @ResponseBody String addComment(@RequestBody Map<String, Object>reqMap, HttpServletRequest req) {
 		// 取出 content 参数
 		String content = (String)reqMap.get("content");

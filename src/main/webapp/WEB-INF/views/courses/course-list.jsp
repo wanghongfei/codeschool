@@ -124,7 +124,7 @@
 									<i class="ion ion-stats-bars"></i>
 								</div>
 								<c:if test="${ _c.courseSections.size() != 0 }">
-									<a href="<c:url value='/courses/start'><c:param name='sectionId' value='${ _c.courseSections.get(0).id }' /><c:param name='courseId' value='${ param.courseId }' /></c:url>" class="small-box-footer"> 开始学习 <i class="fa fa-arrow-circle-right"></i></a>
+									<a href="<c:url value='/courses/start?commentPage=1'><c:param name='sectionId' value='${ _c.courseSections.get(0).id }' /><c:param name='courseId' value='${ param.courseId }' /></c:url>" class="small-box-footer"> 开始学习 <i class="fa fa-arrow-circle-right"></i></a>
 								</c:if>
 							</div>
 						</div>

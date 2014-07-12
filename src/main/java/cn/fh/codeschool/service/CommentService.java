@@ -18,6 +18,7 @@ import cn.fh.codeschool.model.Member;
 @Transactional
 public class CommentService {
 	private Logger logger = LoggerFactory.getLogger(CommentService.class);
+	private static int PAGE_SIZE = 6;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -39,6 +40,66 @@ public class CommentService {
 			.setParameter("section", cs)
 			.getResultList();
 		
+		// trigger eager fetching
+		for (Comment com : comList) {
+			com.getMember().getUsername();
+			com.getCourseSection().getSectionName();
+		}
+		
+		return comList;
+	}
+	
+	/**
+	 * 判断是否存在下一页
+	 * @param cs 课程小节
+	 * @param curPage 当前页数
+	 * @return
+	 */
+	public boolean isNextPageAvailable(CourseSection cs, int curPage) {
+		long tot = queryCommentAmount(cs);
+		long remnant = tot % PAGE_SIZE;
+		
+		if (0 == remnant) {
+			return curPage < tot / PAGE_SIZE;
+		} else {
+			return curPage <= tot / PAGE_SIZE;
+		}
+	}
+	
+	/**
+	 * 判断是否存在上一页
+	 * @param cs
+	 * @param curPage
+	 * @return
+	 */
+	public boolean isPreviousPageAvailable(int curPage) {
+		return curPage > 1;
+	}
+	
+	/**
+	 * 得到一个小节评论的数量
+	 * @param cs
+	 * @return
+	 */
+	public Long queryCommentAmount(CourseSection cs) {
+		return em.createQuery("SELECT COUNT(c) FROM Comment c WHERE c.courseSection = :section", Long.class)
+				.setParameter("section", cs)
+				.getSingleResult();
+	}
+	
+	/**
+	 * 得到第 page 页的评论
+	 * @param cs
+	 * @param page 页数
+	 * @return
+	 */
+	public List<Comment> queryComentsByPage(CourseSection cs, int page) {
+		List<Comment> comList = em.createQuery("SELECT c FROM Comment c WHERE c.courseSection = :section", Comment.class)
+				.setParameter("section", cs)
+				.setMaxResults(PAGE_SIZE)
+				.setFirstResult(PAGE_SIZE * (page - 1))
+				.getResultList();
+
 		// trigger eager fetching
 		for (Comment com : comList) {
 			com.getMember().getUsername();

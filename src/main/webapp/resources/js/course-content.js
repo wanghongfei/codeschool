@@ -132,7 +132,7 @@ $("#form").submit(function(e) {
 	
 	// 发送AJAX请求
 	$.ajax({
-		url: "/codeschool/courses/start/comment",
+		url: "/codeschool/courses/start/comment/add",
 		type: "POST",
 		dataType: "json",
 		contentType: "application/json",

@@ -202,43 +202,24 @@
 							<span>我要留言(152)</span>
 						</div>
 						<div class="msg-board-header-right float-to-right">
-							<span style="margin-right: 15px;">第1页</span>
-							<span><a href="#">上一页</a></span>
-							<span><a href="#">下一页</a></span>
+							<span style="margin-right: 15px;">第${ param.commentPage }页</span>
+							<c:if test="${ null != previousPage }">
+								<span><a href="/codeschool/courses/start?sectionId=${ param.sectionId }&courseId=${ param.courseId }&commentPage=${ previousPage }">上一页</a></span>
+							</c:if>
+							
+							<c:if test="${ null != nextPage }">
+								<span><a href="/codeschool/courses/start?sectionId=${ param.sectionId }&courseId=${ param.courseId }&commentPage=${ nextPage }">下一页</a></span>
+							</c:if>
 						</div>
 						<div style="clear:both"></div>
 					</div>
 					<!-- header ends -->
-					
-					<!-- content starts -->
-					<div class="msg-board-main">
-					
-						<div class="msg-board-content">
-							<hr />
-							<div class="msg-board-left-main float-to-left">
-								<img src="http://qlogo2.store.qq.com/qzone/150699917/150699917/50" />
-								<div>Neo Smith</div>
-								<div>第1楼</div>
-							</div>
-							
-							<div class="msg-board-right-main float-to-left">
-								<div class="msg-board-text">
-									This is a piece of message;
-								</div>
-								<div class="msg-board-action">
-									<span>2014-2-18</span>
-									<span><a href="#">回复</a></span>
-									<span><a href="#">编辑</a></span>
-								</div>
-							</div>
-							<div style="clear:both"></div>
-						</div> <!-- content ends -->
 						
 						<c:forEach items="${ commentList }" var="_c">
 							<div class="msg-board-content">
 								<hr />
 								<div class="msg-board-left-main float-to-left">
-									<img src="http://qlogo2.store.qq.com/qzone/150699917/150699917/50" />
+									<img src="/codeschool/image.avatar?username=${ _c.member.username }" />
 									<div>${ _c.member.username }</div>
 									<div>第1楼</div>
 								</div>
