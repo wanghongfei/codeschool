@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,8 @@ import cn.fh.codeschool.model.Member;
 @Repository
 @Transactional
 public class CommentService {
+	private Logger logger = LoggerFactory.getLogger(CommentService.class);
+
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -36,10 +40,10 @@ public class CommentService {
 			.getResultList();
 		
 		// trigger eager fetching
-		/*for (Comment com : comList) {
-			com.getMember();
-			com.getCourseSection();
-		}*/
+		for (Comment com : comList) {
+			com.getMember().getUsername();
+			com.getCourseSection().getSectionName();
+		}
 		
 		return comList;
 	}

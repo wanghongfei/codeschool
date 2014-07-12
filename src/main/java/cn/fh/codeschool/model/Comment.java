@@ -27,11 +27,11 @@ public class Comment implements Serializable {
 	private Date msgTime;
 
 	//bi-directional many-to-one association to Member
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Member member;
 
 	//bi-directional many-to-one association to CourseSection
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="course_section_id")
 	private CourseSection courseSection;
 
