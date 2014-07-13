@@ -139,6 +139,11 @@ public class Member implements java.io.Serializable {
 		this.memberAcquiredBadgeses = memberAcquiredBadgeses;
 	}
 	
+	@Override
+	public String toString() {
+		return this.username;
+	}
+	
 	/**
 	 * 赞的数量+1
 	 * @return

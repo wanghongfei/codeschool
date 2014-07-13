@@ -94,7 +94,15 @@ public class ChatController {
 	 */
 	@RequestMapping(value = "/chat/recv/{username}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	public @ResponseBody String checkMessage(HttpServletRequest req) {
-		//Member m = (Member)req.getSession().getAttribute("currentUser");
+		
+		if (false == Security.isLoggedIn(req)) {
+			return Json.createObjectBuilder()
+					.add("result", false)
+					.add("message", "not logged in")
+					.build()
+					.toString();
+		}
+		
 		Member m = Security.getLoggedInUser(req);
 
 		// 没有消息
