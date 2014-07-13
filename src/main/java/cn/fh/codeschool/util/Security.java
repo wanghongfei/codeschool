@@ -41,4 +41,13 @@ public class Security {
 		Member m = (Member)req.getSession().getAttribute("currentUser");
 		return m.hasRole(roleName);
 	}
+	
+	/**
+	 * 从session中得到Member对象
+	 * @param req
+	 * @return
+	 */
+	public static Member getLoggedInUser(HttpServletRequest req) {
+		return (Member)req.getSession().getAttribute("currentUser");
+	}
 }

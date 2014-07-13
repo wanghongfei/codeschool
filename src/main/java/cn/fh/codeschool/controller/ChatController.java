@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.model.Message;
 import cn.fh.codeschool.servlet.LoggedInUserCollection;
+import cn.fh.codeschool.util.Security;
 
 @Controller
 public class ChatController {
@@ -84,7 +85,8 @@ public class ChatController {
 	 */
 	@RequestMapping(value = "/chat/recv/{username}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	public @ResponseBody String checkMessage(HttpServletRequest req) {
-		Member m = (Member)req.getSession().getAttribute("currentUser");
+		//Member m = (Member)req.getSession().getAttribute("currentUser");
+		Member m = Security.getLoggedInUser(req);
 
 		// 没有消息
 		Queue<Message> msgQueue = m.getReceivedMessageQueue();

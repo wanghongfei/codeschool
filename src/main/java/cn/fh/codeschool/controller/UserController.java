@@ -69,7 +69,8 @@ public class UserController {
 				logger.debug("## 文件长度：{}", buf.length);
 			}
 			
-			Member m = (Member)req.getSession(false).getAttribute("currentUser");
+			//Member m = (Member)req.getSession(false).getAttribute("currentUser");
+			Member m = Security.getLoggedInUser(req);
 			m.setAvatar(buf);
 			accountService.saveMember(m);
 			
@@ -123,7 +124,9 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/user/{username}/update", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-	public @ResponseBody String updateProfile(@PathVariable String username, @RequestBody Map<String, Object> reqMap, HttpSession session) {
+	public @ResponseBody String updateProfile(@PathVariable String username,
+			@RequestBody Map<String, Object> reqMap,
+			HttpServletRequest req) {
 
 		// obtain json data
 		String nickName = (String)reqMap.get("nickName");
@@ -136,7 +139,8 @@ public class UserController {
 			logger.debug("## 昵称：{}", nickName);
 		}
 		
-		Member m =  (Member)session.getAttribute("currentUser");
+		//Member m =  (Member)session.getAttribute("currentUser");
+		Member m = Security.getLoggedInUser(req);
 		m.setNickName(nickName);
 		m.setEmailAddress(email);
 		m.setBirthday(splitDate(birthday));
@@ -175,10 +179,11 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/user/{username}/addFriend", method = RequestMethod.GET)
-	public String addFriend(@PathVariable String username, HttpSession session) {
+	public String addFriend(@PathVariable String username, HttpServletRequest req) {
 		
 		
-		Member m = (Member)session.getAttribute("currentUser");
+		//Member m = (Member)session.getAttribute("currentUser");
+		Member m = Security.getLoggedInUser(req);
 		// 不能重复添加
 		if (true == m.hasFriend(username)) {
 			return "redirect:/user/" + m.getUsername() + "/profile";
@@ -216,7 +221,8 @@ public class UserController {
 		// 如果用户已登陆,判断页面上的用户是否是当前用户的好友
 		boolean isFriend = false;
 		if ( true == Security.isLoggedIn(req) ) {
-			Member currentUser = (Member)req.getSession().getAttribute("currentUser");
+			//Member currentUser = (Member)req.getSession().getAttribute("currentUser");
+			Member currentUser = Security.getLoggedInUser(req);
 			isFriend = currentUser.hasFriend(username);
 		}
 		model.addAttribute("isFriend", isFriend);

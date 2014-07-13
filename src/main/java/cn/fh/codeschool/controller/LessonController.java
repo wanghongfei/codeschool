@@ -99,7 +99,8 @@ public class LessonController {
 		
 		// 标记当前课程为用户开始学习
 		if (null != req.getSession(false)) {
-			Member m = (Member)req.getSession(false).getAttribute("currentUser");
+			//Member m = (Member)req.getSession(false).getAttribute("currentUser");
+			Member m = Security.getLoggedInUser(req);
 			
 			// 下面的if测试用
 			/*if (null != m) {
@@ -164,7 +165,8 @@ public class LessonController {
 				com.setMsgContent(content);
 				com.setMsgTime(new Date());
 				
-				Member m = (Member)req.getSession().getAttribute("currentUser");
+				//Member m = (Member)req.getSession().getAttribute("currentUser");
+				Member m = Security.getLoggedInUser(req);
 				commentService.save(m, cs, com);
 
 				json =  Json.createObjectBuilder()
@@ -203,7 +205,7 @@ public class LessonController {
 	 * @return
 	 */
 	@RequestMapping(value = "/courses/start/submit-code", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-	public @ResponseBody String validateCode(@RequestBody Map<String, Object> reqMap, HttpSession session) {
+	public @ResponseBody String validateCode(@RequestBody Map<String, Object> reqMap, HttpServletRequest req) {
 		// 取出参数
 		String code = (String)reqMap.get("code");
 		String lan = (String)reqMap.get("language");
@@ -218,7 +220,8 @@ public class LessonController {
 		}
 		
 		// 取出session中的Member
-		Member m = (Member)session.getAttribute("currentUser");
+		//Member m = (Member)session.getAttribute("currentUser");
+		Member m = Security.getLoggedInUser(req);
 		
 		CourseSection cs = sectionService.findSection(sectionId);
 
@@ -259,11 +262,10 @@ public class LessonController {
 		
 		// 如果用户已经登陆，则计算章节完成度
 		if ( true == Security.isLoggedIn(req) ) {
-			Member m =  (Member)req.getSession().getAttribute("currentUser");
-			if (null != m) {
-				for (CourseChapter chapter : chapters) {
-					chapter.setPercentage(calculatePercentage(m, chapter));
-				}	
+			Member m =  Security.getLoggedInUser(req);
+			
+			for (CourseChapter chapter : chapters) {
+				chapter.setPercentage(calculatePercentage(m, chapter));
 			}
 		}
 		
