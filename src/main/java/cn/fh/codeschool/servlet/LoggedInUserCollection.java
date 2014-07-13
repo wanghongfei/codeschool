@@ -2,6 +2,7 @@ package cn.fh.codeschool.servlet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,10 @@ public class LoggedInUserCollection implements HttpSessionListener {
 	public void sessionCreated(HttpSessionEvent event) {
 		sessionList.add(event.getSession());
 		event.getSession().setAttribute("cm", new ConversationManager(event.getSession()));
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("创建session:{}", event.getSession().getId());
+		}
 	}
 
 	/**
@@ -38,22 +43,24 @@ public class LoggedInUserCollection implements HttpSessionListener {
 	@Override
 	public void sessionDestroyed(HttpSessionEvent event) {
 		HttpSession session = event.getSession(); // This is a copy of the original session????
-		Member m = (Member)session.getAttribute("currentUser");
 		
-		if (null != m) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("## User session '{}' destroyed!", m.getUsername());
-			}
+		Member m = (Member)session.getAttribute("currentUser");
+		if (logger.isDebugEnabled()) {
+			logger.debug("销毁session:{}, uName:{}", session.getId(), m);
+		}
+		
+		if (m != null) {
 			sessionMap.remove(m.getUsername());
+		}
 			
-			// Remove this session from all session map.
-			int ix = 0;
-			for (int LEN = sessionList.size() ; ix < LEN ; ++ix) {
-				if (sessionList.get(ix).getId().equals(session.getId())) {
-					break;
-				}
+		// Remove this session from all session map.
+		Iterator<HttpSession> it = sessionList.iterator();
+		while (it.hasNext()) {
+			HttpSession curSession = it.next();
+			if (curSession.getId().equals(session.getId())) {
+				it.remove();
+				break;
 			}
-			sessionList.remove(ix);
 		}
 	}
 	

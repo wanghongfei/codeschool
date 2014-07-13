@@ -1,6 +1,6 @@
 package cn.fh.codeschool.servlet;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,9 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.fh.codeschool.scope.Conversation;
-import cn.fh.codeschool.scope.ConversationManager;
-
 /**
  * Start timer while this application is deploying.
  * @author whf
@@ -22,6 +19,7 @@ import cn.fh.codeschool.scope.ConversationManager;
  */
 public class AppServletContextListener implements ServletContextListener {
 	private Timer timer;
+	private Timer sessionRecall;
 	
 	private static long TIMER_START_TIME = 1000 * 5; // in 5 seconds
 	private static long TIMER_CHECK_INTERVAL = 1000 * 30; // every 30 seconds
@@ -30,7 +28,8 @@ public class AppServletContextListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		timer.cancel();
+		//timer.cancel();
+		sessionRecall.cancel();
 	}
 
 	/**
@@ -38,21 +37,58 @@ public class AppServletContextListener implements ServletContextListener {
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		timer = new Timer();
+		//timer = new Timer();
+		// 回收没有用户登陆的session
+		sessionRecall = new Timer();
+
 		logger.info("Timer has been started!!!");
 
-		timer.schedule(new TimerTask() {
+		//timer.schedule(new TimerTask() {
+		sessionRecall.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				logger.debug(">>>>>>>>>> Timer executes!!, session数量：{}", LoggedInUserCollection.getSessionList().size());
-				// No session created yet.
-				if (true == LoggedInUserCollection.getSessionList().isEmpty()) {
-					return;
-				}
 
 				
-				// Traverse every session
-				for (HttpSession session : LoggedInUserCollection.getSessionList()) {
+				// 遍历每一个session
+				/*Iterator<HttpSession> sessionIt = LoggedInUserCollection.getSessionList().iterator();
+				HttpSession session = null;
+				while (sessionIt.hasNext()) {
+					session = sessionIt.next();
+
+					
+					// 回收僵尸session
+					if (null == session.getAttribute("currentUser")) {
+						if (logger.isDebugEnabled()) {
+							logger.debug("回收僵尸session:{}", session.getId());
+						}
+
+						sessionIt.remove();
+						session.invalidate();
+						continue;
+					}
+					
+					if (logger.isDebugEnabled()) {
+						Object[] parms = new Object[] {session.getAttribute("currentUser"), Long.valueOf( new Date().getTime() - session.getLastAccessedTime()), Integer.valueOf(session.getMaxInactiveInterval()) };
+						logger.debug("## 用户：{}, 上次访问至现在时间间隔(ms):{}, inactive(m):{}", parms);
+					}
+				}*/
+
+				/*for (HttpSession session : LoggedInUserCollection.getSessionList()) {
+					// 回收僵尸session
+					if (null == session.getAttribute("currentUser")) {
+						if (logger.isDebugEnabled()) {
+							logger.debug("回收僵尸session:{}", session.getId());
+						}
+
+						session.invalidate();
+						continue;
+					}
+					
+					if (logger.isDebugEnabled()) {
+						logger.debug("## 用户：{}", session.getAttribute("currentUser"));
+					}
+					
 					// Traverse conversations inside this session
 					ConversationManager cm = (ConversationManager)session.getAttribute("cm");
 					
@@ -69,7 +105,7 @@ public class AppServletContextListener implements ServletContextListener {
 							it.remove();
 						}
 					}
-				}
+				}*/
 
 
 			}
