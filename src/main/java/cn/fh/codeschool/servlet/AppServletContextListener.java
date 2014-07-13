@@ -44,7 +44,7 @@ public class AppServletContextListener implements ServletContextListener {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				logger.info(">>>>>>>>>> Timer executes!!");
+				logger.debug(">>>>>>>>>> Timer executes!!, session数量：{}", LoggedInUserCollection.getSessionList().size());
 				// No session created yet.
 				if (true == LoggedInUserCollection.getSessionList().isEmpty()) {
 					return;

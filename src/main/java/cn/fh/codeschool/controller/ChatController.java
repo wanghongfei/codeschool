@@ -59,7 +59,16 @@ public class ChatController {
 		
 		// 得到当前用户和目标用户
 		Member targetMember = (Member)targetSession.getAttribute("currentUser");
-		Member sourceMember = (Member)req.getSession().getAttribute("currentUser");
+		
+		// 当前用户未登陆，一定是用非正常方式发送的请求！
+		if (false == Security.isLoggedIn(req)) {
+			return Json.createObjectBuilder()
+				.add("result", false)
+				.add("message", "not logged in")
+				.build()
+				.toString();
+		}
+		Member sourceMember = Security.getLoggedInUser(req);
 
 		// 封装信息
 		Message msg = new Message();
