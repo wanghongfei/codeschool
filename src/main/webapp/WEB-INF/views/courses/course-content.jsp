@@ -221,7 +221,6 @@
 								<div class="msg-board-left-main float-to-left">
 									<img src="/codeschool/image.avatar?username=${ _c.member.username }" />
 									<div>${ _c.member.username }</div>
-									<div>第1楼</div>
 								</div>
 							
 								<div class="msg-board-right-main float-to-left ">
@@ -234,41 +233,55 @@
 										<span><a href="#">编辑</a></span>
 									</div>
 									
+									<div>
+										<!-- reply form -->
+										<c:if test="${ currentUser != null }">
+											<form id="reply-form" action="/codeschool/courses/start/comment/reply" method="POST">
+												<div class="input-group" style="width:400px; margin-top:5px">
+													<input name="reply-msg" type="text" class="form-control input-sm" placeholder="在此回复" />
+	
+													<input type="hidden" name="sectionId" value="${ param.sectionId }"/>
+													<input type="hidden" name="courseId" value="${ param.courseId }"/>
+													<input type="hidden" name="commentPage" value="${ param.commentPage }"/>
+													<input type="hidden" name="targetUsername" value="${ _c.member.username }"/>
+													<input type="hidden" name="targetCommentId" value="${ _c.id }"/>
+														
+													<span class="input-group-btn">
+														<input type="submit" class="btn btn-warning btn-sm" value="回复" />
+													</span>
+												</div>
+											</form>
+										</c:if>
+									</div>
+									
 									<!-- reply starts -->
 									<%-- 判断有没有回复 --%>
-									<%-- <c:if test="${ 1 == _c.getHasReply() }"> --%>
-										<%-- <c:forEach items="${ _c.getReplyList() }" var="_r"> --%>
+									<c:if test="${ 1 == _c.getHasReply() }">
+										<c:forEach items="${ _c.getReplyList() }" var="_r">
 											<div class="msg-reply">
 												<hr />
 												
 												<div class="msg-board-left-main float-to-left">
 													<img src="/codeschool/image.avatar?username=admin" />
-													<div>用户名</div>
+													<div>${ _r.member.username }</div>
 												</div>
 												
 												<div class="msg-board-right-main float-to-left ">
-												<div class="msg-board-text">
-													<%-- ${ _r.msgContent } --%>
-													hello
-												</div>
-												<div class="msg-board-action">
-													<span>2014-3-12<%-- ${ _r.msgTime } --%></span>
-													<span><a href="#">编辑</a></span>
+													<div class="msg-board-text">
+														${ _r.msgContent }
+													</div>
+													<div class="msg-board-action">
+														<span>${ _r.msgTime }</span>
+														<span><a href="#">编辑</a></span>
+													</div>
+												
 												</div>
 												
-												<!-- reply form -->
-												<form id="reply-form" action="">
-													<div class="input-group" style="width:400px; margin-top:5px">
-														<input name="reply-msg" type="text" class="form-control input-sm" placeholder="在此回复" />
-														<span class="input-group-btn">
-															<button class="btn btn-warning btn-sm" id="btn-send">回复</button>
-														</span>
-													</div>
-												</form>
-												</div>
+												<%-- 清理浮动 --%>
+												<div style="clear:both"></div>
 											</div>
-										<%-- </c:forEach> --%>
-									<%-- </c:if> --%>
+										</c:forEach>
+									</c:if>
 									<!-- reply ends -->
 								</div>
 									

@@ -23,10 +23,38 @@ public class CommentService {
 	@PersistenceContext
 	private EntityManager em;
 	
+	/**
+	 * 保存一条回复
+	 * @param targetCommentId
+	 * @param reply
+	 */
+	public void saveReply(Integer targetCommentId, Comment reply) {
+		Comment target = findComment(targetCommentId);
+		em.persist(reply);
+		target.setHasReply(1);
+		target.getReplyList().add(reply);
+	}
+	
+	/**
+	 * 保存对一个小节的评论
+	 * @param m
+	 * @param cs
+	 * @param cm
+	 */
 	public void save(Member m, CourseSection cs, Comment cm) {
 		cm.setMember(m);
 		cm.setCourseSection(cs);
 		em.persist(cm);
+	}
+	
+	/**
+	 * 根据id查找Comment实体
+	 * @param id
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public Comment findComment(Integer id) {
+		return em.find(Comment.class, id);
 	}
 	
 	/**

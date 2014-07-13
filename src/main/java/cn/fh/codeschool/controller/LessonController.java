@@ -127,9 +127,28 @@ public class LessonController {
 	 */
 	@RequestMapping(value = "/courses/start/comment/reply", method = RequestMethod.POST)
 	public String commentReply(HttpServletRequest req,
-			@RequestParam String content) {
+			@RequestParam("reply-msg") String content, // 评论内容
+			@RequestParam Integer sectionId,
+			@RequestParam Integer courseId,
+			@RequestParam Integer commentPage,
+			@RequestParam Integer targetCommentId, // 被评论的Comment实体的id
+			@RequestParam String targetUsername) {
 		
-		return "redirect:/courses/start";
+
+		Member currentMember = Security.getLoggedInUser(req); // 当前登陆用户
+		Member targetMember = accountService.findMember(targetUsername); // 被评论用户
+		
+		// 创建一条新的Comment,代表评论回复
+		Comment reply = new Comment();
+		reply.setMember(currentMember);
+		reply.setMsgContent(content);
+		reply.setMsgTime(new Date());
+		
+
+		// 更新数据库
+		commentService.saveReply(targetCommentId, reply);
+		
+		return "redirect:/courses/start?sectionId=" + sectionId + "&courseId=" + courseId + "&commentPage=" + commentPage;
 	}
 	
 	/**
