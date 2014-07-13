@@ -18,6 +18,7 @@ import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.model.User;
 import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.servlet.LoggedInUserCollection;
+import cn.fh.codeschool.util.Security;
 
 @Controller
 public class LoginController {
@@ -76,12 +77,11 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session) {
-		Member m = (Member)session.getAttribute("currentUser");
+	public String logout(HttpServletRequest req) {
 		
 		// 防止用户自行访问 /logout
-		if (null != m) {
-			logger.info("用户 {} 退出登陆", m.getUsername());
+		if ( true == Security.isLoggedIn(req) ) {
+			HttpSession session = req.getSession();
 			session.invalidate();
 		}
 		

@@ -30,6 +30,7 @@ import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.model.RecentActivity;
 import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.service.CourseService;
+import cn.fh.codeschool.util.Security;
 
 @Controller
 public class UserController {
@@ -214,12 +215,9 @@ public class UserController {
 		
 		// 如果用户已登陆,判断页面上的用户是否是当前用户的好友
 		boolean isFriend = false;
-		HttpSession session = req.getSession(false);
-		if (null != session) {
-			Member currentUser = (Member)session.getAttribute("currentUser");
-			if (null != currentUser) {
-				isFriend = currentUser.hasFriend(username);
-			}
+		if ( true == Security.isLoggedIn(req) ) {
+			Member currentUser = (Member)req.getSession().getAttribute("currentUser");
+			isFriend = currentUser.hasFriend(username);
 		}
 		model.addAttribute("isFriend", isFriend);
 		

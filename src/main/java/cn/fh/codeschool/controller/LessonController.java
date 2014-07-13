@@ -31,6 +31,7 @@ import cn.fh.codeschool.service.CommentService;
 import cn.fh.codeschool.service.CourseService;
 import cn.fh.codeschool.service.SectionService;
 import cn.fh.codeschool.service.ValidationService;
+import cn.fh.codeschool.util.Security;
 
 /**
  * 执行与 课程 有关页面的逻辑
@@ -118,6 +119,19 @@ public class LessonController {
 	}
 	
 	/**
+	 * 响应用户回复评论的POST请求
+	 * @param req
+	 * @param content 回复的内容
+	 * @return
+	 */
+	@RequestMapping(value = "/courses/start/comment/reply", method = RequestMethod.POST)
+	public String commentReply(HttpServletRequest req,
+			@RequestParam String content) {
+		
+		return "redirect:/courses/start";
+	}
+	
+	/**
 	 * 响应用户评论AJAX请求
 	 * @param reqMap
 	 * @param req
@@ -138,9 +152,7 @@ public class LessonController {
 					.build();
 		} else {
 			// 检查是否登陆
-			HttpSession session = req.getSession(false);
-			Member m = null;
-			if (null == session || null == (m = (Member)session.getAttribute("currentUser")) ) {
+			if ( false == Security.isLoggedIn(req) ) {
 				json =  Json.createObjectBuilder()
 						.add("result", false)
 						.add("message", "not logged in")
@@ -152,6 +164,7 @@ public class LessonController {
 				com.setMsgContent(content);
 				com.setMsgTime(new Date());
 				
+				Member m = (Member)req.getSession().getAttribute("currentUser");
 				commentService.save(m, cs, com);
 
 				json =  Json.createObjectBuilder()
@@ -245,9 +258,8 @@ public class LessonController {
 		model.addAttribute("course", c);
 		
 		// 如果用户已经登陆，则计算章节完成度
-		HttpSession session = req.getSession(false);
-		if (null != session) {
-			Member m =  (Member)session.getAttribute("currentUser");
+		if ( true == Security.isLoggedIn(req) ) {
+			Member m =  (Member)req.getSession().getAttribute("currentUser");
 			if (null != m) {
 				for (CourseChapter chapter : chapters) {
 					chapter.setPercentage(calculatePercentage(m, chapter));

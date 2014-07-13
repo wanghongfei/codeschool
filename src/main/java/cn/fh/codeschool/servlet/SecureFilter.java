@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.model.Role;
+import cn.fh.codeschool.util.Security;
 
 public class SecureFilter implements Filter {
 
@@ -36,33 +37,13 @@ public class SecureFilter implements Filter {
 		
 
 		// 访问后台管理页面,需验证权限
-		HttpSession session = req.getSession(false);
 		if (path.startsWith("/codeschool/backstage/")) {
-			if (null == session) {
-				forbid((HttpServletResponse)response);
-				return;
-			}
-			
-			Member m = (Member)session.getAttribute("currentUser");
-			if (null == m || false == validateUser(m)) {
+			if (false == Security.hasRole(req, "admin") ) {
 				forbid((HttpServletResponse)response);
 				return;
 			}
 		}
-		
-		// 访问用户信息,需登陆
-		/*if (path.startsWith("/codeschool/user/")) {
-			if (null == session) {
-				forbid((HttpServletResponse)response);
-				return;
-			}
 
-			Member m = (Member)session.getAttribute("currentUser");
-			if (null == m) {
-				forbid((HttpServletResponse)response);
-				return;
-			}
-		}*/
 
 
 		chain.doFilter(request, response);
@@ -82,21 +63,7 @@ public class SecureFilter implements Filter {
 		pw.print("<h1>访问被禁止</h1>");
 		pw.close();
 	}
-	
-	/**
-	 * 验证是否是admin
-	 * @param m
-	 * @return
-	 */
-	private boolean validateUser(Member m) {
-		for (Role r : m.getRoles()) {
-				if (r.getRoleName().equals("admin")) {
-					return true;
-			}
-		}
-		
-		return false;
-	}
+
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
