@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="true"%>
+<%@ page session="false" %>
 
 
 <c:if test="${ currentUser != null }">

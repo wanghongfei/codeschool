@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.fh.codeschool.model.Course;
-import cn.fh.codeschool.model.Member;
-import cn.fh.codeschool.scope.Conversation;
-import cn.fh.codeschool.scope.ConversationManager;
 import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.service.CourseService;
+import cn.fh.codeschool.util.Security;
 
 /**
  * Handles requests for the application home page.
@@ -31,7 +29,6 @@ public class HomeController {
 	
 	@Autowired
 	private CourseService courseService;
-	
 	
 	/**
 	 * 显示主面，同时显示出所有课程

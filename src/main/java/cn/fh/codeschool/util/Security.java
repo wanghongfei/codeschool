@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import cn.fh.codeschool.model.Member;
 
 public class Security {
+	public static final String CURRENT_USER = "currentUser";
 	/**
 	 * 查询用户是否登陆
 	 * @param req
@@ -19,7 +20,7 @@ public class Security {
 			return false;
 		}
 		
-		if (null == session.getAttribute("currentUser") ) {
+		if (null == session.getAttribute(CURRENT_USER) ) {
 			return false;
 		}
 		
@@ -38,7 +39,7 @@ public class Security {
 			return false;
 		}
 		
-		Member m = (Member)req.getSession().getAttribute("currentUser");
+		Member m = (Member)req.getSession().getAttribute(CURRENT_USER);
 		return m.hasRole(roleName);
 	}
 	
@@ -48,6 +49,6 @@ public class Security {
 	 * @return
 	 */
 	public static Member getLoggedInUser(HttpServletRequest req) {
-		return (Member)req.getSession().getAttribute("currentUser");
+		return (Member)req.getSession().getAttribute(CURRENT_USER);
 	}
 }

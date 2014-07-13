@@ -3,7 +3,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
-<%@ page session="true"%>
+<%@ page session="false"%>
 
 <!DOCTYPE html>
 <html>

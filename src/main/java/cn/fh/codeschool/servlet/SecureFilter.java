@@ -34,6 +34,11 @@ public class SecureFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		String path = req.getRequestURI();
 		
+		// 如果用户已经登陆，则把Member对象放进request中
+		// 这样就可以在不开session的情况下在JSP页面中访问Member
+		if (true == Security.isLoggedIn(req)) {
+			req.setAttribute(Security.CURRENT_USER, req.getSession().getAttribute(Security.CURRENT_USER));
+		}
 		
 
 		// 访问后台管理页面,需验证权限
