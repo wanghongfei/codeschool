@@ -61,6 +61,10 @@ $(".change-section-link").click(function(e) {
 			$("#section-content").html(data.content);
 			// currentSectionId = data.id;
 			editors[0].setValue(data.initialCode.replace(/\\n/g, "\n"));
+			
+			// 高亮选中小节
+			resetColor();
+			highlight();
 		}
 	});
 });
@@ -150,6 +154,28 @@ $("#form").submit(function(e) {
 	});
 });
 
+
+function resetColor() {
+	$(".timeline-item").each(function() {
+		$this = $(this);
+		var $prev = $this.prev();
+		$prev.removeClass("bg-yellow");
+		$prev.addClass("bg-blue");
+	});
+}
+function highlight() {
+	$(".timeline-item").each(function() {
+		$this = $(this);
+		if (currentSectionId == $this.find("a").attr("data-id") ) {
+			var $prev = $this.prev();
+			$prev.removeClass("bg-blue");
+			$prev.addClass("bg-yellow");
+			
+			return false;
+		}
+	});
+}
+
 var editors = []; // 维护 editor 引用
 var lastLog = null;
 
@@ -192,6 +218,10 @@ $(document).ready(function() {
 			$elem.html(previousValue + "<br />" + str);
 		}
 	}
+	
+	
+	// 高亮当前小节
+	highlight();
 	
 });
 

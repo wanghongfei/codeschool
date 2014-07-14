@@ -331,12 +331,14 @@
 		<ul class="timeline">
 
 			<!-- 章节名 -->
-			<li class="time-label"><span class="bg-red"> ${ section.courseChapter.chapterName }
-			</span></li>
+			<li class="time-label">
+				<span class="bg-red"> ${ section.courseChapter.chapterName }</span>
+			</li>
 
 			<!-- 小节 -->
 			<c:forEach items="${ section.courseChapter.courseSections }" var="_s">
-				<li><i class="fa fa-envelope bg-blue my-timeline-icon"></i>
+				<li>
+					<i class="fa fa-envelope bg-blue my-timeline-icon"></i>
 					<div class="timeline-item">
 						<div class="timeline-body">
 							<%-- 点击小节点后用ajax更新教程区内容 --%>
@@ -345,7 +347,8 @@
 								href="<c:url value='/courses/start/changeSection'><c:param name='sectionId' value='${ _s.id }' /></c:url>">
 								${ _s.sectionName } </a>
 						</div>
-					</div></li>
+					</div>
+				</li>
 			</c:forEach>
 
 		</ul>
