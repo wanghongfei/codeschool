@@ -68,7 +68,7 @@
 					<c:when test="${ !isFriend && currentUser != null }">
 						<a href="/codeschool/user/${ member.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
 					</c:when>
-					<c:when test="${ isFriend }">
+					<c:when test="${ isFriend && false == currentUser.username.equals(member.username) }">
 						<p>TA是我的好友</p>
 					</c:when>
 				</c:choose>
@@ -103,7 +103,7 @@
 					<li class="list-group-item text-muted">个人资料</li>
 					<li class="list-group-item text-right">
 						<span class="pull-left"><strong>注册时间</strong></span>
-						${ member.registerDate }
+						${ member.registerTime }
 					</li>
 					<li class="list-group-item text-right">
 						<span class="pull-left"><strong>生日</strong></span>
@@ -379,7 +379,7 @@
 										<tr>
 											<td><i class="pull-right fa fa-edit"></i> 用户<a
 												href="/codeschool/user/${ _a.member.username }/profile">${ _a.member.username }</a>
-												${ _a.occurTime } - ${ _a.content }</td>
+												${ _a.time } - ${ _a.content }</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -396,7 +396,7 @@
 									<tbody>
 										<c:forEach items="${ member.recentActivity }" var="_r">
 											<tr>
-												<td><i class="pull-right fa fa-edit"></i> ${ _r.occurTime }
+												<td><i class="pull-right fa fa-edit"></i> ${ _r.time }
 													- ${ _r.content }</td>
 											</tr>
 										</c:forEach>

@@ -2,6 +2,7 @@ package cn.fh.codeschool.model;
 // Generated Apr 29, 2014 2:35:49 PM by Hibernate Tools 4.0.0
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -43,6 +44,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "member")
 public class Member implements java.io.Serializable {
+	public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
 
 	private int id;
 	private String username;
@@ -137,6 +139,15 @@ public class Member implements java.io.Serializable {
 		this.rank = rank;
 		this.roles = memberRoles;
 		this.memberAcquiredBadgeses = memberAcquiredBadgeses;
+	}
+	
+	@Transient
+	public String getRegisterTime() {
+		if (null != this.registerDate) {
+			return dateFormat.format(this.registerDate);
+		} else {
+			return "未填写";
+		}
 	}
 	
 	@Override

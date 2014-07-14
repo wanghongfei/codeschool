@@ -1,5 +1,6 @@
 package cn.fh.codeschool.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,11 +9,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
 @Table(name = "recent_activity")
 public class RecentActivity {
+	@Transient
+	public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
+	
+	
 	@Id @GeneratedValue
 	private Long id;
 	
@@ -32,6 +38,10 @@ public class RecentActivity {
 	@ManyToOne
 	private Member member;
 
+
+	public String getTime() {
+		return dateFormat.format(this.occurTime);
+	}
 
 	public Long getId() {
 		return id;

@@ -221,7 +221,7 @@
 								<hr />
 								<div class="msg-board-left-main float-to-left">
 									<img src="/codeschool/image.avatar?username=${ _c.member.username }" />
-									<div>${ _c.member.username }</div>
+									<div><a href="/codeschool/user/${ _c.member.username }/profile">${ _c.member.username }</a></div>
 								</div>
 							
 								<div class="msg-board-right-main float-to-left ">
@@ -266,7 +266,7 @@
 												
 												<div class="msg-board-left-main float-to-left">
 													<img src="/codeschool/image.avatar?username=admin" />
-													<div>${ _r.member.username }</div>
+													<div><a href="/codeschool/user/${ _r.member.username }/profile">${ _r.member.username }</a></div>
 												</div>
 												
 												<div class="msg-board-right-main float-to-left ">
