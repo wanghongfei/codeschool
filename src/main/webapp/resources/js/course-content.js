@@ -176,6 +176,59 @@ function highlight() {
 	});
 }
 
+// 得到下一小节的id号
+// 如果没有下一小节，则返回null
+function nextSection() {
+	for (var ix = 0 ; ix < ids.length ; ++ix) {
+		if (ids[ix] == currentSectionId) {
+			if (ix < ids.length - 1) {
+				return ids[ix + 1];
+			} else {
+				return null;
+			}
+		}
+	}
+}
+// 得到上一小节的id号
+// 如果没有, 返回null
+function prevSection() {
+	for (var ix = 1 ; ix < ids.length ; ++ix) {
+		if (ids[ix] == currentSectionId) {
+			return ids[ix - 1];
+		}
+	}	
+	
+	return null;
+}
+
+// 用户点击“下一节” button
+$("#next-section").click(function(e) {
+	e.preventDefault();
+	
+	var nextId = nextSection();
+	if (null != nextId) {
+		// 触发下一个链接的click事件
+		$(".change-section-link[data-id='" + nextId + "']").trigger("click");
+	} else {
+		alert("最后一节了！");
+	}
+});
+	
+
+// 用户点击“上一节” button
+$("#prev-section").click(function(e) {
+	e.preventDefault();
+	
+	var prevId = prevSection();
+	if (null != prevId) {
+		// 触发下一个链接的click事件
+		$(".change-section-link[data-id='" + prevId + "']").trigger("click");
+	} else {
+		alert("已经是第一节");
+	}
+});
+
+
 var editors = []; // 维护 editor 引用
 var lastLog = null;
 

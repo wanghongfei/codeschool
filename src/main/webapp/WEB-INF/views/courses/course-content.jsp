@@ -141,8 +141,8 @@
 					</div>
 				</div>
 
-				<button class="btn btn-primary" style="float: left">上一节</button>
-				<button class="btn btn-primary" style="float: right">下一节</button>
+				<button class="btn btn-primary" id="prev-section" style="float: left">上一节</button>
+				<button class="btn btn-primary" id="next-section" style="float: right">下一节</button>
 
 			</div>
 			<!-- /.col -->
@@ -378,6 +378,7 @@
 	<script type="text/javascript">
 		var currentSectionId = "${section.id}";
 		var initialCode = "${ section.initialCode }";
+		var ids = ${ ids };
 	</script>
 	<script src="<c:url value='/resources/js/course-content.js' />"></script>
 	<script src="<c:url value='/resources/js/chat.js' />"></script>

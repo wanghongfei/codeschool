@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,6 +78,15 @@ public class LessonController {
 		String trimmedCode = cs.getInitialCode().replace("\n", "\\n");
 		cs.setInitialCode(trimmedCode);
 		model.addAttribute("section", cs);
+		
+		// 将本章节所有小节的id组成JS数组放到model中
+		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+		List<CourseSection> sectionList  = cs.getCourseChapter().getCourseSections();
+		for (CourseSection section : sectionList) {
+			arrayBuilder.add(section.getId());
+		}
+		model.addAttribute("ids", arrayBuilder.build().toString());
+
 		
 		// 将语言放入model中
 		String[] lan = courseService.fetchCourseLanguage(courseId).split(";");
