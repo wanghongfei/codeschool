@@ -2,6 +2,7 @@ package cn.fh.codeschool.model;
 
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 
 /**
@@ -31,6 +33,9 @@ import javax.persistence.TemporalType;
 @NamedQuery(name="Comment.findAll", query="SELECT c FROM Comment c")
 public class Comment implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	@Transient
+	public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -70,6 +75,14 @@ public class Comment implements Serializable {
 	private List<Comment> replyList = new ArrayList<Comment>();
 
 	public Comment() {
+	}
+	
+	/**
+	 * 返回格式化过的日期
+	 * @return
+	 */
+	public String getFormatedDate() {
+		return dateFormat.format(this.msgTime);
 	}
 
 	public int getId() {

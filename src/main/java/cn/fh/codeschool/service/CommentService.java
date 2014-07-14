@@ -18,7 +18,7 @@ import cn.fh.codeschool.model.Member;
 @Transactional
 public class CommentService {
 	private Logger logger = LoggerFactory.getLogger(CommentService.class);
-	private static int PAGE_SIZE = 6;
+	private static int PAGE_SIZE = 3;
 
 	@PersistenceContext
 	private EntityManager em;

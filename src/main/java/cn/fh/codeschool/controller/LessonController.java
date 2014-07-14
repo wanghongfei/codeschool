@@ -136,7 +136,6 @@ public class LessonController {
 		
 
 		Member currentMember = Security.getLoggedInUser(req); // 当前登陆用户
-		Member targetMember = accountService.findMember(targetUsername); // 被评论用户
 		
 		// 创建一条新的Comment,代表评论回复
 		Comment reply = new Comment();
@@ -168,14 +167,14 @@ public class LessonController {
 			// 查检内容是否为空
 			json = Json.createObjectBuilder()
 					.add("result", false)
-					.add("message", "content is empty")
+					.add("message", "内容不能为空")
 					.build();
 		} else {
 			// 检查是否登陆
 			if ( false == Security.isLoggedIn(req) ) {
 				json =  Json.createObjectBuilder()
 						.add("result", false)
-						.add("message", "not logged in")
+						.add("message", "未登陆")
 						.build();
 			} else {
 				// 写入数据库
@@ -190,7 +189,7 @@ public class LessonController {
 
 				json =  Json.createObjectBuilder()
 						.add("result", true)
-						.add("message", "success")
+						.add("message", "成功")
 						.build();
 			}
 			

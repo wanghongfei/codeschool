@@ -199,7 +199,8 @@
 					<!-- header starts -->
 					<div class="msg-board-header">
 						<div class="msg-board-header-left float-to-left">
-							<span>我要留言(152)</span>
+							<span>评论(${ commentList.size() })</span>
+							<a href="#comment"></a>
 						</div>
 						<div class="msg-board-header-right float-to-right">
 							<span style="margin-right: 15px;">第${ param.commentPage }页</span>
@@ -228,9 +229,11 @@
 										${ _c.msgContent }
 									</div>
 									<div class="msg-board-action">
-										<span>${ _c.msgTime }</span>
-										<span><a href="/codeschool/courses/start/comment/reply">回复</a></span>
-										<span><a href="#">编辑</a></span>
+										<span>${ _c.formatedDate }</span>
+										
+										<c:if test="${ currentUser != null }">
+											<span><a href="/codeschool/courses/start/comment/reply">回复</a></span>
+										</c:if>
 									</div>
 									
 									<div>
@@ -271,8 +274,7 @@
 														${ _r.msgContent }
 													</div>
 													<div class="msg-board-action">
-														<span>${ _r.msgTime }</span>
-														<span><a href="#">编辑</a></span>
+														<span>${ _r.formatedDate }</span>
 													</div>
 												
 												</div>
@@ -294,24 +296,25 @@
 			</div> <!-- col ends -->
 			
 			<!-- msg form starts -->
-    		<div class="row">
-				<div class="col-sm-7 col-md-7 col-md-offset-2 msg-form">
-     		       <div class="panel panel-default">
-      		          <div class="panel-body">                
-     		               <form id="form" accept-charset="UTF-8" action="<c:url value='/courses/start/comment' />" method="POST">
-      		                  <textarea class="form-control counted" name="message" placeholder="输入评论" rows="5" style="margin-bottom:10px;"></textarea>
-      		                  <h6 class="pull-right" id="counter">320 characters remaining</h6>
-      		                  <button class="btn btn-info" type="submit">发表</button>
-      		              </form>
-      		          </div>
-      		          <div id="err-msg"></div>
-      		      </div>
-      		  	</div>
-			</div>
+			<c:if test="${ currentUser != null }">
+	    		<div class="row">
+					<div class="col-sm-7 col-md-7 col-md-offset-2 msg-form">
+     			       <div class="panel panel-default">
+      			          <div class="panel-body">                
+     		    	           <form id="form" accept-charset="UTF-8" action="<c:url value='/courses/start/comment' />" method="POST">
+      		        	          <textarea class="form-control counted" name="message" placeholder="输入评论" rows="5" style="margin-bottom:10px;"></textarea>
+      		            	      <h6 class="pull-right" id="counter">320 characters remaining</h6>
+      		                	  <button class="btn btn-info" type="submit">发表</button>&nbsp;
+      		 	                 <span id="err-msg"></span>
+      		    	          </form>
+      		        	  </div>
+      		  	    </div>
+      			  	</div>
+				</div>
 			<!-- msg form ends -->
+			</c:if>
 			
 		</div>
-	</div>
 
 
 
