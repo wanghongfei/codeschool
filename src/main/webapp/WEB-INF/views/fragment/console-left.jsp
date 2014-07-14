@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page sessddion="false" %>
+<%@ page session="false" %>
 
 <aside class="left-side sidebar-offcanvas">
 	<!-- sidebar: style can be found in sidebar.less -->
