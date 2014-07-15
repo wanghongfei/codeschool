@@ -145,7 +145,7 @@ public class CourseSection implements java.io.Serializable {
 		this.rules = rules;
 	}
 
-	@Column(name = "initial_code")
+	@Column(name = "initial_code", columnDefinition = "TEXT")
 	public String getInitialCode() {
 		if (null != this.initialCode){
 			//return initialCode.replace("\n", "\\n").replace("\t", "\\t");
