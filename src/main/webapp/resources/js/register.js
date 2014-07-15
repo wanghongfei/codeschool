@@ -63,3 +63,29 @@ $(function () {
         init();
     });
 });
+
+$("#reg-form").submit(function(e) {
+	
+	var $form = $(this);
+
+	var username = $form.find("input[name='username']").val();
+	if ("" == username) {
+		$("#err-msg").html("用户名不能为空");
+		e.preventDefault();
+		return;
+	}
+	
+	var pass1 = $form.find("input[name='password']").val();
+	var pass2 = $form.find("input[name='passwordConfirm']").val();
+	
+	if ("" == pass1 || "" == pass2) {
+		$("#err-msg").html("密码不能为空");
+		e.preventDefault();
+		return;
+	}
+	if (pass1 != pass2) {
+		$("#err-msg").html("两次输入的密码不一致");
+		e.preventDefault();
+		return;
+	}
+});
