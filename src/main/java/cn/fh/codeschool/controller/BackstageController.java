@@ -371,60 +371,6 @@ public class BackstageController {
 		String attrValue = (String)reqMap.get("attrValue");
 		String output = (String)reqMap.get("output");
 		
-
-/*		String[] tags = tagName.split(",");
-		List<ValidationRule> ruleList = new ArrayList<ValidationRule>(tags.length);
-		ValidationRule rule = null;
-		for (String tag : tags) {
-			
-		}*/
-		
-		//ValidationRule valRule = new ValidationRule();
-		//valRule.setRuleType(type.toString());
-		
-		//ValidationRule valRule = null;
-		List<ValidationRule> ruleList = new ArrayList<ValidationRule>();
-		// 需要包含规则
-		// 可能有多条
-		if (type == RuleType.CONTAIN) {
-			//valRule.setTagName(tagName);
-			
-			String[] tags = tagName.split(",");
-			for (String tag : tags) {
-				ValidationRule rule = new ValidationRule();
-				rule.setRuleType(type.toString());
-				rule.setTagName(tag);
-				ruleList.add(rule);
-			}
-			
-			
-		// 需要属性	
-		} else if (type == RuleType.ATTRIBUTE) {
-			String[] tags = tagName.split(",");
-			String[] attrs = attrName.split(",");
-			String[] values = attrValue.split(",");
-			
-			for (int ix = 0 ; ix < tags.length ; ++ix) {
-				ValidationRule rule = new ValidationRule();
-				rule.setRuleType(type.toString());
-				rule.setTagName(tags[ix]);
-				rule.setAttrName(attrs[ix]);
-				rule.setAttrValue(values[ix]);
-			}
-
-			//valRule.setTagName(tagName);
-			//valRule.setAttrName(attrName);
-			//valRule.setAttrValue(attrValue);
-		} else if (type == RuleType.OUTPUT) {
-			ValidationRule rule = new ValidationRule();
-			rule.setRuleType(type.toString());
-			rule.setOutput(output);
-
-			//valRule.setOutput(output);
-		} else {
-			logger.error("不支持的规则类型: {}", type.toString());
-		}
-		
 		// 持久化
 		CourseSection section = new CourseSection();
 		section.setSectionName(sectionName);
@@ -432,7 +378,8 @@ public class BackstageController {
 		section.setCourseContent(sectionContent);
 		section.setInitialCode(code);
 		//sectionService.saveSection(section, valRule, chapterId);
-		sectionService.saveSection(section, ruleList, chapterId);
+		//sectionService.saveSection(section, ruleList, chapterId);
+		sectionService.saveSection(section, chapterId, tagName, attrName, attrValue, output, type);
 		
 		JsonObject json = Json.createObjectBuilder()
 				.add("result", true)

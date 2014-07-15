@@ -1,5 +1,6 @@
 package cn.fh.codeschool.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import cn.fh.codeschool.model.Course;
 import cn.fh.codeschool.model.CourseChapter;
 import cn.fh.codeschool.model.CourseSection;
 import cn.fh.codeschool.model.ValidationRule;
+import cn.fh.codeschool.service.validation.RuleType;
 
 @Repository
 @Transactional(readOnly = true)
@@ -82,6 +84,92 @@ public class SectionService {
 	}
 	
 	/**
+	 * 保存一个小节
+	 * 
+	 * @param section 
+	 * @param chapterId
+	 * @param tagName
+	 * @param attrName
+	 * @param attrValue
+	 * @param output
+	 * @param type
+	 */
+	@Transactional(readOnly = false)
+	public void saveSection(CourseSection section,
+			Integer chapterId,
+			String tagName,
+			String attrName,
+			String attrValue,
+			String output,
+			RuleType type) {
+		
+		List<ValidationRule> ruleList = new ArrayList<ValidationRule>();
+		// 需要包含规则
+		// 可能有多条
+		if (type == RuleType.CONTAIN) {
+			//valRule.setTagName(tagName);
+			
+			String[] tags = tagName.split(",");
+			for (String tag : tags) {
+				ValidationRule rule = new ValidationRule();
+				rule.setRuleType(type.toString());
+				rule.setTagName(tag);
+				ruleList.add(rule);
+			}
+			
+			
+		// 需要属性	
+		} else if (type == RuleType.ATTRIBUTE) {
+			String[] tags = tagName.split(",");
+			String[] attrs = attrName.split(",");
+			String[] values = attrValue.split(",");
+			
+			for (int ix = 0 ; ix < tags.length ; ++ix) {
+				ValidationRule rule = new ValidationRule();
+				rule.setRuleType(type.toString());
+				rule.setTagName(tags[ix]);
+				rule.setAttrName(attrs[ix]);
+				rule.setAttrValue(values[ix]);
+			}
+
+			//valRule.setTagName(tagName);
+			//valRule.setAttrName(attrName);
+			//valRule.setAttrValue(attrValue);
+		} else if (type == RuleType.OUTPUT) {
+			ValidationRule rule = new ValidationRule();
+			rule.setRuleType(type.toString());
+			rule.setOutput(output);
+
+			//valRule.setOutput(output);
+		} else {
+			logger.error("不支持的规则类型: {}", type.toString());
+		}
+		
+		
+		
+		
+		CourseChapter chapter = em.find(CourseChapter.class, chapterId);
+		section.setCourseChapter(chapter);
+		//section.getRules().add(rule);
+
+		for (ValidationRule r : ruleList) {
+			em.persist(r);
+			section.getRules().add(r);
+		}
+
+		//em.persist(rule);
+
+		
+		// 将课程实体中section数量 +1
+		Course course = chapter.getCourse();
+		course.setSectionAmount(course.getSectionAmount() + 1);
+
+		em.persist(section);
+		
+	}
+	
+	/**
+	 * @deprecated
 	 * 持久化 CourseSection entity. 需传入章节实体id, 和本节的验证规则
 	 * @param section
 	 * @param chapterId
