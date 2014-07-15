@@ -352,6 +352,7 @@
 			</c:forEach>
 
 		</ul>
+		<div style="clear:both"></div>
 	</div>
 
 

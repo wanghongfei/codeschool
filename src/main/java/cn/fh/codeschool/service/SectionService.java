@@ -87,12 +87,19 @@ public class SectionService {
 	 * @param chapterId
 	 */
 	@Transactional(readOnly = false)
-	public void saveSection(CourseSection section, ValidationRule rule, Integer chapterId) {
-		em.persist(rule);
-
+	//public void saveSection(CourseSection section, ValidationRule rule, Integer chapterId) {
+	public void saveSection(CourseSection section, List<ValidationRule> ruleList, Integer chapterId) {
 		CourseChapter chapter = em.find(CourseChapter.class, chapterId);
 		section.setCourseChapter(chapter);
-		section.getRules().add(rule);
+		//section.getRules().add(rule);
+
+		for (ValidationRule r : ruleList) {
+			em.persist(r);
+			section.getRules().add(r);
+		}
+
+		//em.persist(rule);
+
 		
 		// 将课程实体中section数量 +1
 		Course course = chapter.getCourse();
