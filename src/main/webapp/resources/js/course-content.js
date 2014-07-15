@@ -33,13 +33,20 @@ $("#submit-code").click(function(e) {
 		success : function(data) {
 			// 清空信息并显示服务器返回数据
 			$msg.empty();
-			$msg.html(data.message);
+			$msg.html(trim(data.message));
 
 			// 更新页面用户信息
 			$("#user-point").html(data.point);
 		}
 	});
 });
+
+// 将<,>换成转义符号
+function trim(str) {
+	var result = str.replace("<", "&lt;");
+	result = result.replace(">", "&gt;");
+	return result;
+}
 
 function updatePreview() {
 	$("#result-preview").contents().find("html").html(editors[0].getValue());
