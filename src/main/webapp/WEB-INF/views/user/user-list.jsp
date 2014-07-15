@@ -52,7 +52,7 @@
 				<table class="table">
 					<c:forEach items="${ memberList }" var="_m">
 						<tr>
-							<td><a href="/codeschool/user/${ _m.username }/profile">${ _m.username }</a></td>
+							<td><a href="${pageContext.request.contextPath}/user/${ _m.username }/profile">${ _m.username }</a></td>
 						</tr>
 					</c:forEach>
 				</table>

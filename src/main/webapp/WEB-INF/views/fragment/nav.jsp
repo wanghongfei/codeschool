@@ -22,7 +22,7 @@
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<form action="/codeschool/user/search" class="search-form">
+							<form action="${pageContext.request.contextPath}/user/search" class="search-form">
 								<input type="text" name="username" class="form-control search-username" placeholder="用户搜索" />
 								<input type="submit" value="搜索" class="btn btn-sm search-btn" />
 							</form>
@@ -40,7 +40,7 @@
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<form action="/codeschool/user/search" class="search-form">
+						<form action="${pageContext.request.contextPath}/user/search" class="search-form">
 							<input type="text" name="username" class="form-control search-username" placeholder="用户搜索" />
 							<input type="submit" value="搜索" class="btn btn-sm search-btn" />
 						</form>

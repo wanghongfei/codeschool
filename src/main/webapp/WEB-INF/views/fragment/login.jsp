@@ -24,10 +24,9 @@
 									placeholder="密码" class="form-control input-lg" />
 							</div>
 							<div class="form-group">
-								<input type="submit" value="登陆"
-									class="btn btn-primary btn-lg btn-block" /> <span
-									class="pull-right"><a href="#">注册</a></span><span><a
-									href="#">帮助</a></span>
+								<input type="submit" value="登陆" class="btn btn-primary btn-lg btn-block" />
+								<%-- <span class="pull-right"><a href="#">注册</a></span> --%>
+								<%-- <span><a href="#">帮助</a></span> --%>
 							</div>
 
 							<div id="error-msg" class="hidden"></div>

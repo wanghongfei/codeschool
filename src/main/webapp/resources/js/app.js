@@ -1,8 +1,11 @@
 /**
  * 
  */
+
+var CONTEXT_ROOT = "/";
+
 function redirect() {
-	window.location = "/codeschool/register"
+	window.location = CONTEXT_ROOT + "register"
 }
 
 // 登陆按钮

@@ -181,6 +181,9 @@
 						<button class="btn btn-primary" style="float: left"	id="submit-code">提交</button>
 					</c:if>
 				</c:if>
+				<c:if test="${null == currentUser }">
+					<div>亲，需登陆才能提交代码哦~</div>
+				</c:if>
 
 
 				<button class="btn btn-primary" style="float: right">重置</button>
@@ -205,11 +208,11 @@
 						<div class="msg-board-header-right float-to-right">
 							<span style="margin-right: 15px;">第${ param.commentPage }页</span>
 							<c:if test="${ null != previousPage }">
-								<span><a href="/codeschool/courses/start?sectionId=${ param.sectionId }&courseId=${ param.courseId }&commentPage=${ previousPage }">上一页</a></span>
+								<span><a href="${pageContext.request.contextPath}/courses/start?sectionId=${ param.sectionId }&courseId=${ param.courseId }&commentPage=${ previousPage }">上一页</a></span>
 							</c:if>
 							
 							<c:if test="${ null != nextPage }">
-								<span><a href="/codeschool/courses/start?sectionId=${ param.sectionId }&courseId=${ param.courseId }&commentPage=${ nextPage }">下一页</a></span>
+								<span><a href="${pageContext.request.contextPath}/courses/start?sectionId=${ param.sectionId }&courseId=${ param.courseId }&commentPage=${ nextPage }">下一页</a></span>
 							</c:if>
 						</div>
 						<div style="clear:both"></div>
@@ -220,8 +223,8 @@
 							<div class="msg-board-content">
 								<hr />
 								<div class="msg-board-left-main float-to-left">
-									<img src="/codeschool/image.avatar?username=${ _c.member.username }" />
-									<div><a href="/codeschool/user/${ _c.member.username }/profile">${ _c.member.username }</a></div>
+									<img src="${pageContext.request.contextPath}/image.avatar?username=${ _c.member.username }" />
+									<div><a href="${pageContext.request.contextPath}/user/${ _c.member.username }/profile">${ _c.member.username }</a></div>
 								</div>
 							
 								<div class="msg-board-right-main float-to-left ">
@@ -232,14 +235,14 @@
 										<span>${ _c.formatedDate }</span>
 										
 										<c:if test="${ currentUser != null }">
-											<span><a href="/codeschool/courses/start/comment/reply">回复</a></span>
+											<span><a href="${pageContext.request.contextPath}/courses/start/comment/reply">回复</a></span>
 										</c:if>
 									</div>
 									
 									<div>
 										<!-- reply form -->
 										<c:if test="${ currentUser != null }">
-											<form id="reply-form" action="/codeschool/courses/start/comment/reply" method="POST">
+											<form id="reply-form" action="${pageContext.request.contextPath}/courses/start/comment/reply" method="POST">
 												<div class="input-group" style="width:400px; margin-top:5px">
 													<input name="reply-msg" type="text" class="form-control input-sm" placeholder="在此回复" />
 	
@@ -265,8 +268,8 @@
 												<hr />
 												
 												<div class="msg-board-left-main float-to-left">
-													<img src="/codeschool/image.avatar?username=admin" />
-													<div><a href="/codeschool/user/${ _r.member.username }/profile">${ _r.member.username }</a></div>
+													<img src="${pageContext.request.contextPath}/image.avatar?username=admin" />
+													<div><a href="${pageContext.request.contextPath}/user/${ _r.member.username }/profile">${ _r.member.username }</a></div>
 												</div>
 												
 												<div class="msg-board-right-main float-to-left ">

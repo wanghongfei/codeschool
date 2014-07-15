@@ -66,7 +66,7 @@
 				<%-- 添加好友功能登陆可用 --%>
 				<c:choose>
 					<c:when test="${ !isFriend && currentUser != null }">
-						<a href="/codeschool/user/${ member.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
+						<a href="${pageContext.request.contextPath}/user/${ member.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
 					</c:when>
 					<c:when test="${ isFriend && false == currentUser.username.equals(member.username) }">
 						<p>TA是我的好友</p>
@@ -82,11 +82,11 @@
 				<div class="float-to-left">
 					<a href="/users" class="pull-right"> <img title="profile image"
 						class="img-circle img-responsive"
-						src="/codeschool/image.avatar?username=${ member.username }">
+						src="${pageContext.request.contextPath}/image.avatar?username=${ member.username }">
 					</a>
 				</div>
 				<c:if test="${ currentUser != null && currentUser.username == member.username }">
-					<form action="/codeschool/user/${ member.username }/uploadAvatar"
+					<form action="${pageContext.request.contextPath}/user/${ member.username }/uploadAvatar"
 						enctype="multipart/form-data" method="post" class="float-to-left">
 						<input type="file" name="avatarFile" /> <input type="submit"
 							value="上传新头像" class="btn btn-sm" />
@@ -134,10 +134,10 @@
 					</div>
 					<div class="panel-body">
 						<c:forEach items="${ member.friendList }" var="_f">
-							<a href="/codeschool/user/${ _f.username }/profile">${ _f.username }
+							<a href="${pageContext.request.contextPath}/user/${ _f.username }/profile">${ _f.username }
 							</a>
 							<a class="chat-link tip" data-user="${ _f.username }"
-								href="/codeschool/chat/send/${ _f.username }" title="跟TA聊天"><i class="fa fa-fw fa-comments-o"></i></a>
+								href="${pageContext.request.contextPath}/chat/send/${ _f.username }" title="跟TA聊天"><i class="fa fa-fw fa-comments-o"></i></a>
 						</c:forEach>
 					</div>
 				</div>
@@ -150,12 +150,12 @@
 
 					<c:forEach items="${ rankList }" var="_r">
 						<li class="list-group-item text-right">
-							<span class="pull-left"> <strong><a	href="/codeschool/user/${ _r.username }/profile">${ _r.username }</a></strong>
+							<span class="pull-left"> <strong><a	href="${pageContext.request.contextPath}/user/${ _r.username }/profile">${ _r.username }</a></strong>
 							<c:if test="${ !currentUser.hasFriend(_r.username) }">
-								<a href="/codeschool/user/${ _r.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
+								<a href="${pageContext.request.contextPath}/user/${ _r.username }/addFriend" class="tip" title="添加好友"><i class="fa fa-fw fa-users"></i></a>
 							</c:if>
 							<c:if test="${ currentUser.hasFriend(_r.username) }">
-								<a class="chat-link tip" data-user="${ _r.username }" href="/codeschool/chat/send/${ _r.username }" title="跟TA聊天"><i class="fa fa-fw fa-comments-o"></i></a>
+								<a class="chat-link tip" data-user="${ _r.username }" href="${pageContext.request.contextPath}/chat/send/${ _r.username }" title="跟TA聊天"><i class="fa fa-fw fa-comments-o"></i></a>
 							</c:if>
 						</span> ${ _r.point }</li>
 					</c:forEach>
@@ -192,7 +192,7 @@
 							<c:choose>
 								<c:when test="${ false == startedWrapperList.isEmpty() }">
 									<c:forEach items="${ startedWrapperList }" var="_w">
-										<a href="/codeschool/courses/list?courseId=${ _w.courseId }">
+										<a href="${pageContext.request.contextPath}/courses/list?courseId=${ _w.courseId }">
 											<div class="col-md-3 col-sm-6 col-xs-6 text-center">
 												<input type="text" class="knob" readonly="readonly"
 													value="${ _w.progress }" data-width="180" data-height="180"
@@ -224,7 +224,7 @@
 							<c:choose>
 								<c:when test="${ false == unstartedWrapperList.isEmpty() }">
 									<c:forEach items="${ unstartedWrapperList }" var="_w">
-										<a href="/codeschool/courses/list?courseId=${ _w.courseId }">
+										<a href="${pageContext.request.contextPath}/courses/list?courseId=${ _w.courseId }">
 											<div class="col-md-3 col-sm-6 col-xs-6 text-center">
 												<input type="text" class="knob" readonly="readonly"
 													value="${ _w.progress }" data-width="180" data-height="180"
@@ -250,7 +250,7 @@
 					<%-- 个人资料 --%>
 					<div class="tab-pane" id="profile">
 						<form role="form"
-							action="/codeschool/user/${ member.username }/update"
+							action="${pageContext.request.contextPath}/user/${ member.username }/update"
 							method="post" accept-charset="UTF-8"
 							id="form">
 							<hr class="colorgraph">
@@ -378,7 +378,7 @@
 									<c:forEach items="${ activityList }" var="_a">
 										<tr>
 											<td><i class="pull-right fa fa-edit"></i> 用户<a
-												href="/codeschool/user/${ _a.member.username }/profile">${ _a.member.username }</a>
+												href="${pageContext.request.contextPath}/user/${ _a.member.username }/profile">${ _a.member.username }</a>
 												${ _a.time } - ${ _a.content }</td>
 										</tr>
 									</c:forEach>

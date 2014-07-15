@@ -44,7 +44,7 @@
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
 				    <h1>
-				    	<a href="/codeschool">回到主页</a>
+				    	<a href="${pageContext.request.contextPath}">回到主页</a>
 				        <small>Control panel</small>
 				    </h1>
 				    <ol class="breadcrumb">
@@ -89,6 +89,7 @@
 		<script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
 		<!-- AdminLTE App -->
 		<script src="<c:url value='/resources/js/AdminLTE/app.js' />"></script>
+		<script src="<c:url value='/resources/js/app.js' />"></script>
 
 		<script type="text/javascript">
 	    </script>

@@ -14,7 +14,7 @@ $("#submit-code").click(function(e) {
 	var $msg = $("#msg");
 
 	// 显示动态图片
-	var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+	var gifUrl = CONTEXT_ROOT + 'resources/img/ajax-loader.gif';
 	$msg.empty();
 	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
 
@@ -25,7 +25,7 @@ $("#submit-code").click(function(e) {
 	};
 
 	$.ajax({
-		url : "/codeschool/courses/start/submit-code",
+		url : CONTEXT_ROOT + "courses/start/submit-code",
 		type : "POST",
 		dataType : 'json',
 		contentType : 'application/json',
@@ -98,7 +98,7 @@ $(".code-javascript").click(function(e) {
 	}
 
 	// 显示动态图片
-	var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+	var gifUrl = CONTEXT_ROOT + 'resources/img/ajax-loader.gif';
 	$msg.empty();
 	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
 	
@@ -109,7 +109,7 @@ $(".code-javascript").click(function(e) {
 		sectionId : currentSectionId
 	}
 	$.ajax({
-		url : "/codeschool/courses/start/submit-code",
+		url : CONTEXT_ROOT + "courses/start/submit-code",
 		type : "POST",
 		dataType : 'json',
 		contentType : 'application/json',
@@ -137,13 +137,13 @@ $("#form").submit(function(e) {
 
 	// 显示动态图片
 	var $msg = $("#err-msg");
-	var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+	var gifUrl = CONTEXT_ROOT + 'resources/img/ajax-loader.gif';
 	$msg.empty();
 	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
 	
 	// 发送AJAX请求
 	$.ajax({
-		url: "/codeschool/courses/start/comment/add",
+		url: CONTEXT_ROOT + "courses/start/comment/add",
 		type: "POST",
 		dataType: "json",
 		contentType: "application/json",

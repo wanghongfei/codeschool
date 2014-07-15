@@ -13,7 +13,7 @@ $(document).ready(function() {
 // 点赞
 $("#thumb-btn").click(function(e) {
 	$.ajax({
-		url : "/codeschool/user/" + username + "/thumbUp",
+		url : CONTEXT_ROOT + "user/" + username + "/thumbUp",
 		type : "GET",
 		dataType : 'json',
 		contentType : 'application/json',

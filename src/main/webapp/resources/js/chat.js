@@ -42,7 +42,7 @@ $("#btn-send").click(function(e) {
 	};
 	
 	$.ajax({
-		url : "/codeschool/chat/send/" + $(".chat-user").html(),
+		url : CONTEXT_ROOT + "chat/send/" + $(".chat-user").html(),
 		type : "POST",
 		dataType : 'json',
 		contentType : 'application/json',
@@ -63,7 +63,7 @@ $("#btn-send").click(function(e) {
 // 接收消息
 function receiveMsg() {
 	$.ajax({
-		url : "/codeschool/chat/recv/admin",
+		url : CONTEXT_ROOT + "chat/recv/admin",
 		type : "GET",
 		dataType : 'json',
 		contentType : 'application/json',

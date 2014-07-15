@@ -14,8 +14,12 @@ $("#login-form").submit(function(e) {
 	$.ajax({
 		url : $("#login-form").attr("action"),
 		type : "POST",
+		headers: { 
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json' 
+	    },
 		dataType : 'json',
-		contentType : 'application/json',
+		//contentType : 'application/json',
 		data : JSON.stringify(json),
 		success : function(data) {
 			// 验证成功，刷新页面

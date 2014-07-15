@@ -21,13 +21,15 @@ public class Client {
 	public static void main(String[] args) throws Exception {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
-			HttpGet httpGet = new HttpGet("http://127.0.0.1:8080/codeschool");
+			HttpGet httpGet = new HttpGet("http://127.0.0.1:8080/home");
 			CloseableHttpResponse response = httpclient.execute(httpGet);
 			try {
 				System.out.println(response.getStatusLine());
 				HttpEntity entity = response.getEntity();
 				
+				// entity封装了服务器返回的数据
 				String html =  EntityUtils.toString(entity);
+				// 将HTML代码写入到文件中
 				saveContent(html, "/home/whf/workspace-sts/codeschool/home.html");
 				
 				EntityUtils.consume(entity);

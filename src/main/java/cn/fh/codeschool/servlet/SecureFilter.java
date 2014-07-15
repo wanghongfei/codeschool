@@ -54,15 +54,16 @@ public class SecureFilter implements Filter {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 		String path = req.getRequestURI();
+		logger.debug("URI:{}, PATH:{}", path, req.getContextPath());
 
 		// 请求的是资源，跳过
-		if (true == path.startsWith("/codeschool/resources")) {
+		if (true == path.startsWith(req.getContextPath() + "/resources")) {
 			chain.doFilter(request, response);
 			return;
 		}
 		
 		// 访问后台管理页面,需验证权限
-		if (path.startsWith("/codeschool/backstage/")) {
+		if (path.startsWith(req.getContextPath() + "/backstage")) {
 			if (false == Security.hasRole(req, "admin")) {
 				forbid((HttpServletResponse) response);
 				return;
@@ -79,7 +80,7 @@ public class SecureFilter implements Filter {
 			// 用户未登陆
 			// 用户访问主页
 			// 返回静态页面
-			if (path.equals("/codeschool/") || path.equals("/")) {
+			if ( path.equals(req.getContextPath() + "/") ) {
 				writeStaticHomePage(req, (HttpServletResponse) response);
 				return;
 			}

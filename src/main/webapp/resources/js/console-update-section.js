@@ -36,7 +36,7 @@ $("#select-chapter").change(
 			};
 
 			$.ajax({
-				url : "/codeschool/backstage/section/fetchSection",
+				url : CONTEXT_ROOT + "backstage/section/fetchSection",
 				type : "POST",
 				dataType : "json",
 				contentType : "application/json",
@@ -84,7 +84,7 @@ $("#select-course").change(
 			};
 
 			$.ajax({
-				url : "/codeschool/backstage/section/fetchChapter",
+				url : CONTEXT_ROOT + "backstage/section/fetchChapter",
 				type : "POST",
 				dataType : "json",
 				contentType : "application/json",
@@ -123,13 +123,13 @@ $('.del-btn').click(function(e) {
 	var $msg = $("#error-msg");
 
 	// display loading GIF image
-	var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+	var gifUrl = CONTEXT_ROOT + 'resources/img/ajax-loader.gif';
 	$msg.empty();
 	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
 	
 	// send ajax request
 	$.ajax({
-		url : "/codeschool/backstage/section/delete",
+		url : CONTEXT_ROOT + "backstage/section/delete",
 		type : "POST",
 		dataType : "json",
 		contentType : "application/json",
@@ -170,7 +170,7 @@ $("#form").submit(function(e) {
 	var $msg = $("#error-msg");
 
 	// 显示动态图片
-	var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+	var gifUrl = CONTEXT_ROOT + 'resources/img/ajax-loader.gif';
 	$msg.empty();
 	$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
 

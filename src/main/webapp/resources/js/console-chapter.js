@@ -10,7 +10,8 @@ $(document).ready(function() {
 		var $msg = $("#error-msg");
 
 		// 显示动态图片
-		var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+		//var gifUrl = '/codeschool/resources/img/ajax-loader.gif';
+		var gifUrl = CONTEXT_ROOT + 'resources/img/ajax-loader.gif';
 		$msg.empty();
 		$msg.append("<img src='" + gifUrl + "' width='30px' height='30px' />");
 
