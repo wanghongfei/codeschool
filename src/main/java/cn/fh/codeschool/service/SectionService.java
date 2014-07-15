@@ -130,6 +130,8 @@ public class SectionService {
 				rule.setTagName(tags[ix]);
 				rule.setAttrName(attrs[ix]);
 				rule.setAttrValue(values[ix]);
+				
+				ruleList.add(rule);
 			}
 
 			//valRule.setTagName(tagName);
@@ -139,8 +141,13 @@ public class SectionService {
 			ValidationRule rule = new ValidationRule();
 			rule.setRuleType(type.toString());
 			rule.setOutput(output);
+			ruleList.add(rule);
 
 			//valRule.setOutput(output);
+		} else if (type == RuleType.NONE) {
+			ValidationRule rule = new ValidationRule();
+			rule.setRuleType(type.toString());
+			ruleList.add(rule);
 		} else {
 			logger.error("不支持的规则类型: {}", type.toString());
 		}

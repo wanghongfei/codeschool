@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +28,7 @@ import cn.fh.codeschool.model.CourseProgressWrapper;
 import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.model.RecentActivity;
 import cn.fh.codeschool.service.AccountService;
+import cn.fh.codeschool.service.ActivityService;
 import cn.fh.codeschool.service.CourseService;
 import cn.fh.codeschool.util.Security;
 
@@ -43,6 +43,9 @@ public class UserController {
 	
 	@Autowired
 	private CourseService courseService;
+	
+	@Autowired
+	private ActivityService acService;
 	
 	@RequestMapping(value = "/user/search", method = RequestMethod.GET)
 	public String searchUser(@RequestParam String username, Model model) {
@@ -244,6 +247,10 @@ public class UserController {
 		// 取5条好友最近动态
 		List<RecentActivity> activityList = fetchRecentActivities(m);
 		model.addAttribute("activityList", activityList);
+		
+		// 取5条我的最近动态
+		List<RecentActivity> acList = acService.queryActivities(username, 5);
+		model.addAttribute("myActivityList", acList);
 		
 		return "/user/profile";
 	}

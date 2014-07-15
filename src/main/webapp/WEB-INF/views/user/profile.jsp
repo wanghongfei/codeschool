@@ -365,7 +365,7 @@
 				<ul class="nav nav-tabs margin-top-20" id="activities-tab">
 					<li class="active"><a href="#friends-activities"
 						data-toggle="tab">好友动态</a></li>
-					<li><a href="#my-activities" data-toggle="tab">我的动态</a></li>
+					<li><a href="#my-activities" data-toggle="tab">${ member.username }的动态</a></li>
 				</ul>
 
 				<%-- 选项卡内容 --%>
@@ -394,7 +394,7 @@
 							<div class="table-responsive">
 								<table class="table table-hover">
 									<tbody>
-										<c:forEach items="${ member.recentActivity }" var="_r">
+										<c:forEach items="${ myActivityList }" var="_r">
 											<tr>
 												<td><i class="pull-right fa fa-edit"></i> ${ _r.time }
 													- ${ _r.content }</td>
