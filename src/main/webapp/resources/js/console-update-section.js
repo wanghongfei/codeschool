@@ -107,9 +107,14 @@ $("#select-course").change(
 			});
 		});
 
-// delete section
+// 删除小节
 $('.del-btn').click(function(e) {
 	e.preventDefault();
+	
+	// 弹出dialog询问用户是否确认
+	if ( false == confirm("Sure to delete this?") ) {
+		return;
+	}
 	
 	var json = {
 		sectionId : $('#select-section option:selected').val()
