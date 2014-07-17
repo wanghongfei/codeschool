@@ -32,7 +32,7 @@ CREATE  TABLE IF NOT EXISTS `codeschool`.`member` (
   `username` VARCHAR(64) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 8
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin;
 
@@ -92,7 +92,7 @@ CREATE  TABLE IF NOT EXISTS `codeschool`.`course_chapter` (
     FOREIGN KEY (`course_id` )
     REFERENCES `codeschool`.`course` (`id` ))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin;
 
@@ -134,7 +134,7 @@ CREATE  TABLE IF NOT EXISTS `codeschool`.`course_section` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `course_content` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL ,
   `finished_member_amount` INT(11) NULL DEFAULT NULL ,
-  `initial_code` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL ,
+  `initial_code` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL ,
   `section_description` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL ,
   `section_name` VARCHAR(64) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL ,
   `chapter_id` INT(11) NOT NULL ,
@@ -144,9 +144,62 @@ CREATE  TABLE IF NOT EXISTS `codeschool`.`course_section` (
     FOREIGN KEY (`chapter_id` )
     REFERENCES `codeschool`.`course_chapter` (`id` ))
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 50
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin;
+
+
+-- -----------------------------------------------------
+-- Table `codeschool`.`comment`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `codeschool`.`comment` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `msg_content` TEXT NULL DEFAULT NULL ,
+  `msg_time` DATETIME NULL DEFAULT NULL ,
+  `member_id` INT(11) NULL DEFAULT NULL COMMENT '本条评论的作者' ,
+  `course_section_id` INT(11) NULL DEFAULT NULL COMMENT '这条评论属于的课程小节' ,
+  `has_reply` INT(11) NULL DEFAULT '0' ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_Message_member1` (`member_id` ASC) ,
+  INDEX `fk_comment_course_section1` (`course_section_id` ASC) ,
+  CONSTRAINT `fk_comment_course_section1`
+    FOREIGN KEY (`course_section_id` )
+    REFERENCES `codeschool`.`course_section` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Message_member1`
+    FOREIGN KEY (`member_id` )
+    REFERENCES `codeschool`.`member` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 15
+DEFAULT CHARACTER SET = utf8
+COMMENT = '在课程学习页面上的一条评论';
+
+
+-- -----------------------------------------------------
+-- Table `codeschool`.`coment_reply`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `codeschool`.`coment_reply` (
+  `comment_id` INT(11) NULL DEFAULT NULL ,
+  `reply_id` INT(11) NULL DEFAULT NULL ,
+  INDEX `fk_coment_reply_comment1` (`comment_id` ASC) ,
+  INDEX `fk_coment_reply_comment2` (`reply_id` ASC) ,
+  CONSTRAINT `fk_coment_reply_comment1`
+    FOREIGN KEY (`comment_id` )
+    REFERENCES `codeschool`.`comment` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_coment_reply_comment2`
+    FOREIGN KEY (`reply_id` )
+    REFERENCES `codeschool`.`comment` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin
+COMMENT = 'Comment一对多自关联，关联表';
 
 
 -- -----------------------------------------------------
@@ -263,7 +316,7 @@ CREATE  TABLE IF NOT EXISTS `codeschool`.`recent_activity` (
     FOREIGN KEY (`member_id` )
     REFERENCES `codeschool`.`member` (`id` ))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin;
 
@@ -280,7 +333,7 @@ CREATE  TABLE IF NOT EXISTS `codeschool`.`validation_rule` (
   `tag_name` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
-AUTO_INCREMENT = 10
+AUTO_INCREMENT = 67
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin;
 
@@ -292,6 +345,7 @@ CREATE  TABLE IF NOT EXISTS `codeschool`.`section_rule` (
   `section_id` INT(11) NOT NULL ,
   `rule_id` INT(11) NOT NULL ,
   UNIQUE INDEX `rule_id` (`rule_id` ASC) ,
+  UNIQUE INDEX `UK_fmleoplekh4tdwhj2s9u9pnw4` (`rule_id` ASC) ,
   INDEX `FK26C55816E75FD93C` (`rule_id` ASC) ,
   INDEX `FK26C55816E58C3CF6` (`section_id` ASC) ,
   CONSTRAINT `FK26C55816E58C3CF6`
