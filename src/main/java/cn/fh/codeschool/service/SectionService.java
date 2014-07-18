@@ -93,6 +93,7 @@ public class SectionService {
 	 * @param attrValue
 	 * @param output
 	 * @param type
+	 * @param isUpdate 是否是更新小节操作
 	 */
 	@Transactional(readOnly = false)
 	public void saveSection(CourseSection section,
@@ -101,7 +102,8 @@ public class SectionService {
 			String attrName,
 			String attrValue,
 			String output,
-			RuleType type) {
+			RuleType type,
+			boolean isUpdate) {
 		
 		List<ValidationRule> ruleList = new ArrayList<ValidationRule>();
 		// 需要包含规则
@@ -158,20 +160,35 @@ public class SectionService {
 		CourseChapter chapter = em.find(CourseChapter.class, chapterId);
 		section.setCourseChapter(chapter);
 		//section.getRules().add(rule);
+		
+		// 如果是更新小节操作，
+		// 则先删除先前保存过的Rule
+		if (true == isUpdate) {
+			// 调用存储过程进行删除
+			em.createNativeQuery("CALL delete_rules(:sectionId)")
+				.setParameter("sectionId", section.getId())
+				.executeUpdate();
 
+			em.flush();
+			
+		}
+
+		// 持久化Rule
 		for (ValidationRule r : ruleList) {
 			em.persist(r);
 			section.getRules().add(r);
 		}
-
-		//em.persist(rule);
 
 		
 		// 将课程实体中section数量 +1
 		Course course = chapter.getCourse();
 		course.setSectionAmount(course.getSectionAmount() + 1);
 
-		em.persist(section);
+		if (false == isUpdate) {
+			em.persist(section);
+		} else {
+			em.merge(section);
+		}
 		
 	}
 	

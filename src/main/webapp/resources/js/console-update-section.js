@@ -162,6 +162,8 @@ $("#form").submit(function(e) {
 		sectionName : $("#section-name").val(),
 		sectionDescription : $("#section-description").val(),
 		sectionContent : $("#section-content").val(),
+		
+		chapterId: $("#select-chapter option:selected").val(),
 		initialCode : editor.getValue(),
 
 		// 验证规则内容

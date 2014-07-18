@@ -329,21 +329,45 @@ public class BackstageController {
 	 */
 	@RequestMapping(value  ="/backstage/section/update", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public @ResponseBody String updateSection(@RequestBody Map<String, Object> reqMap) {
-		Integer sectionId = Integer.valueOf((String)reqMap.get("sectionId"));
+		/*Integer sectionId = Integer.valueOf((String)reqMap.get("sectionId"));
 		String name = (String)reqMap.get("sectionName");
 		String content = (String)reqMap.get("sectionContent");
-		String initialCode = (String)reqMap.get("initialCode");
+		String initialCode = (String)reqMap.get("initialCode");*/
 		
-		CourseSection cs = sectionService.findSection(sectionId);
+		// 取出课程参数
+		Integer chapterId = Integer.valueOf((String)reqMap.get("chapterId"));
+		Integer sectionId = Integer.valueOf( (String)reqMap.get("sectionId") );
+		String sectionName = (String)reqMap.get("sectionName");
+		String sectionDescription = (String)reqMap.get("sectionDescription");
+		String sectionContent = (String)reqMap.get("sectionContent");
+		String code = (String)reqMap.get("initialCode");
+				
+		// 取出验证参数
+		RuleType type = RuleType.valueOf((String)reqMap.get("ruleType"));
+		String tagName = (String)reqMap.get("tagName");
+		String attrName = (String)reqMap.get("attrName");
+		String attrValue = (String)reqMap.get("attrValue");
+		String output = (String)reqMap.get("output");
+				
+		// 持久化
+		//CourseSection section = new CourseSection();
+		CourseSection section = sectionService.findSection(sectionId);
+		section.setSectionName(sectionName);
+		section.setSectionDescription(sectionDescription);
+		section.setCourseContent(sectionContent);
+		section.setInitialCode(code);
+		sectionService.saveSection(section, chapterId, tagName, attrName, attrValue, output, type, true);
+		
+		/*CourseSection cs = sectionService.findSection(sectionId);
 		cs.setSectionName(name);
 		cs.setCourseContent(content);
 		cs.setInitialCode(initialCode);
 		
-		sectionService.updateSection(cs);
+		sectionService.updateSection(cs);*/
 		
 		JsonObject json = Json.createObjectBuilder()
 				.add("result", true)
-				.add("message", "更新 " + name + " 成功")
+				.add("message", "更新 " + section.getSectionName() + " 成功")
 				.build();
 		
 		return json.toString();
@@ -379,7 +403,7 @@ public class BackstageController {
 		section.setInitialCode(code);
 		//sectionService.saveSection(section, valRule, chapterId);
 		//sectionService.saveSection(section, ruleList, chapterId);
-		sectionService.saveSection(section, chapterId, tagName, attrName, attrValue, output, type);
+		sectionService.saveSection(section, chapterId, tagName, attrName, attrValue, output, type, false);
 		
 		JsonObject json = Json.createObjectBuilder()
 				.add("result", true)
