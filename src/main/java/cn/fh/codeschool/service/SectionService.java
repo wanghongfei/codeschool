@@ -171,20 +171,25 @@ public class SectionService {
 		// 则先删除先前保存过的Rule
 		if (true == isUpdate) {
 			// 调用存储过程进行删除
-			em.createNativeQuery("CALL delete_rules(:sectionId)")
+			int tot = em.createNativeQuery("CALL delete_rules(:sectionId)")
 				.setParameter("sectionId", section.getId())
 				.executeUpdate();
 
+			System.out.println("@@ FLUSH前, : " + tot);
 			em.flush();
+			System.out.println("@@ FLUSH后");
 			
 		}
 
 		// 持久化Rule
-		//section.getRules().clear();
+		section.getRules().clear();
 		for (ValidationRule r : ruleList) {
 			em.persist(r);
 			section.getRules().add(r);
 		}
+		for (ValidationRule r : section.getRules()) {
+			System.out.println("添加后:" + r.getId() + ", type:" + r.getRuleType() );
+ 		}
 
 		
 		// 将课程实体中section数量 +1

@@ -61,6 +61,7 @@ function updatePreview() {
 // 切换小节
 $(".change-section-link").click(function(e) {
 	e.preventDefault();
+	$("#msg").empty();
 
 	currentSectionId = $(this).attr("data-id");
 
