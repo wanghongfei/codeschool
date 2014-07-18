@@ -105,6 +105,12 @@ public class SectionService {
 			RuleType type,
 			boolean isUpdate) {
 		
+		if (false == isUpdate) {
+			em.persist(section);
+		} else {
+			section = em.merge(section);
+		}
+		
 		List<ValidationRule> ruleList = new ArrayList<ValidationRule>();
 		// 需要包含规则
 		// 可能有多条
@@ -174,9 +180,13 @@ public class SectionService {
 		}
 
 		// 持久化Rule
+		//section.getRules().clear();
 		for (ValidationRule r : ruleList) {
 			em.persist(r);
 			section.getRules().add(r);
+		}
+		for (ValidationRule r : section.getRules()) {
+			System.out.println("添加后:" + r.getId());
 		}
 
 		
@@ -184,11 +194,7 @@ public class SectionService {
 		Course course = chapter.getCourse();
 		course.setSectionAmount(course.getSectionAmount() + 1);
 
-		if (false == isUpdate) {
-			em.persist(section);
-		} else {
-			em.merge(section);
-		}
+		
 		
 	}
 	
