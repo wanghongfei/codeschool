@@ -185,9 +185,6 @@ public class SectionService {
 			em.persist(r);
 			section.getRules().add(r);
 		}
-		for (ValidationRule r : section.getRules()) {
-			System.out.println("添加后:" + r.getId());
-		}
 
 		
 		// 将课程实体中section数量 +1

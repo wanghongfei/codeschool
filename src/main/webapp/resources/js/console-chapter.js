@@ -21,6 +21,11 @@ $(document).ready(function() {
 			dataType : 'json',
 			contentType : 'application/json',
 			data : JSON.stringify(json),
+			statusCode: {
+				500: function() {
+					$msg.html("服务器内部错误");
+				}
+			},
 			success : function(data) {
 
 				$msg.html(data.message);

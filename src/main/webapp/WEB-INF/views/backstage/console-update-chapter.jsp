@@ -93,7 +93,7 @@
 			        		<button class="btn del-btn">删除</button>
 			        	</div>
 			        	
-			        	<div id="error-msg" class="hidden"></div>
+			        	<div id="error-msg" class="error-msg"></div>
 		        	</form>
 		
 					

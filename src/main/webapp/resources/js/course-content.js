@@ -30,6 +30,11 @@ $("#submit-code").click(function(e) {
 		dataType : 'json',
 		contentType : 'application/json',
 		data : JSON.stringify(json),
+		statusCode: {
+			500: function() {
+				$msg.html("服务器内部错误");
+			}
+		},
 		success : function(data) {
 			// 清空信息并显示服务器返回数据
 			$msg.empty();

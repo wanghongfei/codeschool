@@ -57,10 +57,13 @@ $("#form").submit(function(e) {
 		dataType : "json",
 		contentType : "application/json",
 		data : JSON.stringify(json),
+		statusCode: {
+			500: function() {
+				$msg.html("服务器内部错误");
+			}
+		},
 		success : function(data) {
-
 			$msg.html(data.message);
-			$msg.removeClass("hidden").addClass("error-msg");
 
 			// 清空表单
 			if (true == data.result) {

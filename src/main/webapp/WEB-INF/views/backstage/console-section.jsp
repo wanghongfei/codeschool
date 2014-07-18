@@ -138,7 +138,7 @@
 						<div>
 		        			<input type="submit" value="保存" />
 		        		</div>
-		        		<div id="error-msg" class="hidden"></div>
+		        		<div id="error-msg" class="error-msg"></div>
 		        	</form>
 		
 					
