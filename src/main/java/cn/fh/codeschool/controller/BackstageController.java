@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.fh.codeschool.model.Course;
 import cn.fh.codeschool.model.CourseChapter;
 import cn.fh.codeschool.model.CourseSection;
-import cn.fh.codeschool.model.ValidationRule;
+import cn.fh.codeschool.model.Member;
 import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.service.ChapterService;
 import cn.fh.codeschool.service.CourseService;
 import cn.fh.codeschool.service.SectionService;
 import cn.fh.codeschool.service.validation.RuleType;
+import cn.fh.codeschool.servlet.LoggedInUserCollection;
+import cn.fh.codeschool.util.Security;
 
 @Controller
 public class BackstageController {
@@ -225,8 +228,17 @@ public class BackstageController {
 	 */
 	@RequestMapping(value = "/backstage/statistics", method = RequestMethod.GET)
 	public String statistics(Model model) {
+		// 注册用户数量
 		Long memberAmount = accountService.fetchUserAmount();
 		model.addAttribute("memberAmount", memberAmount);
+		
+		// 在线用户
+		List<HttpSession> sessionList = LoggedInUserCollection.getSessionList();
+		List<Member> onlineMember = new ArrayList<Member>(sessionList.size());
+		for (HttpSession session : sessionList) {
+			onlineMember.add( (Member)session.getAttribute(Security.CURRENT_USER) );
+		}
+		model.addAttribute("onlineMemberList", onlineMember);
 		
 		return "/backstage/console-statistics";
 	}

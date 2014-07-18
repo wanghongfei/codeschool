@@ -66,6 +66,23 @@
 				<div>
 					注册用户: ${ memberAmount }
 				</div>	
+				<div>
+					当前在线: ${ onlineMemberList.size() }
+				</div>	
+				<table class="table table-striped">
+					<tr>
+						<th>用户名</th>
+						<th>积分</th>
+					</tr>
+					<c:forEach items="${ onlineMemberList }" var="_m">
+						<tr>
+							<td>
+								<a href="${pageContext.request.contextPath}/user/${ _m.username }/profile" target="_blank">${ _m.username }</a>
+							</td>
+							<td>${ _m.point }</td>
+						</tr>
+					</c:forEach>
+				</table>
 					
 				</section><!-- /.content -->
 			</aside>
