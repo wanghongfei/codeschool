@@ -65,7 +65,7 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 		}
 		
 		// 无条件通过
-		if (rules.get(0).equals(RuleType.NONE.toString())) {
+		if (rules.get(0).getRuleType().equals(RuleType.NONE.toString())) {
 			this.resultMessage = "恭喜通过！请继续学习下一节！";
 			return true;
 		}
@@ -162,12 +162,12 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 					if (null == attr) {
 						result = true;
 					} else { // 需要验证属性
-						String targetAttr = elem.getAttribute(attr.getKey());
+						String targetAttr = elem.getAttribute(attr.getKey()).replaceAll("\\s",""); // 去掉所有space字符
 						if (null == targetAttr) {
 							result = false; // 没有该属性
 						} else {
 							// 有该属性，判断属性值是否正确
-							result = targetAttr.toLowerCase().equals(attr.getValue());
+							result = targetAttr.toLowerCase().equals(attr.getValue().replaceAll("\\s","")); // 去掉所有space字符
 						}
 						
 					}
