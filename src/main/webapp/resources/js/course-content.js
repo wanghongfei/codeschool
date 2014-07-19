@@ -10,6 +10,8 @@ $('.result-container').draggable({
 // 提交代码发送ajax请求
 $("#submit-code").click(function(e) {
 	e.preventDefault();
+	$btn = $(this);
+	$btn.prop("disabled", true);
 
 	var $msg = $("#msg");
 
@@ -33,6 +35,7 @@ $("#submit-code").click(function(e) {
 		statusCode: {
 			500: function() {
 				$msg.html("服务器内部错误");
+				$btn.prop("disabled", false);
 			}
 		},
 		success : function(data) {
@@ -42,6 +45,8 @@ $("#submit-code").click(function(e) {
 
 			// 更新页面用户信息
 			$("#user-point").html(data.point);
+
+			$btn.prop("disabled", false);
 		}
 	});
 });
