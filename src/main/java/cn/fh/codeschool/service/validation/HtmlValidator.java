@@ -3,8 +3,11 @@ package cn.fh.codeschool.service.validation;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,7 +23,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cn.fh.codeschool.model.ValidationRule;
+import cn.fh.codeschool.util.MutableInteger;
 
+/**
+ * 用于验证HTML代码是否符合要求的类
+ * @author whf
+ *
+ */
 @Service("html")
 public class HtmlValidator implements Validator, java.io.Serializable {
 	/**
@@ -36,11 +45,19 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	
 	/**
 	 * 根据规则验证用户代码是否合格。
+	 * 
+	 * <p>对于必须要包含指定数量标签的验证规则(如代码中必须有3个p标签),处理方法是先遍历
+	 * 一遍ruleList，得到一个统计标签数量的Map对象(Key:标签名, Val:数量),然后再遍历
+	 * 一遍用户HTML代码，对代码中所有的标签进行数量统计，最后跟上一个Map进行对比，以判断
+	 * 标签数量是否达到要求
+	 * 
 	 * @param rule ValidationRule对象，用来定义规则
 	 * @return 合格返回true,反之返回false
 	 */
 	//public boolean validate(ValidationRule rule) {
 	public boolean validate(List<ValidationRule> rules) {
+		dumpAllRules(rules);
+		
 		if (rules.size() == 0) {
 			resultMessage = "未定义验证规则，默认为验证失败";
 			logger.info(resultMessage);
@@ -65,11 +82,21 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 				return false;
 			}
 			
+			// 首先验证标签数量是否足够
+			boolean isTagAmountAdequate = validateTagAmount(root.getChildNodes(), rules);
+			if (false == isTagAmountAdequate) {
+				logger.info(this.resultMessage);
+				return false;
+			}
+			
 			// 遍历每一条rule,依次验证
 			for (ValidationRule rule : rules) {
 				// 验证是否包含某一标签
+				// 上一个if语句已经判断过了，这里直接skip
 				if (rule.getRuleType().equals(RuleType.CONTAIN.toString())) {
-					String shouldIncludedTag = rule.getTagName();
+					continue;
+					
+					/*String shouldIncludedTag = rule.getTagName();
 					logger.info("验证是否包含 {} 标签", shouldIncludedTag);
 					
 					if (false == containsTag(root.getChildNodes(), shouldIncludedTag, null)) {
@@ -77,7 +104,7 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 						logger.info(this.resultMessage);
 						
 						return false;
-					}
+					}*/
 				}
 				
 				// 需要包含指定属性值
@@ -121,6 +148,7 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 */
 	private boolean containsTag(NodeList nodes, String tagName, Entry<String, String> attr) {
 		boolean result = false;
+		
 
 		for (int ix = 0 ; ix < nodes.getLength() ; ++ix) {
 			Node node = nodes.item(ix);
@@ -174,6 +202,95 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		
 		return builder.parse(bufInStream);
+	}
+	
+	/**
+	 * 验证用户代码的标签数量是否足够
+	 * @param nodes
+	 * @param ruleList
+	 * @return
+	 */
+	private boolean validateTagAmount(NodeList nodes, List<ValidationRule> ruleList) {
+		// 得到两个counter
+		Map<String, MutableInteger> ruleTags = tagCounterForRules(ruleList);
+		Map<String, MutableInteger> userTags = new HashMap<String, MutableInteger>();
+		tagCounterForHTML(nodes, userTags);
+		
+		// 进行对比
+		Set<Map.Entry<String, MutableInteger>> entrySet = ruleTags.entrySet();
+		for (Map.Entry<String, MutableInteger> pair : entrySet) {
+			MutableInteger ruleVal = pair.getValue();
+			String ruleTag = pair.getKey();
+			
+			MutableInteger realVal = userTags.get(ruleTag);
+			if (null == realVal) {
+				this.resultMessage = "缺少<" + ruleTag + ">标签";
+				return false;
+			}
+			if (realVal.compareTo(ruleVal) < 0) {
+				this.resultMessage = "标签<" + ruleTag + ">数量不足";
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * 统计用户HTML代码中每个标签出现的次数
+	 * @param nodes
+	 * @param map 回传参数，存放统计结果
+	 */
+	private void tagCounterForHTML(NodeList nodes, Map<String, MutableInteger> map) {
+		int LEN = nodes.getLength();
+		for (int ix = 0 ; ix < LEN ; ++ix) {
+			Node node = nodes.item(ix);
+			
+			if (node instanceof Element) {
+				Element elem = (Element)node;
+
+				MutableInteger newVal = new MutableInteger(0);
+				MutableInteger oldVal = map.put(elem.getTagName().toLowerCase(), newVal);
+				
+				if (null != oldVal) {
+					newVal.setValue(oldVal.getValue() + 1);
+				}
+				
+				if (elem.hasChildNodes()) {
+					tagCounterForHTML(elem.getChildNodes(), map);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 统计List中一个标签出现了多少次
+	 * @param ruleList
+	 * @return K:标签名; Value: 次数
+	 */
+	private Map<String, MutableInteger> tagCounterForRules(List<ValidationRule> ruleList) {
+		Map<String, MutableInteger> map = new HashMap<String, MutableInteger>();
+		
+		for (ValidationRule r : ruleList) {
+			MutableInteger newVal = new MutableInteger(0);
+			MutableInteger oldVal = map.put(r.getTagName(), newVal);
+			
+			if (null != oldVal) {
+				newVal.setValue(oldVal.getValue() + 1);
+			}
+		}
+		
+		return map;
+	}
+	
+	/**
+	 * For test only.
+	 * @param ruleList
+	 */
+	private void dumpAllRules(List<ValidationRule> ruleList) {
+		for (ValidationRule r : ruleList) {
+			logger.debug(r.toString());
+		}
 	}
 	
 	public String getCode() {
