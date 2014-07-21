@@ -102,8 +102,12 @@ public class SectionService {
 			String attrName,
 			String attrValue,
 			String output,
+			String parentTag,
 			RuleType type,
 			boolean isUpdate) {
+		
+		CourseChapter chapter = em.find(CourseChapter.class, chapterId);
+		section.setCourseChapter(chapter);
 		
 		if (false == isUpdate) {
 			em.persist(section);
@@ -122,6 +126,7 @@ public class SectionService {
 				ValidationRule rule = new ValidationRule();
 				rule.setRuleType(type.toString());
 				rule.setTagName(tag);
+				rule.setParentTag(parentTag);
 				ruleList.add(rule);
 			}
 			
@@ -163,8 +168,6 @@ public class SectionService {
 		
 		
 		
-		CourseChapter chapter = em.find(CourseChapter.class, chapterId);
-		section.setCourseChapter(chapter);
 		//section.getRules().add(rule);
 		
 		// 如果是更新小节操作，

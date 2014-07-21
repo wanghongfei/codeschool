@@ -360,6 +360,7 @@ public class BackstageController {
 		String attrName = (String)reqMap.get("attrName");
 		String attrValue = (String)reqMap.get("attrValue");
 		String output = (String)reqMap.get("output");
+		String parentTag = (String)reqMap.get("parentTag");
 				
 		// 持久化
 		//CourseSection section = new CourseSection();
@@ -368,7 +369,7 @@ public class BackstageController {
 		section.setSectionDescription(sectionDescription);
 		section.setCourseContent(sectionContent);
 		section.setInitialCode(code);
-		sectionService.saveSection(section, chapterId, tagName, attrName, attrValue, output, type, true);
+		sectionService.saveSection(section, chapterId, tagName, attrName, attrValue, output, parentTag, type, true);
 		
 		/*CourseSection cs = sectionService.findSection(sectionId);
 		cs.setSectionName(name);
@@ -406,6 +407,8 @@ public class BackstageController {
 		String attrName = (String)reqMap.get("attrName");
 		String attrValue = (String)reqMap.get("attrValue");
 		String output = (String)reqMap.get("output");
+		String parentTag = (String)reqMap.get("parentTag");
+		System.out.println("父标签：" + parentTag);
 		
 		// 持久化
 		CourseSection section = new CourseSection();
@@ -415,7 +418,7 @@ public class BackstageController {
 		section.setInitialCode(code);
 		//sectionService.saveSection(section, valRule, chapterId);
 		//sectionService.saveSection(section, ruleList, chapterId);
-		sectionService.saveSection(section, chapterId, tagName, attrName, attrValue, output, type, false);
+		sectionService.saveSection(section, chapterId, tagName, attrName, attrValue, output, parentTag.isEmpty() == true ? null : parentTag, type, false);
 		
 		JsonObject json = Json.createObjectBuilder()
 				.add("result", true)

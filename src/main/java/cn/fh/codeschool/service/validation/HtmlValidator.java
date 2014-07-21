@@ -3,6 +3,7 @@ package cn.fh.codeschool.service.validation;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -209,6 +210,21 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	}
 	
 	/**
+	 * 从Set中找到元素
+	 * @param set
+	 * @return
+	 */
+	private TagWithParent find(Set<TagWithParent> set, String tagName) {
+		for (TagWithParent tag : set) {
+			if (tag.tagName.equals(tagName)) {
+				return tag;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * 验证用户代码的标签数量是否足够
 	 * @param nodes
 	 * @param ruleList
@@ -226,13 +242,19 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 		tagCounterForHTML(nodes, userTags);
 		
 		// 进行对比
+		Set<TagWithParent> userKeySet = userTags.keySet();
+		
+		for (TagWithParent t : userKeySet) {
+			System.out.println("用户代码:" + t.tagName + "," + t.parentTag);
+		}
+		
 		Set<Map.Entry<TagWithParent, MutableInteger>> entrySet = ruleTags.entrySet();
 		for (Map.Entry<TagWithParent, MutableInteger> pair : entrySet) {
 			MutableInteger ruleVal = pair.getValue();
 			String ruleTag = pair.getKey().tagName;
 			
-			//MutableInteger realVal = userTags.get(ruleTag);
 			MutableInteger realVal = userTags.get(pair.getKey());
+			//MutableInteger realParentTag = userTags.
 			if (null == realVal) {
 				this.resultMessage = "缺少<" + ruleTag + ">标签";
 				return false;
@@ -240,6 +262,16 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 			if (realVal.compareTo(ruleVal) < 0) {
 				this.resultMessage = "标签<" + ruleTag + ">数量不足";
 				return false;
+			}
+			
+			// 验证父标签是否匹配
+			String parentTag = pair.getKey().parentTag;
+			if (parentTag != null) {
+				TagWithParent p = find(userKeySet, pair.getKey().tagName);
+				if (null == p.parentTag || false == p.parentTag.equals(parentTag)) {
+					this.resultMessage = "标签<" + ruleTag + ">位置不正确";
+					return false;
+				}
 			}
 		}
 		
@@ -252,7 +284,7 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 * @param map 回传参数，存放统计结果
 	 */
 	private void tagCounterForHTML(NodeList nodes, Map<TagWithParent, MutableInteger> map) {
-		int LEN = nodes.getLength();
+/*		int LEN = nodes.getLength();
 		for (int ix = 0 ; ix < LEN ; ++ix) {
 			Node node = nodes.item(ix);
 			
@@ -269,6 +301,39 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 				
 				if (elem.hasChildNodes()) {
 					tagCounterForHTML(elem.getChildNodes(), map);
+				}
+			}
+		}*/
+		
+		tagCounterForHTML(nodes, map, "html");
+	}
+	
+	/**
+	 * 
+	 * @param nodes
+	 * @param map
+	 * @param lastTag 存储父标签
+	 */
+	private void tagCounterForHTML(NodeList nodes, Map<TagWithParent, MutableInteger> map, String lastTag) {
+		int LEN = nodes.getLength();
+		for (int ix = 0 ; ix < LEN ; ++ix) {
+			Node node = nodes.item(ix);
+			
+			if (node instanceof Element) {
+				Element elem = (Element)node;
+
+				MutableInteger newVal = new MutableInteger(1);
+				MutableInteger oldVal = map.put(new TagWithParent(elem.getTagName().toLowerCase(), lastTag), newVal);
+				
+				if (null != oldVal) {
+					newVal.setValue(oldVal.getValue() + 1);
+				}
+				
+				// 递归遍历子结点
+				// 递归之前保存当前标签名，也就是父节点
+				if (elem.hasChildNodes()) {
+					lastTag = elem.getTagName().toLowerCase();
+					tagCounterForHTML(elem.getChildNodes(), map, lastTag);
 				}
 			}
 		}
@@ -321,6 +386,7 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 		public TagWithParent(String tagName, String parentTag) {
 			this.tagName = tagName;
 			this.parentTag = parentTag;
+			
 		}
 		
 		/**

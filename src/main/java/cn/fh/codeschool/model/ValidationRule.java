@@ -47,6 +47,8 @@ public class ValidationRule {
 		str.append(this.attrName);
 		str.append(", ");
 		str.append(this.attrValue);
+		str.append(", ");
+		str.append(this.parentTag);
 		
 		return str.toString();
 	}

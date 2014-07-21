@@ -72,7 +72,8 @@ $("#form").submit(function(e) {
 		tagName : $("#tag-name").val(),
 		attrName : $("#attr-name").val(),
 		output : $("#input-result").val(),
-		attrValue : $("#attr-value").val()
+		attrValue : $("#attr-value").val(),
+		parentTag: $("#parent-tag-name").val()
 	};
 	
 	var $msg = $("#error-msg");

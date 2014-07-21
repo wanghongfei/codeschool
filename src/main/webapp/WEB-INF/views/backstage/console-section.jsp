@@ -126,6 +126,8 @@
  			        	<div id="rule-contain" class="hidden">
 			        		<label for="input-tag">要包含的标签</label>
 			        		<input type="text" name="tagName" id="tag-name" />
+			        		<label for="input-parent-tag">父标签</label>
+			        		<input type="text" name="parentTagName" id="parent-tag-name" />
 			        	</div>
 
 						<div id="rule-attr" class="hidden">
