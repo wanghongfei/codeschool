@@ -28,6 +28,9 @@ public class ValidationRule {
 	@Column(name = "tag_name")
 	private String tagName;
 	
+	@Column(name = "parent_tag")
+	private String parentTag;
+	
 	@Column(name = "attr_name")
 	private String attrName;
 	
@@ -88,6 +91,16 @@ public class ValidationRule {
 
 	public void setOutput(String output) {
 		this.output = output;
+	}
+
+
+	public String getParentTag() {
+		return parentTag;
+	}
+
+
+	public void setParentTag(String parentTag) {
+		this.parentTag = parentTag;
 	}
 	
 }

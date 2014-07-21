@@ -51,6 +51,10 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 * 一遍用户HTML代码，对代码中所有的标签进行数量统计，最后跟上一个Map进行对比，以判断
 	 * 标签数量是否达到要求
 	 * 
+	 * <p>对于INCLUDE规则，先判断ValidationRule的parentTag成员是否为null,如果不为null
+	 * 说明这个标签的父标签必须为parentTag指定的值;如果为null说明该标签不需要有父标签，即
+	 * 可以在任意位置出现
+	 * 
 	 * @param rule ValidationRule对象，用来定义规则
 	 * @return 合格返回true,反之返回false
 	 */
@@ -212,17 +216,23 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 */
 	private boolean validateTagAmount(NodeList nodes, List<ValidationRule> ruleList) {
 		// 得到两个counter
-		Map<String, MutableInteger> ruleTags = tagCounterForRules(ruleList);
-		Map<String, MutableInteger> userTags = new HashMap<String, MutableInteger>();
+		Map<TagWithParent, MutableInteger> ruleTags = tagCounterForRules(ruleList);
+		Map<TagWithParent, MutableInteger> userTags = new HashMap<TagWithParent, MutableInteger>();
+		
+		// 由于在遍历用户HTML代码时没有保存ROOT结点(即HTML标签)
+		// 所以这里要手动添加进去
+		userTags.put(new TagWithParent("html"), new MutableInteger(1));
+		
 		tagCounterForHTML(nodes, userTags);
 		
 		// 进行对比
-		Set<Map.Entry<String, MutableInteger>> entrySet = ruleTags.entrySet();
-		for (Map.Entry<String, MutableInteger> pair : entrySet) {
+		Set<Map.Entry<TagWithParent, MutableInteger>> entrySet = ruleTags.entrySet();
+		for (Map.Entry<TagWithParent, MutableInteger> pair : entrySet) {
 			MutableInteger ruleVal = pair.getValue();
-			String ruleTag = pair.getKey();
+			String ruleTag = pair.getKey().tagName;
 			
-			MutableInteger realVal = userTags.get(ruleTag);
+			//MutableInteger realVal = userTags.get(ruleTag);
+			MutableInteger realVal = userTags.get(pair.getKey());
 			if (null == realVal) {
 				this.resultMessage = "缺少<" + ruleTag + ">标签";
 				return false;
@@ -241,7 +251,7 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 * @param nodes
 	 * @param map 回传参数，存放统计结果
 	 */
-	private void tagCounterForHTML(NodeList nodes, Map<String, MutableInteger> map) {
+	private void tagCounterForHTML(NodeList nodes, Map<TagWithParent, MutableInteger> map) {
 		int LEN = nodes.getLength();
 		for (int ix = 0 ; ix < LEN ; ++ix) {
 			Node node = nodes.item(ix);
@@ -249,8 +259,9 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 			if (node instanceof Element) {
 				Element elem = (Element)node;
 
-				MutableInteger newVal = new MutableInteger(0);
-				MutableInteger oldVal = map.put(elem.getTagName().toLowerCase(), newVal);
+				MutableInteger newVal = new MutableInteger(1);
+				//MutableInteger oldVal = map.put(elem.getTagName().toLowerCase(), newVal);
+				MutableInteger oldVal = map.put(new TagWithParent(elem.getTagName().toLowerCase()), newVal);
 				
 				if (null != oldVal) {
 					newVal.setValue(oldVal.getValue() + 1);
@@ -268,12 +279,13 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	 * @param ruleList
 	 * @return K:标签名; Value: 次数
 	 */
-	private Map<String, MutableInteger> tagCounterForRules(List<ValidationRule> ruleList) {
-		Map<String, MutableInteger> map = new HashMap<String, MutableInteger>();
+	private Map<TagWithParent, MutableInteger> tagCounterForRules(List<ValidationRule> ruleList) {
+		Map<TagWithParent, MutableInteger> map = new HashMap<TagWithParent, MutableInteger>();
 		
 		for (ValidationRule r : ruleList) {
-			MutableInteger newVal = new MutableInteger(0);
-			MutableInteger oldVal = map.put(r.getTagName(), newVal);
+			MutableInteger newVal = new MutableInteger(1);
+			//MutableInteger oldVal = map.put(r.getTagName(), newVal);
+			MutableInteger oldVal = map.put(new TagWithParent(r.getTagName(), r.getParentTag()), newVal);
 			
 			if (null != oldVal) {
 				newVal.setValue(oldVal.getValue() + 1);
@@ -290,6 +302,46 @@ public class HtmlValidator implements Validator, java.io.Serializable {
 	private void dumpAllRules(List<ValidationRule> ruleList) {
 		for (ValidationRule r : ruleList) {
 			logger.debug(r.toString());
+		}
+	}
+	
+	/**
+	 * 仅用来封装标签名和父标签
+	 * @author whf
+	 *
+	 */
+	private class TagWithParent {
+		public String tagName;
+		public String parentTag;
+		
+		public TagWithParent(String tagName) {
+			this.tagName = tagName;
+		}
+		
+		public TagWithParent(String tagName, String parentTag) {
+			this.tagName = tagName;
+			this.parentTag = parentTag;
+		}
+		
+		/**
+		 * tagName值相等就认为两个对象相同
+		 */
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) {
+				return true;
+			}
+			if (false == o instanceof TagWithParent) {
+				return false;
+			}
+			
+			TagWithParent other = (TagWithParent)o;
+			return this.tagName.equals(other.tagName);
+		}
+		
+		@Override
+		public int hashCode() {
+			return tagName.hashCode();
 		}
 	}
 	
