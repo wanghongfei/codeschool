@@ -17,6 +17,7 @@ import cn.fh.codeschool.model.Role;
 import cn.fh.codeschool.model.User;
 import cn.fh.codeschool.model.ValidationResult;
 import cn.fh.codeschool.service.AccountService;
+import cn.fh.codeschool.util.Security;
 import cn.fh.codeschool.util.Validator;
 
 @Controller
@@ -55,8 +56,9 @@ public class RegisterController {
 		}
 		
 		Member m = new Member();
+		String pwdHash = Security.sha(user.getPassword());
 		m.setUsername(user.getUsername());
-		m.setPassword(user.getPassword());
+		m.setPassword(pwdHash);
 		m.setEmailAddress(user.getEmail());
 		m.setRegisterDate(new Date());
 		

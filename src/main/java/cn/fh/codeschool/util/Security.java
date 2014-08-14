@@ -1,5 +1,8 @@
 package cn.fh.codeschool.util;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,6 +10,32 @@ import cn.fh.codeschool.model.Member;
 
 public class Security {
 	public static final String CURRENT_USER = "currentUser";
+
+	
+	/**
+	 * 得到SHA-1 hash码
+	 * @param psd
+	 * @return
+	 */
+	public static String sha(String psd) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-1");
+			md.update(psd.getBytes());
+			byte[] bytes = md.digest();
+			
+			StringBuilder sb = new StringBuilder();
+            for(int i = 0 ; i < bytes.length ; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            
+            return sb.toString();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+
 	/**
 	 * 查询用户是否登陆
 	 * @param req

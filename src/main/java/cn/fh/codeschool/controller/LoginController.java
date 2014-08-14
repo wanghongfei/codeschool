@@ -1,5 +1,7 @@
 package cn.fh.codeschool.controller;
 
+import java.util.Map;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.fh.codeschool.model.Member;
-import cn.fh.codeschool.model.User;
 import cn.fh.codeschool.service.AccountService;
 import cn.fh.codeschool.servlet.LoggedInUserCollection;
 import cn.fh.codeschool.util.Security;
@@ -34,17 +35,22 @@ public class LoginController {
 	 * @param req
 	 * @return JSON字符串。格式：{result: XXX, message: XXX}
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-	public @ResponseBody String login(@RequestBody User user,
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public @ResponseBody String login(//@RequestBody User user,
+			@RequestBody Map<String, Object> reqMap,
 			HttpServletRequest req) {
-		logger.info("用户 {} 请求登陆", user.getUsername());
+		String username = (String)reqMap.get("username");
+		String password = (String)reqMap.get("password");
+		logger.info("用户 {} 请求登陆", username);
 		
 		// test
 		//accountService.checkUser(user.getUsername(), user.getPassword());
 		// test
 		
 		JsonObject json = null;
-		Member m = accountService.findMember(user.getUsername(), user.getPassword());
+		//Member m = accountService.findMember(user.getUsername(), user.getPassword());
+		String pwdHash = Security.sha(password);
+		Member m = accountService.findMember(username, pwdHash);
 
 		// 验证失败
 		if (null == m) {
@@ -66,7 +72,8 @@ public class LoginController {
 		
 		
 		// 将登陆用户的session放入集合中
-		LoggedInUserCollection.getSessionMap().put(user.getUsername(), req.getSession());
+		//LoggedInUserCollection.getSessionMap().put(user.getUsername(), req.getSession());
+		LoggedInUserCollection.getSessionMap().put(username, req.getSession());
 		
 		return json.toString();
 	}
