@@ -11,7 +11,7 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand nav-link scroll-link" href="<c:url value='/' />">编程乐园</a>
+			<a class="navbar-brand nav-link scroll-link" href="<c:url value='/' />">编程乐园(*Beta*)</a>
 		</div>
 		<!-- /.navbar-header -->
 

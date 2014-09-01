@@ -127,7 +127,7 @@
 
 
 			<!-- 左侧教程 -->
-			<div class="col-md-3">
+			<div class="col-md-3"  style="margin-left: 120px;">
 				<div id="course-section" class="box box-primary">
 					<div class="box-header" data-toggle="tooltip"
 						title="Header tooltip">
@@ -149,7 +149,7 @@
 
 
 			<!-- 右侧代码区 -->
-			<div class="col-md-8">
+			<div class="col-md-7">
 					
 				<%-- 代码编辑区 tabs --%>
 				<ul class="nav nav-tabs" id="myTab">
@@ -182,7 +182,7 @@
 					</c:if>
 				</c:if>
 				<c:if test="${null == currentUser }">
-					<div>亲，需登陆才能提交代码哦~</div>
+					<div>亲，登陆后可提交代码自动判断正误哦～</div>
 				</c:if>
 
 
