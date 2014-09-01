@@ -49,9 +49,26 @@
 					</a>
 				
 					<h3>${ _c.courseName }</h3>
-					<p>${ _c.courseDescription }</p>
+					<p>2小时快速掌握HTML网页设计</p>
 				</div>
 			</c:forEach>
+				<div class="col-md-4 col-sm-6 benefit">
+						<div class="benefit-ball" style="background-color: gray;">
+							<span class="glyphicon glyphicon-search"></span>
+						</div>
+				
+					<h3>JavaScript</h3>
+					<p>即将推出</p>
+				</div>
+				
+				<div class="col-md-4 col-sm-6 benefit">
+						<div class="benefit-ball" style="background-color: gray;">
+							<span class="glyphicon glyphicon-search"></span>
+						</div>
+				
+					<h3>C语言</h3>
+					<p>即将推出</p>
+				</div>
 
 		</div>
 		<!-- /.row -->

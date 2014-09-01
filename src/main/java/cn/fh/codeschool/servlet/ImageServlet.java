@@ -1,5 +1,9 @@
 package cn.fh.codeschool.servlet;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -16,9 +20,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ImageServlet extends HttpServlet {
 	private byte[] imgBuf;
 	private static DataSource ds;
+	
+	private static final Logger logger = LoggerFactory.getLogger(ImageServlet.class);
 	
 	/**
 	 * 在类加载时就查找数据源，仅查找一次，提高性能
@@ -69,14 +78,43 @@ public class ImageServlet extends HttpServlet {
 			stmt.setString(1, username);
 			
 			ResultSet result = stmt.executeQuery();
+			boolean isEmpty = true;
 			while (result.next()) {
 				imgBuf = result.getBytes(1);
+				
+				if (null != imgBuf) {
+					isEmpty = false;
+				}
 				break;
 			}
+			
+			// 如果用户没有上传图片，则显示默认图片
+			if (true == isEmpty) {
+				File imgFile = new File("/home/whf/avator_default.png");
+				long LEN = imgFile.length();
+				
+
+				FileInputStream pageInStream = new FileInputStream(imgFile);
+				BufferedInputStream bufInStream = new BufferedInputStream(pageInStream);
+				imgBuf = new byte[(int)LEN];
+				//int len = 0;
+				//while ((len = bufInStream.read(buf)) != -1) {
+					//out.write(buf, 0, len);
+				//}
+				
+				bufInStream.read(imgBuf);
+				
+				bufInStream.close();
+			}
+			
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-			System.out.println("SQL执行失败");
+			logger.debug("SQL执行失败");
+		} catch (FileNotFoundException ex) {
+			logger.debug("默认图片不存在");
+		} catch (IOException ex) {
+			logger.debug("默认图片读取失败");
 		} finally {
 			if (null != conn) {
 				closeConnection(conn);
